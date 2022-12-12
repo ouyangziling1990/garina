@@ -57,9 +57,9 @@ module.exports = {
     https: false,
     hotOnly: false,
     proxy: {
-      "/v1": {
+      "/": {
         // target: "https://xmgl-test.glodon.com",
-        target: "http://ipv4.api.garinasset.com:8000/v1",
+        target: "http://ipv4.api.garinasset.com:8000/",
         changeOrigin: true,
         secure: false
       }

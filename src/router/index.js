@@ -9,7 +9,12 @@ const router = new Router({
     {
       path: "/garnia",
       name: "body",
-      component: Body
+      component: ()=>import("@/views/Body") 
+    },
+    {
+      path:'/',
+      name:"home",
+      component: ()=>import("@/views/Home") 
     }
   ]
 })

@@ -5,16 +5,10 @@ import store from "./store"
 
 import api from "@/api/index"
 
-// import "../../../Common/assets/css/reset.less"
-// import "../../../Common/assets/iconfont/iconfont.css"
-// import tj from "../../../Common/utils/tj"
-// import GET_TOKEN from "../../../Common/utils/token"
-// import axios from "../../../Common/utils/axiosInterceptors"
-// import Bim5DProUI from "../../../Common/bim5d-pro-ui/bim5d-pro-ui.umd.min"
 import "@/assets/reset.less"
 import axios from "@/utils/axiosInterceptors"
 import GET_TOKEN from "@/utils/getGeipToken"
-
+import 'element-ui/lib/theme-chalk/index.css';
 import {
   Pagination,
   Dialog,
@@ -94,7 +88,7 @@ import {
   Message,
   Notification
 } from "element-ui"
-// Vue.use(BasicComponents);
+
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Autocomplete)

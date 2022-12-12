@@ -20,12 +20,8 @@ reportForm/config/index.js
 phonePages/dwzPage/debug.log
 phonePages/commodity-query/.project
 *.code-workspace
-/MuSettingModuleComponts/ReleaseRequirements/src/assets/.gitkeep
-/MuSettingModuleComponts/ReleaseRequirements/src/utils/.gitkeep
 ProductionModuleComponts/DigitalMeeting/debug.log
 
 #vim
 tags
 *.swp
-ProductionModuleComponts/NewWeeklyPlan/src/xspreadsheet/xspreadsheet.css.map
-ProductionModuleComponts/NewWeeklyPlan/src/xspreadsheet/xspreadsheet.js.map

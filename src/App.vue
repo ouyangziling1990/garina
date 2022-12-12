@@ -38,6 +38,6 @@ export default {
 </script>
 <style lang="less">
 html{
-  padding: 12px 16px !important;
+  // padding: 12px 16px !important;
 }
 </style>
