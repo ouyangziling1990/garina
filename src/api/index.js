@@ -2,7 +2,7 @@
 // const baseUrl = "http://ipv4.api.garinasset.com:8000"
 const apiVersion = "/data/v1"
 import axios from 'axios'
-
+axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('access_token')}`;
 export const links = ()=>{
   const url = apiVersion + '/links'
   return axios.get(url).then(res=>res.data)
@@ -19,4 +19,23 @@ export const Login = (param)=>{
     data: bodyFormData,
     headers: { "Content-Type": "multipart/form-data" }
   })
+}
+
+export const getTags = (linkId) =>{
+  const url = apiVersion + `/links/${linkId}/tags`
+  return axios.get(url).then(res=>res.data)
+}
+// 获取标签下的地区信息
+export const getLocateInfo = (tagId)=>{
+  const url = apiVersion + `/tags/${tagId}/indicators_regions_id`
+  return axios.get(url).then(res=>res.data)
+}
+// 初始化 获取所有区域数据
+export const getRegions = ()=>{
+  const url = apiVersion + `/regions`
+  return axios.get(url).then(res=>res.data)
+}
+export const getDataDetail = (tag_id, region_id)=>{
+  const url = apiVersion + `/indicators/tags/${tag_id}/regions/${region_id}/list`
+  return axios.get(url).then(res=>res.data)
 }

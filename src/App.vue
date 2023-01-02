@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { getRegions } from "@/api/index";
 export default {
   name: "app",
   data() {
@@ -29,9 +30,16 @@ export default {
       this.$store.commit("INIT_ORG_ID", orgId)
       let tenantId = this.$route.params.tenantId
       this.$store.commit("INIT_TENANT_ID", tenantId)
+    },
+    async getRegions(){
+      const regions = await getRegions()
+      if(regions){
+        this.$store.commit('INIT_REGION', regions)
+      }
     }
   },
   created() {
+    this.getRegions()
     // this.init()
   }
 }
@@ -39,5 +47,8 @@ export default {
 <style lang="less">
 html{
   // padding: 12px 16px !important;
+}
+#app{
+  height: 100%;
 }
 </style>

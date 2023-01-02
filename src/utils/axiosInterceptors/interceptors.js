@@ -10,13 +10,7 @@
 import axios from "axios";
 axios.interceptors.request.use(
   (config) => {
-    let url = config.url;
-    if (url && url.indexOf("api.glodon.com/v3/doc") != -1) {
-      // console.log("处理文件上传的请求")
-      delete config.headers.common["x-org-id"];
-      delete config.headers.common["x-product-code"];
-      delete config.headers.common["x-tenant-id"];
-    }
+    
     if (config.method == "post") {
       if (!config.data instanceof Array) {
         config.data = {

@@ -1,14 +1,23 @@
 <template>
-  <div>
+  <div class="header_wrap">
     <header class="Main_Header">
       <div class="header">
         <img src="/gra_logo.png" class="logo" alt="盖林数据" />
-
-        <div class="logo_opt">
-          <el-button plain @click="LoginDialogFlag = true">登录</el-button>
-          <el-button type="primary" @click="signUpFlag = true" plain
-            >免费注册</el-button
+        <div>
+          <span v-for="item in linksArr" class="name_link" @click="getIndex(item)" :key="item.id">
+            {{ item.name_link_json[0] }}</span
           >
+        </div>
+        <div class="logo_opt" >
+          <div v-if="loginStatus === 0">
+            <el-button plain @click="LoginDialogFlag = true">登录</el-button>
+            <el-button type="primary" @click="signUpFlag = true" plain
+              >免费注册</el-button
+            >
+          </div>
+          <div>
+            已登录
+          </div>
         </div>
       </div>
     </header>
@@ -74,7 +83,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { Login } from "@/api/index";
+import { Login, links } from "@/api/index";
 export default {
   name: "MainHeader",
   components: {},
@@ -100,6 +109,8 @@ export default {
       }
     };
     return {
+      linksArr: [],
+
       LoginDialogFlag: false,
       form: {
         username: "",
@@ -131,12 +142,29 @@ export default {
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.getLinks();
+  },
   computed: {
     ...mapState([]),
+    loginStatus: () => {
+      return localStorage.getItem("access_token") ? 1 : 0;
+    },
   },
   watch: {},
   methods: {
+    // 获取指标内容
+    getIndex(item){
+      this.$store.commit('CHANG_LINK_INFO', item)
+    },
+    // 
+    async getLinks() {
+      this.loading = true;
+      const res = await links();
+      this.linksArr = res;
+      this.loading = false;
+      console.log(res);
+    },
     async submitForm() {
       this.$refs["form"].validate(async (valid) => {
         if (valid) {
@@ -144,6 +172,8 @@ export default {
           const accessToken = loginRes.access_token;
           if (accessToken) {
             localStorage.setItem("access_token", accessToken);
+            this.$message.info("登录成功");
+            this.LoginDialogFlag = false;
           }
         } else {
           console.log("error submit!!");
@@ -162,7 +192,7 @@ export default {
           //   localStorage.setItem("access_token", accessToken);
           // }
         } else {
-          this.$message.error('验证失败，请查验')
+          this.$message.error("验证失败，请查验");
           return false;
         }
       });
@@ -171,6 +201,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.header_wrap{
+  height: 72px;
+}
 header {
   width: 100%;
   height: 70px;
@@ -189,6 +222,10 @@ header {
   align-items: center;
   width: 1200px;
   margin: auto;
+  .name_link {
+    margin-left: 10px;
+    cursor: pointer;
+  }
   .logo {
     width: 130px;
     height: 40px;
