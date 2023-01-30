@@ -1,7 +1,8 @@
 <template>
   <div class="Region">
-    <div class="show_data_wrap">
-      <div class="show_data">
+    <div class="show_data_wrap" v-show="showRegionsFlag">
+      <Country @detail="getReginIndexInfo"></Country>
+      <!-- <div class="show_data">
         <p
           v-for="r in region"
           :class="[r.parent_id === null ? 'tag_detail_header' : 'tag_detail']"
@@ -10,16 +11,14 @@
         >
           {{ r.id + r.region_json[0] }}
         </p>
-      </div>
-      <div class="show_data">
-        <el-tree :data="treeData" :props="defaultProps"> </el-tree>
-      </div>
+      </div> -->
     </div>
-    <div class="table-show">
+    <div class="table-show" v-show="showTableFlag">
       <el-table :data="tableData" style="width: 100%">
         <el-table-column
-          v-for="column in tableColumns"
+          v-for="(column, index) in tableColumns"
           v-bind="column"
+          :key="'column' + index"
         ></el-table-column>
       </el-table>
     </div>
@@ -29,13 +28,16 @@
 <script>
 import { mapState } from "vuex";
 import { getDataDetail } from "@/api/index";
+import Country from "@/views/Country.vue";
 export default {
   name: "Region",
-  components: {},
+  components: { Country },
   props: {},
   data() {
     return {
       treeData: [],
+      showRegionsFlag:true,
+      showTableFlag:false,
       defaultProps: {
         children: "children",
         label: "label",
@@ -59,13 +61,13 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["region"]),
+    ...mapState(["tagInfo"]),
   },
   watch: {
     region: {
       handler(val) {
         if (!val) return;
-        this.orgTreeData(val);
+        // this.orgTreeData(val);
       },
       immediate: true,
     },
@@ -99,8 +101,10 @@ export default {
     },
     async getReginIndexInfo(item) {
       console.log("item", item);
+      this.showRegionsFlag = false
+      this.showTableFlag = true
       const regionId = item.id;
-      const preTableData = await getDataDetail(2, 8);
+      const preTableData = await getDataDetail(this.tagInfo.id, regionId);
       console.log("preTableData", preTableData);
       if (preTableData && preTableData.length) {
         preTableData.forEach((item) => {
@@ -140,18 +144,18 @@ export default {
   height: 100%;
   width: 100%;
   padding: 12px 20px;
-  .show_data_wrap{
+  .show_data_wrap {
     display: flex;
     flex-direction: row;
   }
   .show_data {
     flex: 1;
   }
-  .table-show{
+  .table-show {
     position: relative;
-    width:100%;
-    /deep/ .el-table{
-        position: absolute;
+    width: 100%;
+    /deep/ .el-table {
+      position: absolute;
     }
   }
   .tag_detail_header {

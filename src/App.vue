@@ -49,7 +49,9 @@ export default {
         }
         map.set(item.id, item);
         item.label = item.country_json[0]
+        item.clickable = false
       });
+      this.$store.commit('INIT_REGION_MAP', map)
       console.log('map', map)
       regions.forEach((item) => {
         if (item.parent_id != null) {

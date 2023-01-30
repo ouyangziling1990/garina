@@ -1,19 +1,25 @@
 <template>
   <div class="Country">
-    <div>
+    <!-- <div>
       <el-tree :data="region" :props="defaultProps"></el-tree>
-    </div>
-    <div>
-      <div v-for="(item, index) in region" :key="'state' + item.id">
-        <p class="title">{{ item.country_json[0] }}</p>
-        <p
-          class="child"
-          v-for="child1 in item.children"
-          @click="getRegions(child1)"
-        >
-          {{ child1.country_json[0] }}
-        </p>
-      </div>
+    </div> -->
+    <div v-for="(country, index) in countries" :key="'state' + country.id">
+      <p class="title">{{ country.country_json[0] }}</p>
+
+      <p
+        class="child"
+        v-for="child1 in country.children"
+      >
+        <span :class="{ allowed: child1.clickable }" @click="getRegions(child1)">{{
+          child1.country_json[0]
+        }}</span>
+        <template v-if="child1.children">
+          <p class="region" v-for="region in child1.children">
+            <span @click="getDetail(region)">{{ region.region_json[0] }}</span>
+          </p>
+        </template>
+      </p>
+
     </div>
   </div>
 </template>
@@ -37,22 +43,29 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["region"]),
+    ...mapState(["countries"]),
   },
   watch: {},
   methods: {
     async getRegions(item) {
       const id = item.id;
       console.log("country", item);
+      if(!item.clickable) return
       const regions = await getRegions(id);
       console.log("regions", regions);
       // item.children = regions
+      
+      this.$store.commit('Set_Country_Children', {country:item, regions})
     },
+    getDetail(region){
+      this.$emit('detail', region)
+    }
   },
 };
 </script>
 <style lang="less" scoped>
 .Country {
+  width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: row;
@@ -67,7 +80,25 @@ export default {
   .child {
     padding: 10px;
     color: #636e89;
+    & > span {
+      cursor: not-allowed;
+    }
+    .allowed{
+      cursor: pointer !important;
+      font-size: 16px;
+      color: rgb(10, 154, 206);
+    }
+  }
+
+  .point {
     cursor: pointer;
+    color: rgb(10, 154, 206);
+  }
+  .region{
+    padding: 10px;
+    & > span {
+      cursor: not-allowed;
+    }
   }
 }
 </style>

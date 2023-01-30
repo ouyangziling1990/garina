@@ -16,11 +16,17 @@ export default new Vuex.Store({
     projectId: "",
     orgId:"",
     tenantId:"",
-    region:[]
+    countries:[],
+    regionMap:{},
+    regionInfo:{},
+    tagInfo:{}
   },
   mutations: {
     INIT_PROJECT_ID(state, id) {
       state.projectId = id
+    },
+    Set_Tag_Info(state, info) {
+      state.tagInfo = info
     },
     INIT_ORG_ID(state, id) {
       state.orgId = id
@@ -32,10 +38,30 @@ export default new Vuex.Store({
       state.linkInfo = info
     },
     INIT_REGION(state, info){
-      state.region = info
+      state.countries = info
+    },
+    INIT_REGION_MAP(state, info){
+      state.regionMap = info
+    },
+    Set_Region_Info(state, info){
+      state.regionInfo = info
+      const ids = info.countries_id||[]
+      ids.forEach(id=>{
+        const country = state.regionMap.get(id)
+        country.clickable = true
+      })
+    },
+    Set_Country_Children(state, info){
+      const {country, regions} = info
+      const key = country.id
+      const value = state.regionMap.get(key)
+      Vue.set(value, 'children', regions )
     }
   },
   actions: {
+    Set_Region_Info(context, info){
+      context.commit("Set_Region_Info", info)
+    },
     INIT_PROJECT_ID(context, id) {
       context.commit("INIT_PROJECT_ID", id)
     },

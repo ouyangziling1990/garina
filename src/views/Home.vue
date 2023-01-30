@@ -88,11 +88,14 @@ export default {
       });
     },
     async getLocatInfoArr(item) {
+      console.log('tag info', item)
       this.showTagFlag = false;
       this.showLocationFlag = true;
       if (item.parent_id === null) return;
       const area = await getLocateInfo(item.id);
       console.log("area", area);
+      this.$store.commit('Set_Region_Info', area)
+      this.$store.commit('Set_Tag_Info', item)
     },
   },
 };
