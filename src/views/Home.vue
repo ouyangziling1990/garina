@@ -4,23 +4,29 @@
     <div class="link">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+        <el-breadcrumb-item>标签</el-breadcrumb-item>
+        <el-breadcrumb-item>国家</el-breadcrumb-item>
+        <el-breadcrumb-item>区域</el-breadcrumb-item>
+        <el-breadcrumb-item>详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="content" v-loading="loading">
       <div class="tag_wrap" v-if="showTagFlag">
-        <p
-          v-for="item in tagDetails"
-          :class="[
-            item.parent_id === null ? 'tag_detail_header' : 'tag_detail',
-          ]"
-          :key="item.id"
-          @click="getLocatInfoArr(item)"
+        <div
+          v-for="(splitItem, index) in splitDetails"
+          :key="'split_id' + index"
         >
-          {{ item["name_tag_json"][0] }}
-        </p>
+          <p
+            v-for="item in splitItem"
+            :class="[
+              item.parent_id === null ? 'tag_detail_header' : 'tag_detail',
+            ]"
+            :key="item.id"
+            @click="getLocatInfoArr(item)"
+          >
+            {{ item["name_tag_json"][0] }}
+          </p>
+        </div>
       </div>
       <div class="location_wrap" v-if="showLocationFlag">
         <Region></Region>
@@ -33,20 +39,21 @@
 import { mapState } from "vuex";
 import MainHeader from "@/components/MainHeader.vue";
 import { getTags, getLocateInfo } from "@/api/index";
-import Region from "@/views/Region"
+import Region from "@/views/Region";
 export default {
   name: "Home",
   components: {
     MainHeader,
-    Region
+    Region,
   },
   props: {},
   data() {
     return {
       loading: false,
       tagDetails: [],
-      showTagFlag:false,
-      showLocationFlag:false
+      splitDetails: [[], [], []],
+      showTagFlag: false,
+      showLocationFlag: false,
     };
   },
   beforeCreate() {},
@@ -59,17 +66,30 @@ export default {
     async linkInfo(val) {
       console.log("linkInfo change", val);
       this.loading = true;
-      this.showTagFlag = true
+      this.showTagFlag = true;
+      this.showLocationFlag = false;
       const tagInfo = await getTags(val.id);
       this.tagDetails = tagInfo;
+      this.splitTagsArr(tagInfo)
       this.loading = false;
       console.log("tagInfo", tagInfo);
     },
   },
   methods: {
+    splitTagsArr(tagInfo) {
+      let index = -1;
+      this.splitDetails=[[],[],[]]
+      tagInfo.forEach((item) => {
+        if (item.parent_id === null) {
+          index = index + 1;
+          index = index % 3;
+        }
+        this.splitDetails[index].push(item);
+      });
+    },
     async getLocatInfoArr(item) {
-      this.showTagFlag = false
-      this.showLocationFlag = true
+      this.showTagFlag = false;
+      this.showLocationFlag = true;
       if (item.parent_id === null) return;
       const area = await getLocateInfo(item.id);
       console.log("area", area);
@@ -84,20 +104,31 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   .link {
-    padding: 20px 20px;
+    padding: 20px 20px 10px;
+    height: 14px;
   }
   .content {
     padding: 5px 20px;
     flex: 1;
+    overflow: auto;
+    .tag_wrap{
+      display: flex;
+      flex-direction: row;
+      &>div{
+        flex:1;
+      }
+    }
     .tag_detail_header {
       font-size: 20px;
       font-weight: bold;
       margin: 20px 0;
+      margin-top: 40px;
     }
     .tag_detail {
       color: #636e89;
-      margin: 5px;
+      margin: 10px 5px;
       &:hover {
         cursor: pointer;
       }

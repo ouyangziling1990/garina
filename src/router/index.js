@@ -21,6 +21,11 @@ const router = new Router({
       name:"region",
       component: ()=>import("@/views/Region") 
     },
+    {
+      path:'/country',
+      name:"country",
+      component: ()=>import("@/views/Country") 
+    },
   ]
 })
 router.beforeEach((to, from, next) => {

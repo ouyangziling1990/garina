@@ -16,7 +16,7 @@ export default new Vuex.Store({
     projectId: "",
     orgId:"",
     tenantId:"",
-    region:""
+    region:[]
   },
   mutations: {
     INIT_PROJECT_ID(state, id) {
