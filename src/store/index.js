@@ -19,7 +19,8 @@ export default new Vuex.Store({
     countries:[],
     regionMap:{},
     regionInfo:{},
-    tagInfo:{}
+    tagInfo:{},
+    currentRegion:{}
   },
   mutations: {
     INIT_PROJECT_ID(state, id) {
@@ -56,11 +57,17 @@ export default new Vuex.Store({
       const key = country.id
       const value = state.regionMap.get(key)
       Vue.set(value, 'children', regions )
+    },
+    Set_Current_Region(state, info){
+      state.currentRegion = info
     }
   },
   actions: {
     Set_Region_Info(context, info){
       context.commit("Set_Region_Info", info)
+    },
+    Set_Current_Region(context, info){
+      context.commit("Set_Current_Region", info)
     },
     INIT_PROJECT_ID(context, id) {
       context.commit("INIT_PROJECT_ID", id)

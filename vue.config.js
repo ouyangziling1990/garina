@@ -36,7 +36,7 @@ module.exports = {
             url:
               "http://localhost:" +
               theDefaultPort +
-              "/index.html#/garnia"
+              "/index.html#/"
           })
         ]
       }

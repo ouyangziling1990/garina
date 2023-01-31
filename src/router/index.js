@@ -29,6 +29,11 @@ const router = new Router({
           path:'/region',
           name:"region",
           component:()=>import("@/views/Region")
+        },
+        {
+          path:'/tagDetail',
+          name:'tagDetail',
+          component:()=>import("@/views/TagDetail")
         }
       ]
     },
