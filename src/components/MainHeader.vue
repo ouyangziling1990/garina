@@ -155,6 +155,7 @@ export default {
   methods: {
     // 获取指标内容
     getIndex(item){
+      this.$emit('showTag')
       this.$store.commit('CHANG_LINK_INFO', item)
     },
     // 

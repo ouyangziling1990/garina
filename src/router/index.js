@@ -1,6 +1,5 @@
 import Vue from "vue"
 import Router from "vue-router"
-import Body from "@/views/Body.vue"
 import axios from "axios"
 Vue.use(Router)
 
@@ -14,18 +13,31 @@ const router = new Router({
     {
       path:'/',
       name:"home",
-      component: ()=>import("@/views/Home") 
+      component: ()=>import("@/views/Home"),
+      children:[
+        {
+          path:'/country',
+          name:"country",
+          component: ()=>import("@/views/Country") 
+        },
+        {
+          path:'/tags',
+          name:"tags",
+          component:()=>import("@/views/Tags")
+        },
+        {
+          path:'/region',
+          name:"region",
+          component:()=>import("@/views/Region")
+        }
+      ]
     },
     {
       path:'/region',
       name:"region",
       component: ()=>import("@/views/Region") 
     },
-    {
-      path:'/country',
-      name:"country",
-      component: ()=>import("@/views/Country") 
-    },
+    
   ]
 })
 router.beforeEach((to, from, next) => {
