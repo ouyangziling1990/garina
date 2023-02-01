@@ -31,9 +31,14 @@ const router = new Router({
           component:()=>import("@/views/Region")
         },
         {
-          path:'/tagDetail',
+          path:'/tagDetail/tagId/:tagId/region/:regionId',
           name:'tagDetail',
           component:()=>import("@/views/TagDetail")
+        },
+        {
+          path:`/indicatorDetail/:indicatorId`,
+          name:'indicatorDetail',
+          component:()=>import("@/views/IndicatorDetail")
         }
       ]
     },

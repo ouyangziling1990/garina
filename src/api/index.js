@@ -45,7 +45,7 @@ export const getDataDetail = (tag_id, region_id)=>{
   return axios.get(url).then(res=>res.data)
 }
 // 请求指标数据
-export const getLastDetail = ()=>{
+export const getIndicatorDetail = (id)=>{
   const url = `${apiVersion}/indicators/${id}/detail`
   return axios.get(url).then(res=>res.data)
 }

@@ -1,18 +1,31 @@
 <template>
   <div class="TagDetail">
-    <el-table :data="tableData" style="width: 100%">
+    <!-- <el-button @click="indectorDetail">获取指标详情</el-button> -->
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      border
+      :header-cell-class-name="headerClass"
+    >
       <el-table-column
         v-for="(column, index) in tableColumns"
         v-bind="column"
         :key="'column' + index"
-      ></el-table-column>
+      >
+        <template  slot-scope="scope">
+          <p v-if="column.prop === 'name'" class="name" @click="indectorDetail(scope.row)">
+            {{ scope.row.name }}
+          </p>
+          <span v-else>{{ scope.row[column.prop] }}</span>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import { getDataDetail } from "@/api/index";
+import { getDataDetail, getIndicatorDetail } from "@/api/index";
 export default {
   name: "TagDetail",
   components: {},
@@ -36,25 +49,34 @@ export default {
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+  mounted() {
+    console.log('tagDetail router mounted')
+    const {tagId, regionId} = this.$route.params
+    this.getReginIndexInfo(tagId, regionId)
+  },
   computed: {
     ...mapState(["tagInfo", "currentRegion"]),
   },
   watch: {
-    currentRegion:{
-        handler(val){
-            this.getReginIndexInfo(val)
-        },
-        immediate: true
-    }
+    currentRegion: {
+      handler(val) {
+        // this.getReginIndexInfo(this.tagInfo.id, val.id);
+      },
+      immediate: true,
+    },
   },
   methods: {
-    async getReginIndexInfo(item) {
-      console.log("item", item);
-      this.showRegionsFlag = false;
-      this.showTableFlag = true;
-      const regionId = item.id;
-      const preTableData = await getDataDetail(this.tagInfo.id, regionId);
+    async indectorDetail(singleData) {
+      const id = singleData.id;
+      // const indectorData = await getIndicatorDetail(id);
+      // console.log("indectorData", indectorData);
+      this.$router.push(`/indicatorDetail/${id}`);
+    },
+    headerClass() {
+      return "header-class";
+    },
+    async getReginIndexInfo(tagId, regionId) {
+      const preTableData = await getDataDetail(tagId, regionId);
       console.log("preTableData", preTableData);
       if (preTableData && preTableData.length) {
         preTableData.forEach((item) => {
@@ -70,7 +92,7 @@ export default {
             sources: item.sources.source_json[0],
           };
           if (
-            item.data_year_over_year.data_latest_value &&
+            item?.data_year_over_year?.data_latest_value &&
             item.data_year_over_year_fixed
           ) {
             let tmpD =
@@ -93,6 +115,15 @@ export default {
   width: 100%;
   /deep/ .el-table {
     position: absolute;
+    .header-class {
+      background-color: #f5f5f5 !important;
+      color: black;
+    }
+  }
+  .name {
+    font-size: 15px;
+    color: #268dff;
+    cursor: pointer;
   }
 }
 </style>

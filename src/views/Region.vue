@@ -84,7 +84,7 @@ export default {
       console.log('regionDetail', item)
       this.$store.commit('Set_Current_Region', item)
       if(this.$router.currentRoute.name != 'tagDetail'){
-        this.$router.push('/tagDetail')
+        this.$router.push(`/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`)
       }
     }
   },
