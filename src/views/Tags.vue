@@ -81,7 +81,7 @@ export default {
       this.$router.push("/country");
       this.$store.commit("SET_LINK_ARR", {
         index: 1,
-        pathInfo: { path: "/country", name: "国家" },
+        pathInfo: { path: `/tags/${this.tagId}`, name: item["name_tag_json"][0] },
       });
     },
   },
@@ -90,6 +90,7 @@ export default {
 <style lang="less" scoped>
 .tag_wrap {
   display: flex;
+  flex:1;
   flex-direction: row;
   & > div {
     flex: 1;

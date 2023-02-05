@@ -38,14 +38,12 @@ export default new Vuex.Store({
     },
     CHANG_LINK_INFO(state, info) {
       state.linkInfo = { linkInfo: info, tag: new Date().getTime() };
-      state.linkArr[0] = {
-        name: info.name_link_json[0],
-        path: { path: `/tags/${info.id}` },
-      };
     },
-    SET_LINK_ARR(state, info){
-      const {index, pathInfo} = info
-      state.linkArr[index] = pathInfo
+    // 设置导航条
+    SET_LINK_ARR(state, info) {
+      const { index, pathInfo } = info;
+      state.linkArr[index] = pathInfo;
+      state.linkArr = state.linkArr.slice(0, index + 1);
     },
     INIT_REGION(state, info) {
       state.countries = info;

@@ -4,20 +4,23 @@
       <div class="header">
         <img src="/gra_logo.png" class="logo" alt="盖林数据" />
         <div>
-          <span v-for="item in linksArr" class="name_link" @click="getIndex(item)" :key="item.id">
+          <span
+            v-for="item in linksArr"
+            class="name_link"
+            @click="getIndex(item)"
+            :key="item.id"
+          >
             {{ item.name_link_json[0] }}</span
           >
         </div>
-        <div class="logo_opt" >
+        <div class="logo_opt">
           <div v-if="loginStatus === 0">
             <el-button plain @click="LoginDialogFlag = true">登录</el-button>
             <el-button type="primary" @click="signUpFlag = true" plain
               >免费注册</el-button
             >
           </div>
-          <div>
-            已登录
-          </div>
+          <div>已登录</div>
         </div>
       </div>
     </header>
@@ -154,11 +157,16 @@ export default {
   watch: {},
   methods: {
     // 获取指标内容
-    getIndex(item){
-      this.$emit('showTag', item)
-      this.$store.commit('CHANG_LINK_INFO', item)
+    getIndex(item) {
+      this.$emit("showTag", item);
+      this.$store.commit("CHANG_LINK_INFO", item);
+      const pathInfo = {
+        name: item.name_link_json[0],
+        path: `/tags/${item.id}`,
+      }
+      this.$store.commit("SET_LINK_ARR", {index:0, pathInfo});
     },
-    // 
+    //
     async getLinks() {
       this.loading = true;
       const res = await links();
@@ -202,7 +210,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.header_wrap{
+.header_wrap {
   height: 72px;
 }
 header {

@@ -71,6 +71,7 @@ export default {
   }
   .content {
     padding: 5px 20px;
+    display: flex;
     flex: 1;
     overflow: auto;
   }

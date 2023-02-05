@@ -71,6 +71,12 @@ export default {
       // const indectorData = await getIndicatorDetail(id);
       // console.log("indectorData", indectorData);
       this.$router.push(`/indicatorDetail/${id}`);
+
+      const {tagId, regionId} = this.$route.params
+      this.$store.commit("SET_LINK_ARR", {
+        index: 4,
+        pathInfo: { path:`/tagDetail/tagId/${tagId}/region/${regionId}`, name: singleData.name },
+      });
     },
     headerClass() {
       return "header-class";

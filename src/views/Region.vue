@@ -97,13 +97,15 @@ export default {
     },
     RegionDetail(item) {
       console.log("regionDetail", item);
-      if(item.clickable === false)return
+      if (item.clickable === false) return;
       this.$store.commit("Set_Current_Region", item);
-      if (this.$router.currentRoute.name != "tagDetail") {
-        this.$router.push(
-          `/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`
-        );
-      }
+      this.$router.push(
+        `/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`
+      );
+      this.$store.commit("SET_LINK_ARR", {
+        index: 3,
+        pathInfo: { path:'/region', name: item.region_json[0] },
+      });
     },
   },
 };

@@ -51,7 +51,12 @@ export default {
       const id = item.id;
       console.log("country", item);
       if(!item.clickable) return
-      this.$router.push(`/region/${id}`)
+      const path = `/region/${id}`
+      this.$router.push(path)
+      this.$store.commit("SET_LINK_ARR", {
+        index: 2,
+        pathInfo: { path:'/country', name: item.country_json[0] },
+      });
       // const regions = await getRegions(id);
       // console.log("regions", regions);
       // this.$store.commit('Set_Country_Children', {country:item, regions})
