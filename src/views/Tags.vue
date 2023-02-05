@@ -1,9 +1,17 @@
 <template>
   <div class="tag_wrap" v-loading="loading">
-    <div v-for="(splitItem, index) in splitDetails" :key="'split_id' + index">
+    <div
+      v-for="(splitItem, index) in splitDetails"
+      class="wrap"
+      :key="'split_id' + index"
+    >
       <p
-        v-for="item in splitItem"
-        :class="[item.parent_id === null ? 'tag_detail_header' : 'tag_detail']"
+        v-for="(item, index1) in splitItem"
+        :class="{
+          tag_detail_header: item.parent_id === null,
+          tag_detail: item.parent_id != null,
+          first_header: index1 == 0,
+        }"
         :key="item.id"
         @click="getLocatInfoArr(item)"
       >
@@ -81,7 +89,10 @@ export default {
       this.$router.push("/country");
       this.$store.commit("SET_LINK_ARR", {
         index: 1,
-        pathInfo: { path: `/tags/${this.tagId}`, name: item["name_tag_json"][0] },
+        pathInfo: {
+          path: `/tags/${this.tagId}`,
+          name: item["name_tag_json"][0],
+        },
       });
     },
   },
@@ -90,7 +101,7 @@ export default {
 <style lang="less" scoped>
 .tag_wrap {
   display: flex;
-  flex:1;
+  flex: 1;
   flex-direction: row;
   & > div {
     flex: 1;
@@ -99,13 +110,21 @@ export default {
     font-size: 20px;
     font-weight: bold;
     margin: 20px 0;
-    margin-top: 40px;
+    margin-bottom: 30px;
   }
   .tag_detail {
     color: #636e89;
     margin: 10px 5px;
     &:hover {
       cursor: pointer;
+    }
+  }
+  .first_header{
+    margin-top: 5px !important;
+  }
+  .wrap {
+    &:first-child {
+      // margin-top: 5px !important;
     }
   }
 }

@@ -20,7 +20,16 @@
               >免费注册</el-button
             >
           </div>
-          <div>已登录</div>
+          <div v-else>
+            <el-dropdown @command="handleCommand">
+              <span class="el-dropdown-link">
+                {{ userInfo.username||'' }}<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="loginOut">退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
       </div>
     </header>
@@ -86,7 +95,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { Login, links } from "@/api/index";
+import { Login, links, fecthUserInfo } from "@/api/index";
 export default {
   name: "MainHeader",
   components: {},
@@ -141,21 +150,30 @@ export default {
         password: [{ validator: validatePass, trigger: "blur" }],
         password2: [{ validator: validatePass2, trigger: "blur" }],
       },
+      accessToken: '',
+      userInfo:''
     };
   },
   beforeCreate() {},
   created() {},
   mounted() {
     this.getLinks();
+    this.getUserInfo()
   },
   computed: {
     ...mapState([]),
-    loginStatus: () => {
-      return localStorage.getItem("access_token") ? 1 : 0;
+    loginStatus() {
+      return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
     },
   },
   watch: {},
   methods: {
+    handleCommand(command){
+      if(command === 'loginOut'){
+        localStorage.removeItem('access_token')
+        this.$router.push('/')
+      }
+    },
     // 获取指标内容
     getIndex(item) {
       this.$emit("showTag", item);
@@ -163,8 +181,8 @@ export default {
       const pathInfo = {
         name: item.name_link_json[0],
         path: `/tags/${item.id}`,
-      }
-      this.$store.commit("SET_LINK_ARR", {index:0, pathInfo});
+      };
+      this.$store.commit("SET_LINK_ARR", { index: 0, pathInfo });
     },
     //
     async getLinks() {
@@ -180,9 +198,11 @@ export default {
           const loginRes = await Login(this.form);
           const accessToken = loginRes.access_token;
           if (accessToken) {
+            this.accessToken = accessToken
             localStorage.setItem("access_token", accessToken);
             this.$message.info("登录成功");
             this.LoginDialogFlag = false;
+            this.getUserInfo()
           }
         } else {
           console.log("error submit!!");
@@ -191,7 +211,11 @@ export default {
         }
       });
     },
-
+    async getUserInfo(){
+      if(this.loginStatus){
+        this.userInfo = await fecthUserInfo()
+      }
+    },
     async signUpFormSubmit() {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
@@ -241,9 +265,10 @@ header {
   }
   .logo_opt {
     margin-left: auto;
-    width: 150px;
+    width: 200px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    align-items: center;
   }
 }
 .login_con {

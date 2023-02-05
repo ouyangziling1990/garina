@@ -2,9 +2,16 @@
 // const baseUrl = "http://ipv4.api.garinasset.com:8000"
 const apiVersion = "/data/v1"
 import axios from 'axios'
-axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('access_token')}`;
+function setHeader(){
+  axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('access_token')}`;
+}
 export const links = ()=>{
   const url = `${apiVersion}/links`
+  return axios.get(url).then(res=>res.data)
+}
+export const fecthUserInfo= ()=>{
+  const url = `${apiVersion}/user`
+  setHeader()
   return axios.get(url).then(res=>res.data)
 }
 export const Login = (param)=>{
