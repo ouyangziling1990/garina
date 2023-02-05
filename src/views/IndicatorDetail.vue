@@ -61,9 +61,9 @@ export default {
       let xAxisData = [];
       let seriesData = [];
       const keyObj = rowData.data.data_json;
-      const huanbiMap = rowData.data_time_over_time.data_json
+      const huanbiMap = rowData?.data_time_over_time?.data_json
       const data_time_over_time_fixed = rowData.data_time_over_time_fixed
-      const tongbiMap = rowData.data_year_over_year.data_json
+      const tongbiMap = rowData?.data_year_over_year?.data_json
       const data_year_over_year_fixed = rowData.data_year_over_year_fixed
       const keys = Object.keys(keyObj);
       keys.forEach((key) => {

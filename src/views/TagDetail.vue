@@ -88,14 +88,14 @@ export default {
         preTableData.forEach((item) => {
           let singleData = {
             id: item.id,
-            name: item.name_json[0],
-            country_emoji_flag: item.countries.country_emoji_flag,
-            regions: item.regions.region_json[0],
-            data_latest_value: item.data.data_latest_value,
-            units: item.units.unit_json[0],
-            currencies: item.currencies.currency_json[0],
-            frequency: item.frequency.frequency_json[0],
-            sources: item.sources.source_json[0],
+            name: item?.name_json[0],
+            country_emoji_flag: item?.countries?.country_emoji_flag,
+            regions: item?.regions?.region_json[0],
+            data_latest_value: item.data?.data_latest_value,
+            units: item?.units?.unit_json[0],
+            currencies: item?.currencies?.currency_json[0] || '--',
+            frequency: item?.frequency?.frequency_json[0],
+            sources: item?.sources?.source_json[0],
           };
           if (
             item?.data_year_over_year?.data_latest_value &&
