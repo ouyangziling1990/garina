@@ -1,54 +1,57 @@
 <template>
   <div class="Region">
-    <div class="show_data_wrap" v-show="showRegionsFlag">
-      <Country @detail="RegionDetail"></Country>
-      <!-- <div class="show_data">
+    <div class="show_data_wrap">
+      <div class="show_data">
         <p
           v-for="r in region"
-          :class="[r.parent_id === null ? 'tag_detail_header' : 'tag_detail']"
+          :class="{
+            allowed: r.clickable,
+            tag_detail_header: r.parent_id === null,
+            tag_detail: r.parent_id != null,
+          }"
           :key="r.id"
-          @click="getReginIndexInfo(r)"
+          @click="RegionDetail(r)"
         >
-          {{ r.id + r.region_json[0] }}
+          {{ r.region_json[0] }}
         </p>
-      </div> -->
+      </div>
     </div>
-    
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-
-import Country from "@/views/Country.vue";
+import { getRegions } from "@/api/index";
 export default {
   name: "Region",
-  components: { Country },
   props: {},
   data() {
     return {
       treeData: [],
-      showRegionsFlag:true,
-      showTableFlag:false,
+      showTableFlag: false,
       defaultProps: {
         children: "children",
         label: "label",
       },
       tableData: [],
-      
+      region: [],
     };
   },
   beforeCreate() {},
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["tagInfo"]),
+    ...mapState(["tagInfo", "regionInfo"]),
+    countryId() {
+      return this.$route.params.countryId;
+    },
   },
   watch: {
-    region: {
+    countryId: {
       handler(val) {
         if (!val) return;
         // this.orgTreeData(val);
+        this.getRegion();
       },
       immediate: true,
     },
@@ -80,13 +83,28 @@ export default {
       });
       this.treeData = arr;
     },
-    RegionDetail(item){
-      console.log('regionDetail', item)
-      this.$store.commit('Set_Current_Region', item)
-      if(this.$router.currentRoute.name != 'tagDetail'){
-        this.$router.push(`/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`)
+    async getRegion() {
+      const tmpRegion = await getRegions(this.countryId);
+      const regions_id = this.regionInfo.regions_id || [];
+      tmpRegion.forEach((item) => {
+        item.clickable = false;
+
+        if (regions_id.includes(item.id)) {
+          item.clickable = true;
+        }
+      });
+      this.region = tmpRegion;
+    },
+    RegionDetail(item) {
+      console.log("regionDetail", item);
+      if(item.clickable === false)return
+      this.$store.commit("Set_Current_Region", item);
+      if (this.$router.currentRoute.name != "tagDetail") {
+        this.$router.push(
+          `/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`
+        );
       }
-    }
+    },
   },
 };
 </script>
@@ -96,7 +114,7 @@ export default {
   flex-direction: column;
   height: 100%;
   width: 100%;
-  padding: 12px 20px;
+  // padding: 12px 20px;
   .show_data_wrap {
     display: flex;
     flex-direction: row;
@@ -104,18 +122,20 @@ export default {
   .show_data {
     flex: 1;
   }
-  
+
   .tag_detail_header {
     font-size: 20px;
     font-weight: bold;
     margin: 20px 0;
+    cursor: not-allowed;
   }
   .tag_detail {
     color: #636e89;
     margin: 5px;
-    &:hover {
-      cursor: pointer;
-    }
+    cursor: not-allowed;
+  }
+  .allowed {
+    cursor: pointer !important;
   }
 }
 </style>

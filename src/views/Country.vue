@@ -26,7 +26,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { getRegions } from "@/api/index";
+
 export default {
   name: "Country",
   components: {},
@@ -51,11 +51,10 @@ export default {
       const id = item.id;
       console.log("country", item);
       if(!item.clickable) return
-      const regions = await getRegions(id);
-      console.log("regions", regions);
-      // item.children = regions
-      
-      this.$store.commit('Set_Country_Children', {country:item, regions})
+      this.$router.push(`/region/${id}`)
+      // const regions = await getRegions(id);
+      // console.log("regions", regions);
+      // this.$store.commit('Set_Country_Children', {country:item, regions})
     },
     getDetail(region){
       this.$emit('detail', region)
@@ -66,7 +65,7 @@ export default {
 <style lang="less" scoped>
 .Country {
   width: 100%;
-  padding: 20px;
+  padding: 0 20px 10px;
   display: flex;
   flex-direction: row;
   & > div {

@@ -1,5 +1,5 @@
 <template>
-  <div class="tag_wrap">
+  <div class="tag_wrap" v-loading="loading">
     <div v-for="(splitItem, index) in splitDetails" :key="'split_id' + index">
       <p
         v-for="item in splitItem"
@@ -23,28 +23,41 @@ export default {
   data() {
     return {
       splitDetails: [[], [], []],
+      loading: false,
     };
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+  mounted() {
+    console.log("mounted");
+    this.getlinkInfo();
+  },
   computed: {
     ...mapState(["linkInfo"]),
+    tagId() {
+      return this.$route.params.tagId;
+    },
   },
   watch: {
     async linkInfo(val) {
       console.log("linkInfo change", val);
-      this.loading = true;
-      this.showTagFlag = true;
-      this.showLocationFlag = false;
-      const tagInfo = await getTags(val.id);
-      this.tagDetails = tagInfo;
-      this.splitTagsArr(tagInfo);
-      this.loading = false;
-      console.log("tagInfo", tagInfo);
+      // const tagInfo = await getTags(val.linkInfo.id);
+      // this.tagDetails = tagInfo;
+      // this.splitTagsArr(tagInfo);
+    },
+    tagId() {
+      this.getlinkInfo();
     },
   },
   methods: {
+    async getlinkInfo() {
+      this.splitDetails = [[], [], []];
+      this.loading = true;
+      const tagInfo = await getTags(this.tagId);
+      this.tagDetails = tagInfo;
+      this.loading = false;
+      this.splitTagsArr(tagInfo);
+    },
     splitTagsArr(tagInfo) {
       let index = -1;
       this.splitDetails = [[], [], []];
@@ -64,7 +77,12 @@ export default {
       console.log("area", area);
       this.$store.commit("Set_Region_Info", area);
       this.$store.commit("Set_Tag_Info", item);
-      this.$router.push('/region')
+      // this.$router.push('/region')
+      this.$router.push("/country");
+      this.$store.commit("SET_LINK_ARR", {
+        index: 1,
+        pathInfo: { path: "/country", name: "国家" },
+      });
     },
   },
 };

@@ -21,12 +21,12 @@ const router = new Router({
           component: ()=>import("@/views/Country") 
         },
         {
-          path:'/tags',
+          path:'/tags/:tagId',
           name:"tags",
           component:()=>import("@/views/Tags")
         },
         {
-          path:'/region',
+          path:'/region/:countryId',
           name:"region",
           component:()=>import("@/views/Region")
         },
@@ -42,11 +42,11 @@ const router = new Router({
         }
       ]
     },
-    {
-      path:'/region',
-      name:"region",
-      component: ()=>import("@/views/Region") 
-    },
+    // {
+    //   path:'/region',
+    //   name:"region",
+    //   component: ()=>import("@/views/Region") 
+    // },
     
   ]
 })
