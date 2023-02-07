@@ -1,6 +1,18 @@
 <template>
   <div class="IndicatorDetail" v-loading="loading">
-    <GRChart id="chart" :options="option"/>
+    <div class="detail-wrap">
+      <GRChart id="chart" :options="option"/>
+      <div class="desc-data">
+        <div class="desc-title">释义</div>
+        <div class="desc-content">
+          {{ descriptions }}
+        </div>
+        <div class="desc-title">数来来源</div>
+        <div class="desc-content">
+          {{ source }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,7 +29,9 @@ export default {
       formatData: [],
       title: "",
       option: {},
-      loading:false
+      loading:false,
+      descriptions: null,
+      source: null
     };
   },
   beforeCreate() {},
@@ -49,11 +63,20 @@ export default {
   },
   methods: {
     async getData(id) {
+      const LANGUAGE_INDEX = 0
       this.loading = true
       const rowData = await getIndicatorDetail(id);
-      this.title = rowData.name_json[0] || "鸡蛋";
+      // 图表数据
+      this.title = rowData.name_json[LANGUAGE_INDEX] || "鸡蛋";
       const option = this.buildChartOption(rowData);
       this.option = option;
+      // 描述数据
+      const descriptions = rowData.descriptions?.description_json[LANGUAGE_INDEX]
+      this.descriptions = descriptions
+
+      const source = rowData.sources?.source_json[LANGUAGE_INDEX]
+      this.source = source
+
       this.loading = false
     },
     buildChartOption(rowData) {
@@ -157,7 +180,7 @@ export default {
             // 平滑
             // smooth: true,
 
-            areaStyle: {},
+            // areaStyle: {},
             lineStyle: {
               color: "#3594FF",
             },
@@ -186,10 +209,32 @@ export default {
 <style lang="less" scoped>
 .IndicatorDetail {
   height: 100%;
-  width: 100%;
-  #chart {
-    height: 500px;
-    width: 100%;
+  width: 1200px;
+  margin: auto;
+  .detail-wrap {
+    width: 1200px;
+    display: flex;
+    #chart {
+      height: 500px;
+      width: calc(100% - 500px);
+      padding: 10px;
+    }
+    .desc-data {
+      width: 500px;
+      .desc-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 20px 0;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #edf0f5;
+        padding-bottom: 9px;
+      }
+      .desc-content {
+        font-size: 14px;
+        color: #33353c;
+        line-height: 21px;
+      }
+    }
   }
 }
 </style>
