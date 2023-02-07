@@ -1,7 +1,15 @@
 <template>
   <div class="IndicatorDetail" v-loading="loading">
     <div class="detail-wrap">
-      <GRChart id="chart" :options="option"/>
+      <div class="chart-data">
+        <div class="chart-head">
+          <div class="c-title">{{ title }}</div>
+          <div class="c-tag-1">{{ method }}</div>
+          <div class="c-tag-2">{{ country_emoji_flag }}</div>
+          <div class="c-tag-3">{{ region }}</div>
+        </div>
+        <GRChart id="chart" :options="option"/>
+      </div>
       <div class="desc-data">
         <div class="desc-title">释义</div>
         <div class="desc-content">
@@ -20,6 +28,8 @@
 import GRChart from "@/components/GRChart"
 import { mapState } from "vuex";
 import { getIndicatorDetail } from "@/api/index";
+
+const LANGUAGE_INDEX = 0
 export default {
   name: "IndicatorDetail",
   components: { GRChart },
@@ -28,6 +38,9 @@ export default {
     return {
       formatData: [],
       title: "",
+      method: "",
+      country_emoji_flag: null,
+      region: null,
       option: {},
       loading:false,
       descriptions: null,
@@ -63,11 +76,11 @@ export default {
   },
   methods: {
     async getData(id) {
-      const LANGUAGE_INDEX = 0
       this.loading = true
       const rowData = await getIndicatorDetail(id);
+      this.setInfoDataq(rowData)
       // 图表数据
-      this.title = rowData.name_json[LANGUAGE_INDEX] || "鸡蛋";
+
       const option = this.buildChartOption(rowData);
       this.option = option;
       // 描述数据
@@ -78,6 +91,12 @@ export default {
       this.source = source
 
       this.loading = false
+    },
+    setInfoDataq( { name_json, methods, countries, regions } ){
+      this.title = name_json[LANGUAGE_INDEX];
+      this.method = methods?.method_json[LANGUAGE_INDEX];
+      this.country_emoji_flag = countries?.country_emoji_flag;
+      this.region = regions?.region_json[LANGUAGE_INDEX];
     },
     buildChartOption(rowData) {
       console.log(rowData);
@@ -107,7 +126,7 @@ export default {
       let option = {
         title: {
           // text: "里程碑按期完成率",
-          text: rowData.name_json[0],
+          // text: rowData.name_json[0],
           left: "left",
           textStyle: {
             fontSize: 14,
@@ -214,10 +233,47 @@ export default {
   .detail-wrap {
     width: 1200px;
     display: flex;
-    #chart {
-      height: 500px;
+    .chart-data {
       width: calc(100% - 500px);
       padding: 10px;
+      .chart-head {
+        display: flex;
+        .c-title {
+          font-size: 20px;
+          font-weight: bold;
+          margin: 0 5px;
+          line-height: 25px;
+        }
+        .c-tag-1 {
+          height: 25px;
+          font-size: 14px;
+          background-color: #efefef;
+          line-height: 25px;
+          padding: 0 5px;
+          margin: 0 10px;
+          border-radius: 3px;
+        }
+        .c-tag-2 {
+          margin: 0 5px;
+          font-size: 25px;
+          line-height: 25px;
+        }
+        .c-tag-3 {
+          height: 25px;
+          font-size: 14px;
+          background-color: #e6f1fb;
+          color: #06c;
+          line-height: 25px;
+          margin: 0 5px;
+          padding: 0 10px;
+          border-radius: 3px;
+        }
+
+      }
+      #chart {
+        height: 500px;
+        width: 100%;
+      }
     }
     .desc-data {
       width: 500px;
