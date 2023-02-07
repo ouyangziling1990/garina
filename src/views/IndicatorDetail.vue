@@ -1,22 +1,22 @@
 <template>
   <div class="IndicatorDetail" v-loading="loading">
-    <div id="chart" ref="chart"></div>
+    <GRChart id="chart" :options="option"/>
   </div>
 </template>
 
 <script>
+import GRChart from "@/components/GRChart"
 import { mapState } from "vuex";
 import { getIndicatorDetail } from "@/api/index";
-import * as echarts from "echarts";
 export default {
   name: "IndicatorDetail",
-  components: {},
+  components: { GRChart },
   props: {},
   data() {
     return {
       formatData: [],
       title: "",
-      option: [],
+      option: {},
       loading:false
     };
   },
@@ -54,10 +54,10 @@ export default {
       this.title = rowData.name_json[0] || "鸡蛋";
       const option = this.buildChartOption(rowData);
       this.option = option;
-      this.buildChart(option);
       this.loading = false
     },
     buildChartOption(rowData) {
+      console.log(rowData);
       let xAxisData = [];
       let seriesData = [];
       const keyObj = rowData.data.data_json;
@@ -101,13 +101,13 @@ export default {
               if(tongbiMap && tongbiMap[key]){
                 tongbiRate = tongbiMap[key][0] - data_year_over_year_fixed
                 tongbiRate = tongbiRate.toFixed(2)
-                tongbiRate += '%' 
+                tongbiRate += '%'
               }
               let huanbiRate = ''
               if(huanbiMap && huanbiMap[key]){
                 huanbiRate = huanbiMap[key][0] - data_time_over_time_fixed
                 huanbiRate = huanbiRate.toFixed(2)
-                huanbiRate += '%' 
+                huanbiRate += '%'
               }
               return `${data[0].axisValue} <br/>
                 同比：${tongbiRate}
@@ -156,6 +156,8 @@ export default {
             type: "line",
             // 平滑
             // smooth: true,
+
+            areaStyle: {},
             lineStyle: {
               color: "#3594FF",
             },
@@ -177,22 +179,8 @@ export default {
         ],
       };
       return option;
-    },
-    resizeFun() {
-      this.lineChart.resize();
-    },
-    buildChart(option) {
-      if (!this.lineChart) {
-        this.lineChart = echarts.init(this.$refs["chart"]);
-      }
-      // let option = this.buildMapOption()
-      this.lineChart.setOption(option);
-      this.lineChart.on("click", () => {
-        event.stopPropagation();
-      });
-      window.addEventListener("resize", this.resizeFun);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

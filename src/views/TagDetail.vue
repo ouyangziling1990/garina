@@ -70,8 +70,9 @@ export default {
       const id = singleData.id;
       // const indectorData = await getIndicatorDetail(id);
       // console.log("indectorData", indectorData);
-      this.$router.push(`/indicatorDetail/${id}`);
-
+      // this.$router.push(`/indicatorDetail/${id}`);
+     let pathInfo = this.$router.resolve(`/indicatorDetail/${id}`);
+      window.open(pathInfo.href, '_blank');
       const {tagId, regionId} = this.$route.params
       this.$store.commit("SET_LINK_ARR", {
         index: 4,
