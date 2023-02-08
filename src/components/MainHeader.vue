@@ -213,7 +213,9 @@ export default {
     },
     async getUserInfo(){
       if(this.loginStatus){
-        this.userInfo = await fecthUserInfo()
+        const userInfo = await fecthUserInfo()
+        console.log('userInfo', userInfo)
+        this.userInfo = userInfo
       }
     },
     async signUpFormSubmit() {

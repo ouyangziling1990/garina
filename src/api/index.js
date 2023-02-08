@@ -4,7 +4,8 @@ const apiVersion =
   process.env.NODE_ENV === "production"
     ? "https://api.garinasset.com/data/v1"
     : "/data/v1";
-import axios from "axios";
+import axios from "../utils/axiosInterceptors";
+
 function setHeader() {
   axios.defaults.headers.common[
     "Authorization"
@@ -17,7 +18,7 @@ export const links = () => {
 export const fecthUserInfo = () => {
   const url = `${apiVersion}/user`;
   setHeader();
-  return axios.get(url).then((res) => res.data);
+  return axios.get(url).then((res) => res.data)
 };
 export const Login = (param) => {
   const url = `${apiVersion}/auth/login`;

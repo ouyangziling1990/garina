@@ -8,6 +8,8 @@
  */
 
 import axios from "axios";
+import codeMap from "./codeMap"
+import {Message} from "element-ui"
 axios.interceptors.request.use(
   (config) => {
     
@@ -31,17 +33,23 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     let { status, data } = response;
+    console.log(response)
     if (status === 200) {
       return Promise.resolve(data);
     } else {
       return Promise.reject(data);
     }
+  },
+  error => {
+      let { status, data } = error.response,
+          message = `${codeMap[status]} 具体信息：${data.message}`;
+      Message.error(message);
+      console.error(message)
+      if(status == 401){
+        localStorage.removeItem('access_token')
+        window.location.href = '/'
+      }
+      return Promise.reject(data)
   }
-  // error => {
-  //     let { status, data } = error.response,
-  //         message = `${codeMap[status]} 具体信息：${data.message}`;
-  //     Message.error(message);
-  //     return Promise.reject(data)
-  // }
 );
 export default axios;
