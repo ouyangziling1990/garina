@@ -23,7 +23,10 @@ export default new Vuex.Store({
     }),
   ],
   state: {
+    // 当前点击的tag
     linkInfo: {},
+    // tags数组
+    headerTagArr:[],
     projectId: "",
     orgId: "",
     tenantId: "",
@@ -32,9 +35,27 @@ export default new Vuex.Store({
     regionInfo: {},
     tagInfo: {},
     currentRegion: {},
+    // 导航条
     linkArr: [],
+    // userInfo
+    userInfo:''
+  },
+  getters:{
+    filterHeaderTags:state=>{
+      if(state.userInfo){
+        return state.headerTagArr
+      }else{
+        return state.headerTagArr.filter(item=>item.visibility==0)
+      }
+    }
   },
   mutations: {
+    SET_USER_INFO(state, info) {
+      state.userInfo = info;
+    },
+    SET_TAG_ARR(state, arr) {
+      state.headerTagArr = arr;
+    },
     INIT_PROJECT_ID(state, id) {
       state.projectId = id;
     },

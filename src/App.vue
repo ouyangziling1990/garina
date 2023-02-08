@@ -52,7 +52,6 @@ export default {
         item.clickable = false
       });
       this.$store.commit('INIT_REGION_MAP', map)
-      console.log('map', map)
       regions.forEach((item) => {
         if (item.parent_id != null) {
           const parentId = item.parent_id;

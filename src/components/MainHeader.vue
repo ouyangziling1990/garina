@@ -5,7 +5,7 @@
         <img src="/gra_logo.png" class="logo" alt="盖林数据" />
         <div>
           <span
-            v-for="item in linksArr"
+            v-for="item in filterHeaderTags"
             class="name_link"
             @click="getIndex(item)"
             :key="item.id"
@@ -23,7 +23,8 @@
           <div v-else>
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
-                {{ userInfo.username||'' }}<i class="el-icon-arrow-down el-icon--right"></i>
+                {{ userInfo.username || ""
+                }}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="loginOut">退出</el-dropdown-item>
@@ -94,7 +95,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { Login, links, fecthUserInfo } from "@/api/index";
 export default {
   name: "MainHeader",
@@ -150,28 +151,32 @@ export default {
         password: [{ validator: validatePass, trigger: "blur" }],
         password2: [{ validator: validatePass2, trigger: "blur" }],
       },
-      accessToken: '',
-      userInfo:''
+      accessToken: "",
+      userInfo: "",
     };
   },
   beforeCreate() {},
   created() {},
   mounted() {
-    this.getLinks();
-    this.getUserInfo()
+    this.initFetch();
   },
   computed: {
     ...mapState([]),
+    ...mapGetters(["filterHeaderTags"]),
     loginStatus() {
       return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
     },
   },
   watch: {},
   methods: {
-    handleCommand(command){
-      if(command === 'loginOut'){
-        localStorage.removeItem('access_token')
-        this.$router.push('/')
+    async initFetch() {
+      await this.getUserInfo();
+      await this.getLinks();
+    },
+    handleCommand(command) {
+      if (command === "loginOut") {
+        localStorage.removeItem("access_token");
+        this.$router.push("/");
       }
     },
     // 获取指标内容
@@ -190,7 +195,7 @@ export default {
       const res = await links();
       this.linksArr = res;
       this.loading = false;
-      console.log(res);
+      this.$store.commit("SET_TAG_ARR", res);
     },
     async submitForm() {
       this.$refs["form"].validate(async (valid) => {
@@ -198,11 +203,11 @@ export default {
           const loginRes = await Login(this.form);
           const accessToken = loginRes.access_token;
           if (accessToken) {
-            this.accessToken = accessToken
+            this.accessToken = accessToken;
             localStorage.setItem("access_token", accessToken);
             this.$message.info("登录成功");
             this.LoginDialogFlag = false;
-            this.getUserInfo()
+            this.getUserInfo();
           }
         } else {
           console.log("error submit!!");
@@ -211,11 +216,12 @@ export default {
         }
       });
     },
-    async getUserInfo(){
-      if(this.loginStatus){
-        const userInfo = await fecthUserInfo()
-        console.log('userInfo', userInfo)
-        this.userInfo = userInfo
+    async getUserInfo() {
+      if (this.loginStatus) {
+        const userInfo = await fecthUserInfo();
+        console.log("userInfo", userInfo);
+        this.userInfo = userInfo;
+        this.$store.commit("SET_USER_INFO", userInfo);
       }
     },
     async signUpFormSubmit() {
