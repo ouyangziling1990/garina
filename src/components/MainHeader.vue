@@ -138,8 +138,8 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="电话号码" prop="phone">
-          <el-input v-model="signUpform.phone" placeholder="电话"></el-input>
+        <el-form-item label="电话号码"  prop="phoneInput">
+          <el-input v-model="signUpform.phoneInput" type="number" placeholder="电话"></el-input>
         </el-form-item>
         <el-form-item label="公司" prop="company">
           <el-input v-model="signUpform.company" placeholder="公司"></el-input>
@@ -229,10 +229,10 @@ export default {
         regionObj: "",
 
         phone: "",
+        phoneInput:"",
         email: "",
         password: "",
         password2: "",
-        
       },
       signUprules: {
         email: [
@@ -242,12 +242,16 @@ export default {
             trigger: ["blur", "change"],
           },
         ],
-        fullname:[{ required: true, message: "请输入姓名", trigger: "blur" }],  
-        username:[{ required: true, message: "请输入昵称", trigger: "blur" }],  
-        region_id:[{ required: true, message: "请输入国家或区域", trigger: "blur" }],  
-        brith_date:[{ required: true, message: "请输入生日", trigger: "blur" }],  
-        regionNum:[{ required: true, message: "国际区号", trigger: "blur" }],  
-        phone:[{ required: true, message: "电话号码", trigger: "blur" }],  
+        fullname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        username: [{ required: true, message: "请输入昵称", trigger: "blur" }],
+        region_id: [
+          { required: true, message: "请输入国家或区域", trigger: "blur" },
+        ],
+        brith_date: [
+          { required: true, message: "请输入生日", trigger: "blur" },
+        ],
+        regionNum: [{ required: true, message: "国际区号", trigger: "blur" }],
+        phoneInput: [{ required: true, message: "电话号码", trigger: "blur" }],
         password: [{ validator: validatePass, trigger: "blur" }],
         password2: [{ validator: validatePass2, trigger: "blur" }],
       },
@@ -346,8 +350,9 @@ export default {
     async signUpFormSubmit() {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
+          this.signUpFlag.phone =`+${this.signUpFlag.regionNum} ${this.signUpFlag.phone}`
           const res = await signUp(this.signUpform);
-          this.$message.success('注册成功，请前往邮箱验证')
+          this.$message.success("注册成功，请前往邮箱验证");
           console.log("res", res);
         } else {
           this.$message.error("验证失败，请查验");
