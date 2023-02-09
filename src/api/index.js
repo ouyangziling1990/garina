@@ -18,7 +18,7 @@ export const links = () => {
 export const fecthUserInfo = () => {
   const url = `${apiVersion}/user`;
   setHeader();
-  return axios.get(url).then((res) => res.data)
+  return axios.get(url).then((res) => res.data);
 };
 export const Login = (param) => {
   const url = `${apiVersion}/auth/login`;
@@ -33,7 +33,20 @@ export const Login = (param) => {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
-
+// 用户注册接口
+export const signUp = (params) => {
+  const url = `${apiVersion}/signup`;
+  return axios({
+    method: "post",
+    url: url,
+    data: params,
+  }).then((res) => res.data);
+};
+// 注册时获取预期信息
+export const infrastructure = () => {
+  const url = `${apiVersion}/signup/infrastructure`;
+  return axios.get(url).then((res) => res.data);
+};
 export const getTags = (linkId) => {
   const url = `${apiVersion}/links/${linkId}/tags`;
   return axios.get(url).then((res) => res.data);

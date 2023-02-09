@@ -16,7 +16,7 @@
         <div class="logo_opt">
           <div v-if="loginStatus === 0">
             <el-button plain @click="LoginDialogFlag = true">登录</el-button>
-            <el-button type="primary" @click="signUpFlag = true" plain
+            <el-button type="primary" @click="signUpFun" plain
               >免费注册</el-button
             >
           </div>
@@ -63,26 +63,86 @@
       </div>
     </el-dialog>
     <el-dialog title="免费注册" :visible.sync="signUpFlag" width="448px">
-      <el-form ref="signUpform" :rules="signUprules" :model="signUpform">
-        <el-form-item label="" prop="email">
+      <el-form
+        label-width="99px"
+        ref="signUpform"
+        :rules="signUprules"
+        :model="signUpform"
+      >
+        <el-form-item label="姓名" prop="fullname">
+          <el-input
+            v-model="signUpform.fullname"
+            placeholder="请输入姓名"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="昵称" prop="username">
+          <el-input v-model="signUpform.username" placeholder="昵称"></el-input>
+        </el-form-item>
+        <el-form-item label="国家或区域" prop="region_id">
+          <el-select
+            v-model="signUpform.region_id"
+            filterable
+            placeholder="国家或区域"
+            @change="regionChange"
+          >
+            <el-option
+              v-for="item in infrastructureArr"
+              :key="item.id"
+              :label="item.region_json[0]"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="出生日期" prop="brith_date">
+          <el-date-picker
+            v-model="signUpform.brith_date"
+            type="date"
+            placeholder="出生日期"
+            value-format="yyyy-MM-dd"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
           <el-input
             v-model="signUpform.email"
             placeholder="请输入邮箱"
           ></el-input>
         </el-form-item>
-        <el-form-item label="" prop="password">
+        <el-form-item label="密码" prop="password">
           <el-input
             v-model="signUpform.password"
             placeholder="请输入密码"
             show-password
           ></el-input>
         </el-form-item>
-        <el-form-item label="" prop="password2">
+        <el-form-item label="确认密码" prop="password2">
           <el-input
             v-model="signUpform.password2"
             placeholder="请再次确认密码"
             show-password
           ></el-input>
+        </el-form-item>
+        <el-form-item label="国际区号" prop="regionNum">
+          <el-select
+            v-model="signUpform.regionNum"
+            filterable
+            :disabled="regionNumDisabled"
+            placeholder="国家或区域"
+          >
+            <el-option
+              v-for="item in infrastructureArr"
+              :key="'region_num+' + item.id"
+              :label="item.regionNumLabel"
+              :value="item.call_code"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="电话号码" prop="phone">
+          <el-input v-model="signUpform.phone" placeholder="电话"></el-input>
+        </el-form-item>
+        <el-form-item label="公司" prop="company">
+          <el-input v-model="signUpform.company" placeholder="公司"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="signUpFormSubmit('ruleForm')"
@@ -96,7 +156,13 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import { Login, links, fecthUserInfo } from "@/api/index";
+import {
+  Login,
+  links,
+  fecthUserInfo,
+  signUp,
+  infrastructure,
+} from "@/api/index";
 export default {
   name: "MainHeader",
   components: {},
@@ -122,32 +188,66 @@ export default {
       }
     };
     return {
+      // 地区名称 及区号
+      infrastructureArr: [],
       linksArr: [],
 
       LoginDialogFlag: false,
       form: {
+        email: "",
         username: "",
         password: "",
         grant_type: "",
         scope: "",
-        client_id: "",
+        client_id: "ZW1haWwu",
         client_secret: "",
       },
       rules: {
+        // 虽然叫username但是输入的还是邮箱
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"],
+          },
         ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
       // 注册
       signUpFlag: false,
+      regionNumDisabled: false,
       signUpform: {
+        fullname: "",
+        // 区域id
+        region_id: "",
+        brith_date: "",
+        company: "",
+        // 昵称
+        username: "",
+        regionNum: "",
+        regionNumObj: "",
+        regionObj: "",
+
+        phone: "",
         email: "",
         password: "",
         password2: "",
+        
       },
       signUprules: {
-        email: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
+        email: [
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"],
+          },
+        ],
+        fullname:[{ required: true, message: "请输入姓名", trigger: "blur" }],  
+        username:[{ required: true, message: "请输入昵称", trigger: "blur" }],  
+        region_id:[{ required: true, message: "请输入国家或区域", trigger: "blur" }],  
+        brith_date:[{ required: true, message: "请输入生日", trigger: "blur" }],  
+        regionNum:[{ required: true, message: "国际区号", trigger: "blur" }],  
+        phone:[{ required: true, message: "电话号码", trigger: "blur" }],  
         password: [{ validator: validatePass, trigger: "blur" }],
         password2: [{ validator: validatePass2, trigger: "blur" }],
       },
@@ -169,9 +269,28 @@ export default {
   },
   watch: {},
   methods: {
+    regionChange(val) {
+      if (val == 247) {
+        this.regionNumDisabled = true;
+        this.signUpform.regionNum = 86;
+        // {id:'247', regionNumLabel:'+86（中国大陆）'}
+      } else {
+        this.regionNumDisabled = false;
+      }
+    },
     async initFetch() {
       await this.getUserInfo();
       await this.getLinks();
+    },
+
+    // 注册请求
+    async signUpFun() {
+      this.signUpFlag = true;
+      const data = await infrastructure();
+      data.forEach((item) => {
+        item.regionNumLabel = `+${item.call_code}（${item.region_json[0]}）`;
+      });
+      this.infrastructureArr = data;
     },
     handleCommand(command) {
       if (command === "loginOut") {
@@ -227,11 +346,9 @@ export default {
     async signUpFormSubmit() {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
-          // const loginRes = await Login(this.form);
-          // const accessToken = loginRes.access_token;
-          // if (accessToken) {
-          //   localStorage.setItem("access_token", accessToken);
-          // }
+          const res = await signUp(this.signUpform);
+          this.$message.success('注册成功，请前往邮箱验证')
+          console.log("res", res);
         } else {
           this.$message.error("验证失败，请查验");
           return false;

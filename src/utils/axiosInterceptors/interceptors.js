@@ -42,7 +42,7 @@ axios.interceptors.response.use(
   },
   error => {
       let { status, data } = error.response,
-          message = `${codeMap[status]} 具体信息：${data.message}`;
+          message = `${codeMap[status]||''} 具体信息：${data.status_description[0]}`;
       Message.error(message);
       console.error(message)
       if(status == 401){
