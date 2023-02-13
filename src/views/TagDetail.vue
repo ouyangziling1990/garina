@@ -111,6 +111,8 @@ export default {
               item.data_year_over_year_fixed;
             tmpD = tmpD.toFixed(2);
             singleData["data_year_over_year"] = tmpD;
+          }else{
+            singleData["data_year_over_year"] = '--';
           }
 
           this.tableData.push(singleData);

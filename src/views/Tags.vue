@@ -90,7 +90,7 @@ export default {
       this.$store.commit("SET_LINK_ARR", {
         index: 1,
         pathInfo: {
-          path: `/tags/${this.tagId}`,
+          path: `/tags/${item.link_id}`,
           name: item["name_tag_json"][0],
         },
       });
