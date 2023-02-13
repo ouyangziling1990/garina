@@ -1,5 +1,5 @@
 <template>
-  <div class="Region">
+  <div class="Region" v-loading="loading">
     <div class="show_data_wrap">
       <div class="show_data">
         <p
@@ -27,6 +27,7 @@ export default {
   props: {},
   data() {
     return {
+      loading:false,
       treeData: [],
       showTableFlag: false,
       defaultProps: {
@@ -84,6 +85,7 @@ export default {
       this.treeData = arr;
     },
     async getRegion() {
+      this.loading = true
       const tmpRegion = await getRegions(this.countryId);
       const regions_id = this.regionInfo.regions_id || [];
       tmpRegion.forEach((item) => {
@@ -94,6 +96,7 @@ export default {
         }
       });
       this.region = tmpRegion;
+      this.loading = false
     },
     RegionDetail(item) {
       console.log("regionDetail", item);

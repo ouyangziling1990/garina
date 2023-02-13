@@ -8,11 +8,10 @@
  */
 
 import axios from "axios";
-import codeMap from "./codeMap"
-import {Message} from "element-ui"
+import codeMap from "./codeMap";
+import { Message } from "element-ui";
 axios.interceptors.request.use(
   (config) => {
-    
     if (config.method == "post") {
       if (!config.data instanceof Array) {
         config.data = {
@@ -33,23 +32,33 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     let { status, data } = response;
-    console.log(response)
+    console.log(response);
     if (status === 200) {
       return Promise.resolve(data);
     } else {
       return Promise.reject(data);
     }
   },
-  error => {
-      let { status, data } = error.response,
-          message = `${codeMap[status]||''} 具体信息：${data.status_description[0]}`;
-      Message.error(message);
-      console.error(message)
-      if(status == 401){
-        localStorage.removeItem('access_token')
-        window.location.href = '/'
-      }
-      return Promise.reject(data)
+  (error) => {
+    let { status, data } = error.response;
+    let message = "";
+    if (error.config.url === "/data/v1/signup/verify") {
+      message = `具体信息 ${data?.detail[0].msg},邮箱验证失败`;
+    } else {
+      const { status_description } = data.status_description;
+      const showM =
+        status_description && status_description[0]
+          ? status_description[0]
+          : "";
+      message = `${codeMap[status] || ""} 具体信息：${showM}`;
+    }
+    Message.error(message);
+    console.error(message);
+    if (status == 401) {
+      localStorage.removeItem("access_token");
+      window.location.href = "/home";
+    }
+    return Promise.reject(data);
   }
 );
 export default axios;

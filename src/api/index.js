@@ -75,3 +75,9 @@ export const getIndicatorDetail = (id) => {
   const url = `${apiVersion}/indicators/${id}/detail`;
   return axios.get(url).then((res) => res.data);
 };
+
+export const verify = (sub) => {
+  const url = `${apiVersion}/signup/verify`;
+  const params = { sub };
+  return axios.get(url, params).then((res) => res.data);
+};

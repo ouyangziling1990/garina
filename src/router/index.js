@@ -11,7 +11,7 @@ const router = new Router({
       component: ()=>import("@/views/Body") 
     },
     {
-      path:'/',
+      path:'/home',
       name:"home",
       component: ()=>import("@/views/Home"),
       children:[
@@ -42,11 +42,11 @@ const router = new Router({
         }
       ]
     },
-    // {
-    //   path:'/region',
-    //   name:"region",
-    //   component: ()=>import("@/views/Region") 
-    // },
+    {
+      path:'/verify',
+      name:"verify",
+      component: ()=>import("@/views/Verify") 
+    },
     
   ]
 })

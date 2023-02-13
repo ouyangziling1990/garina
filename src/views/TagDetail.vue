@@ -1,5 +1,5 @@
 <template>
-  <div class="TagDetail">
+  <div class="TagDetail" v-loading="loading">
     <!-- <el-button @click="indectorDetail">获取指标详情</el-button> -->
     <el-table
       :data="tableData"
@@ -32,16 +32,18 @@ export default {
   props: {},
   data() {
     return {
+      loading:false,
       tableData: [],
       tableColumns: [
         { label: "id", prop: "id" },
         { label: "指标", prop: "name", width: "280" },
-        { label: "国家", prop: "country_emoji_flag" },
+        // { label: "国家", prop: "country_emoji_flag" },
+        { label: "国家", prop: "country" },
         { label: "地区", prop: "regions" },
         { label: "最新值", prop: "data_latest_value", align: "right" },
-        { label: "单位", prop: "units" },
+        { label: "单位", prop: "units"},
         { label: "币种", prop: "currencies" },
-        { label: "同比", prop: "data_year_over_year" },
+        { label: "同比(%)", prop: "data_year_over_year", align:"right" },
         { label: "频率", prop: "frequency" },
         { label: "数据来源", prop: "sources" },
       ],
@@ -82,7 +84,9 @@ export default {
       return "header-class";
     },
     async getReginIndexInfo(tagId, regionId) {
+      this.loading = true
       const preTableData = await getDataDetail(tagId, regionId);
+      this.loading = false
       console.log("preTableData", preTableData);
       if (preTableData && preTableData.length) {
         preTableData.forEach((item) => {
@@ -90,6 +94,7 @@ export default {
             id: item.id,
             name: item?.name_json[0],
             country_emoji_flag: item?.countries?.country_emoji_flag,
+            country: item?.countries?.country_json[0],
             regions: item?.regions?.region_json[0],
             data_latest_value: item.data?.data_latest_value,
             units: item?.units?.unit_json[0],
