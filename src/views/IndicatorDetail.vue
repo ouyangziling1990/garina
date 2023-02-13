@@ -341,10 +341,9 @@ export default {
 
         var a = document.createElement('a')
         var event = new MouseEvent('click')
-        a.download = '图片.png' || '下载图片名称'
+        a.download = '图片.png'
         // 将生成的URL设置为a.href属性
         a.href = dataURL
-        // 触发a的单击事件
         a.dispatchEvent(event)
         a.remove()
       }
