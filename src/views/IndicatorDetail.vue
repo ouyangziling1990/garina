@@ -46,7 +46,7 @@
         <div class="desc-content">
           {{ descriptions }}
         </div>
-        <div class="desc-title">数来来源</div>
+        <div class="desc-title">数据来源</div>
         <div class="desc-content">
           {{ source }}
         </div>
