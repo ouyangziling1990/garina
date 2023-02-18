@@ -29,6 +29,8 @@ export default new Vuex.Store({
     langArrIndex:0,
     // 语言名称
     langLabel:'',
+    // 语言简称
+    lang:'',
     // 当前点击的tag
     linkInfo: {},
     // tags数组
@@ -58,6 +60,9 @@ export default new Vuex.Store({
   mutations: {
     SET_USER_INFO(state, info) {
       state.userInfo = info;
+    },
+    SET_LANG(state, lang) {
+      state.lang = lang;
     },
     SET_LANG_LABEL(state, label) {
       state.langLabel = label;

@@ -1,0 +1,12 @@
+{
+    "en": {
+      "login": "sign in",
+      "signUp":"sign up",
+      "email": "email"
+    },
+    "zh-CN":{
+      "login":"登录",
+      "signUp": "注册",
+      "email":"请输入邮箱"
+    }
+  }

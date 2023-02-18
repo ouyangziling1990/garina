@@ -3,11 +3,20 @@
   {
     "en": {
       "login": "sign in",
-      "signUp":"sign up"
+      "signUp":"sign up",
+      "email":"email",
+      "emailReq":"val is not email",
+      "password":"password",
+      "passwordReq":"password is required"
+      
     },
     "zh-CN":{
       "login":"登录",
-      "signUp": "注册"
+      "signUp": "注册",
+      "email":"请输入邮箱",
+      "emailReq":"请输入正确邮箱",
+      "password":"密码",
+      "passwordReq":"请输入密码"
     }
   }
 </i18n>
@@ -69,19 +78,19 @@
           <el-form-item label="" prop="username">
             <el-input
               v-model="form.username"
-              placeholder="请输入邮箱"
+              :placeholder="$t('email')"
             ></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
             <el-input
               v-model="form.password"
-              placeholder="请输入密码"
+              :placeholder="$t('password')"
               show-password
             ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')"
-              >登录</el-button
+              >{{ $t("login") }}</el-button
             >
           </el-form-item>
         </el-form>
@@ -175,7 +184,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="signUpFormSubmit('ruleForm')"
-            >注册</el-button
+            >{{ $t("signUp") }}</el-button
           >
         </el-form-item>
       </el-form>
@@ -217,8 +226,8 @@ export default {
         callback();
       }
     };
+    const _this = this
     return {
-      lang: "中文",
       // 地区名称 及区号
       infrastructureArr: [],
       linksArr: [],
@@ -238,11 +247,11 @@ export default {
         username: [
           {
             type: "email",
-            message: "请输入正确的邮箱地址",
+            message: _this.$t('emailReq'),
             trigger: ["blur", "change"],
           },
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        password: [{ required: true, message: _this.$t('passwordReq'), trigger: "blur" }],
       },
       // 注册
       signUpFlag: false,
@@ -294,25 +303,30 @@ export default {
   created() {},
   mounted() {
     this.initFetch();
-
+    this.$root.$i18n.locale = this.lang
   },
   computed: {
-    ...mapState(["langArrIndex", "langLabel"]),
+    ...mapState(["langArrIndex", "langLabel", "lang"]),
     ...mapGetters(["filterHeaderTags"]),
     loginStatus() {
       return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
     },
+    localI18n(){
+      return this.$root.$i18n
+    }
   },
   watch: {},
   methods: {
     langCommand(cmd){
       const op = langMap[cmd]
       this.$root.$i18n.locale = cmd
-      this.lang = op['label']
+      console.log('this.$root.$i18n', this.$root.$i18n.t('header.login'))
+      // this.lang = op['label']
       // this.langArrIndex = op['index']
       const index = op['index']
       this.$store.commit('SET_LANG_ARR_INDEX', index)
       this.$store.commit('SET_LANG_LABEL', op['label'])
+      this.$store.commit('SET_LANG', cmd)
       // window.location.reload()
     },
     regionChange(val) {
