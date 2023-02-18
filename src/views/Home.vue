@@ -43,7 +43,7 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["linkArr"]),
+    ...mapState(["linkArr", "langArrIndex"]),
   },
   watch: {},
   methods: {

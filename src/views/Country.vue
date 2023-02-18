@@ -4,18 +4,18 @@
       <el-tree :data="region" :props="defaultProps"></el-tree>
     </div> -->
     <div v-for="(country, index) in countries" :key="'state' + country.id">
-      <p class="title">{{ country.country_json[0] }}</p>
+      <p class="title">{{ country.country_json[langArrIndex] }}</p>
 
       <p
         class="child"
         v-for="child1 in country.children"
       >
         <span :class="{ allowed: child1.clickable }" @click="getRegions(child1)">{{
-          child1.country_json[0]
+          child1.country_json[langArrIndex]
         }}</span>
         <template v-if="child1.children">
           <p class="region" v-for="region in child1.children">
-            <span @click="getDetail(region)">{{ region.region_json[0] }}</span>
+            <span @click="getDetail(region)">{{ region.region_json[langArrIndex] }}</span>
           </p>
         </template>
       </p>
@@ -43,7 +43,7 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["countries"]),
+    ...mapState(["countries", "langArrIndex"]),
   },
   watch: {},
   methods: {
@@ -55,7 +55,7 @@ export default {
       this.$router.push(path)
       this.$store.commit("SET_LINK_ARR", {
         index: 2,
-        pathInfo: { path:'/country', name: item.country_json[0] },
+        pathInfo: { path:'/country', name: item.country_json[this.langArrIndex] },
       });
       // const regions = await getRegions(id);
       // console.log("regions", regions);

@@ -47,7 +47,11 @@ const router = new Router({
       name:"verify",
       component: ()=>import("@/views/Verify") 
     },
-    
+    {
+      path:"/lang",
+      name:"lang",
+      component: ()=>import("@/views/Lang")
+    }
   ]
 })
 router.beforeEach((to, from, next) => {

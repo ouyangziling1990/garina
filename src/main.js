@@ -1,14 +1,14 @@
-import Vue from "vue"
-import App from "./App.vue"
-import router from "./router"
-import store from "./store"
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 
-import api from "@/api/index"
+import api from "@/api/index";
 
-import "@/assets/reset.less"
-import axios from "@/utils/axiosInterceptors"
-import GET_TOKEN from "@/utils/getGeipToken"
-import 'element-ui/lib/theme-chalk/index.css';
+import "@/assets/reset.less";
+import axios from "@/utils/axiosInterceptors";
+import GET_TOKEN from "@/utils/getGeipToken";
+import "element-ui/lib/theme-chalk/index.css";
 import {
   Pagination,
   Dialog,
@@ -86,108 +86,118 @@ import {
   Loading,
   MessageBox,
   Message,
-  Notification
-} from "element-ui"
+  Notification,
+} from "element-ui";
 
-Vue.use(Pagination)
-Vue.use(Dialog)
-Vue.use(Autocomplete)
-Vue.use(Dropdown)
-Vue.use(DropdownMenu)
-Vue.use(DropdownItem)
-Vue.use(Menu)
-Vue.use(Submenu)
-Vue.use(MenuItem)
-Vue.use(MenuItemGroup)
-Vue.use(Input)
-Vue.use(InputNumber)
-Vue.use(Radio)
-Vue.use(RadioGroup)
-Vue.use(RadioButton)
-Vue.use(Checkbox)
-Vue.use(CheckboxButton)
-Vue.use(CheckboxGroup)
-Vue.use(Switch)
-Vue.use(Select)
-Vue.use(Option)
-Vue.use(OptionGroup)
-Vue.use(Button)
-Vue.use(ButtonGroup)
-Vue.use(Table)
-Vue.use(TableColumn)
-Vue.use(DatePicker)
-Vue.use(TimeSelect)
-Vue.use(TimePicker)
-Vue.use(Popover)
-Vue.use(Tooltip)
-Vue.use(Breadcrumb)
-Vue.use(BreadcrumbItem)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Tabs)
-Vue.use(TabPane)
-Vue.use(Tag)
-Vue.use(Tree)
-Vue.use(Alert)
-Vue.use(Slider)
-Vue.use(Icon)
-Vue.use(Row)
-Vue.use(Col)
-Vue.use(Upload)
-Vue.use(Progress)
-Vue.use(Spinner)
-Vue.use(Badge)
-Vue.use(Card)
-Vue.use(Rate)
-Vue.use(Steps)
-Vue.use(Step)
-Vue.use(Carousel)
-Vue.use(CarouselItem)
-Vue.use(Collapse)
-Vue.use(CollapseItem)
-Vue.use(Cascader)
-Vue.use(ColorPicker)
-Vue.use(Transfer)
-Vue.use(Container)
-Vue.use(Header)
-Vue.use(Aside)
-Vue.use(Main)
-Vue.use(Footer)
-Vue.use(Timeline)
-Vue.use(TimelineItem)
-Vue.use(Link)
-Vue.use(Divider)
-Vue.use(Image)
-Vue.use(Calendar)
-Vue.use(Backtop)
-Vue.use(PageHeader)
-Vue.use(CascaderPanel)
+Vue.use(Pagination);
+Vue.use(Dialog);
+Vue.use(Autocomplete);
+Vue.use(Dropdown);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Menu);
+Vue.use(Submenu);
+Vue.use(MenuItem);
+Vue.use(MenuItemGroup);
+Vue.use(Input);
+Vue.use(InputNumber);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+Vue.use(RadioButton);
+Vue.use(Checkbox);
+Vue.use(CheckboxButton);
+Vue.use(CheckboxGroup);
+Vue.use(Switch);
+Vue.use(Select);
+Vue.use(Option);
+Vue.use(OptionGroup);
+Vue.use(Button);
+Vue.use(ButtonGroup);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(DatePicker);
+Vue.use(TimeSelect);
+Vue.use(TimePicker);
+Vue.use(Popover);
+Vue.use(Tooltip);
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Tabs);
+Vue.use(TabPane);
+Vue.use(Tag);
+Vue.use(Tree);
+Vue.use(Alert);
+Vue.use(Slider);
+Vue.use(Icon);
+Vue.use(Row);
+Vue.use(Col);
+Vue.use(Upload);
+Vue.use(Progress);
+Vue.use(Spinner);
+Vue.use(Badge);
+Vue.use(Card);
+Vue.use(Rate);
+Vue.use(Steps);
+Vue.use(Step);
+Vue.use(Carousel);
+Vue.use(CarouselItem);
+Vue.use(Collapse);
+Vue.use(CollapseItem);
+Vue.use(Cascader);
+Vue.use(ColorPicker);
+Vue.use(Transfer);
+Vue.use(Container);
+Vue.use(Header);
+Vue.use(Aside);
+Vue.use(Main);
+Vue.use(Footer);
+Vue.use(Timeline);
+Vue.use(TimelineItem);
+Vue.use(Link);
+Vue.use(Divider);
+Vue.use(Image);
+Vue.use(Calendar);
+Vue.use(Backtop);
+Vue.use(PageHeader);
+Vue.use(CascaderPanel);
 
-Vue.use(Loading.directive)
+Vue.use(Loading.directive);
 
-Vue.prototype.$loading = Loading.service
-Vue.prototype.$msgbox = MessageBox
-Vue.prototype.$alert = MessageBox.alert
-Vue.prototype.$confirm = MessageBox.confirm
-Vue.prototype.$prompt = MessageBox.prompt
-Vue.prototype.$notify = Notification
-Vue.prototype.$message = Message
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$prompt = MessageBox.prompt;
+Vue.prototype.$notify = Notification;
+Vue.prototype.$message = Message;
 
-Vue.prototype.$api = api
-Vue.prototype.$axios = axios
-Vue.prototype.$get = axios.get
-Vue.prototype.$post = axios.post
-import _ from "lodash"
-Vue.prototype._ = _
-Vue.config.productionTip = false
+Vue.prototype.$api = api;
+Vue.prototype.$axios = axios;
+Vue.prototype.$get = axios.get;
+Vue.prototype.$post = axios.post;
+import _ from "lodash";
+Vue.prototype._ = _;
+Vue.config.productionTip = false;
 
+// 多语言兼容
+import VueI18n from "vue-i18n";
+
+Vue.use(VueI18n);
+import messages from "./assets/lang";
+const i18n = new VueI18n({
+  locale: "zh-CN", // 设置地区
+  messages: messages
+});
 GET_TOKEN({
-  geipToken:"1234",
-}).then(res => {
-  console.log(res)
+  geipToken: "1234",
+}).then((res) => {
+  console.log(res);
   new Vue({
+    i18n,
     router,
     store,
-    render: h => h(App)
-  }).$mount("#app")
-})
+    render: (h) => h(App),
+  }).$mount("#app");
+});

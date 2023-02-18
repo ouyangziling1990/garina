@@ -12,7 +12,7 @@
           :key="r.id"
           @click="RegionDetail(r)"
         >
-          {{ r.region_json[0] }}
+          {{ r.region_json[langArrIndex] }}
         </p>
       </div>
     </div>
@@ -42,7 +42,7 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["tagInfo", "regionInfo"]),
+    ...mapState(["tagInfo", "regionInfo", "langArrIndex"]),
     countryId() {
       return this.$route.params.countryId;
     },
@@ -107,7 +107,7 @@ export default {
       );
       this.$store.commit("SET_LINK_ARR", {
         index: 3,
-        pathInfo: { path:'/region', name: item.region_json[0] },
+        pathInfo: { path:'/region', name: item.region_json[this.langArrIndex] },
       });
     },
   },

@@ -15,7 +15,7 @@
         :key="item.id"
         @click="getLocatInfoArr(item)"
       >
-        {{ item["name_tag_json"][0] }}
+        {{ item["name_tag_json"][langArrIndex] }}
       </p>
     </div>
   </div>
@@ -41,7 +41,7 @@ export default {
     this.getlinkInfo();
   },
   computed: {
-    ...mapState(["linkInfo"]),
+    ...mapState(["linkInfo", "langArrIndex"]),
     tagId() {
       return this.$route.params.tagId;
     },
@@ -91,7 +91,7 @@ export default {
         index: 1,
         pathInfo: {
           path: `/tags/${item.link_id}`,
-          name: item["name_tag_json"][0],
+          name: item["name_tag_json"][this.langArrIndex],
         },
       });
     },

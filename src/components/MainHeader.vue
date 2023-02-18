@@ -1,3 +1,16 @@
+
+<i18n>
+  {
+    "en": {
+      "login": "sign in",
+      "signUp":"sign up"
+    },
+    "zh-CN":{
+      "login":"登录",
+      "signUp": "注册"
+    }
+  }
+</i18n>
 <template>
   <div class="header_wrap">
     <header class="Main_Header">
@@ -10,14 +23,26 @@
             @click="getIndex(item)"
             :key="item.id"
           >
-            {{ item.name_link_json[0] }}</span
+            {{ item.name_link_json[langArrIndex] }}</span
           >
         </div>
+
         <div class="logo_opt">
+          <div class="lang-wrap">
+            <el-dropdown  @command="langCommand">
+              <el-button type="text">
+                {{ langLabel||'中文' }}<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="zh-CN">中文</el-dropdown-item>
+                <el-dropdown-item command="en">English</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
           <div v-if="loginStatus === 0">
-            <el-button plain @click="LoginDialogFlag = true">登录</el-button>
+            <el-button plain @click="LoginDialogFlag = true">{{ $t("login") }}</el-button>
             <el-button type="primary" @click="signUpFun" plain
-              >免费注册</el-button
+              >{{ $t("signUp") }}</el-button
             >
           </div>
           <div v-else>
@@ -138,8 +163,12 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="电话号码"  prop="phoneInput">
-          <el-input v-model="signUpform.phoneInput" type="number" placeholder="电话"></el-input>
+        <el-form-item label="电话号码" prop="phoneInput">
+          <el-input
+            v-model="signUpform.phoneInput"
+            type="number"
+            placeholder="电话"
+          ></el-input>
         </el-form-item>
         <el-form-item label="公司" prop="company">
           <el-input v-model="signUpform.company" placeholder="公司"></el-input>
@@ -163,6 +192,7 @@ import {
   signUp,
   infrastructure,
 } from "@/api/index";
+import langMap from '@/utils/langMap.js'
 export default {
   name: "MainHeader",
   components: {},
@@ -188,6 +218,7 @@ export default {
       }
     };
     return {
+      lang: "中文",
       // 地区名称 及区号
       infrastructureArr: [],
       linksArr: [],
@@ -229,7 +260,7 @@ export default {
         regionObj: "",
 
         phone: "",
-        phoneInput:"",
+        phoneInput: "",
         email: "",
         password: "",
         password2: "",
@@ -263,9 +294,10 @@ export default {
   created() {},
   mounted() {
     this.initFetch();
+
   },
   computed: {
-    ...mapState([]),
+    ...mapState(["langArrIndex", "langLabel"]),
     ...mapGetters(["filterHeaderTags"]),
     loginStatus() {
       return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
@@ -273,6 +305,16 @@ export default {
   },
   watch: {},
   methods: {
+    langCommand(cmd){
+      const op = langMap[cmd]
+      this.$root.$i18n.locale = cmd
+      this.lang = op['label']
+      // this.langArrIndex = op['index']
+      const index = op['index']
+      this.$store.commit('SET_LANG_ARR_INDEX', index)
+      this.$store.commit('SET_LANG_LABEL', op['label'])
+      // window.location.reload()
+    },
     regionChange(val) {
       if (val == 247) {
         this.regionNumDisabled = true;
@@ -350,7 +392,7 @@ export default {
     async signUpFormSubmit() {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
-          this.signUpFlag.phone =`+${this.signUpFlag.regionNum} ${this.signUpFlag.phone}`
+          this.signUpFlag.phone = `+${this.signUpFlag.regionNum} ${this.signUpFlag.phone}`;
           const res = await signUp(this.signUpform);
           this.$message.success("注册成功，请前往邮箱验证");
           console.log("res", res);
@@ -395,10 +437,13 @@ header {
   }
   .logo_opt {
     margin-left: auto;
-    width: 200px;
+    // width: 200px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    .lang-wrap{
+      margin-right: 10px;
+    }
   }
 }
 .login_con {

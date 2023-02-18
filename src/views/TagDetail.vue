@@ -57,7 +57,7 @@ export default {
     this.getReginIndexInfo(tagId, regionId)
   },
   computed: {
-    ...mapState(["tagInfo", "currentRegion"]),
+    ...mapState(["tagInfo", "currentRegion", "langArrIndex"]),
   },
   watch: {
     currentRegion: {
@@ -92,15 +92,15 @@ export default {
         preTableData.forEach((item) => {
           let singleData = {
             id: item.id,
-            name: item?.name_json[0],
+            name: item?.name_json[this.langArrIndex],
             country_emoji_flag: item?.countries?.country_emoji_flag,
-            country: item?.countries?.country_json[0],
-            regions: item?.regions?.region_json[0],
+            country: item?.countries?.country_json[this.langArrIndex],
+            regions: item?.regions?.region_json[this.langArrIndex],
             data_latest_value: item.data?.data_latest_value,
-            units: item?.units?.unit_json[0],
-            currencies: item?.currencies?.currency_json[0] || '--',
-            frequency: item?.frequency?.frequency_json[0],
-            sources: item?.sources?.source_json[0],
+            units: item?.units?.unit_json[this.langArrIndex],
+            currencies: item?.currencies?.currency_json[this.langArrIndex] || '--',
+            frequency: item?.frequency?.frequency_json[this.langArrIndex],
+            sources: item?.sources?.source_json[this.langArrIndex],
           };
           if (
             item?.data_year_over_year?.data_latest_value &&

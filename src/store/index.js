@@ -18,11 +18,17 @@ export default new Vuex.Store({
         return {
           // 只储存state中的linkArr
           linkArr: val.linkArr,
+          langArrIndex: val.langArrIndex,
+          langLabel: val.langLabel
         };
       },
     }),
   ],
   state: {
+    // 根据语言获取当前arr的index,默认为中文
+    langArrIndex:0,
+    // 语言名称
+    langLabel:'',
     // 当前点击的tag
     linkInfo: {},
     // tags数组
@@ -52,6 +58,13 @@ export default new Vuex.Store({
   mutations: {
     SET_USER_INFO(state, info) {
       state.userInfo = info;
+    },
+    SET_LANG_LABEL(state, label) {
+      state.langLabel = label;
+    },
+    // langArrIndex
+    SET_LANG_ARR_INDEX(state, index) {
+      state.langArrIndex = index;
     },
     SET_TAG_ARR(state, arr) {
       state.headerTagArr = arr;
@@ -105,6 +118,12 @@ export default new Vuex.Store({
   actions: {
     Set_Region_Info(context, info) {
       context.commit("Set_Region_Info", info);
+    },
+    SET_LANG_LABEL(context, label) {
+      context.commit("SET_LANG_LABEL", label);
+    },
+    SET_LANG_ARR_INDEX(context, index) {
+      context.commit("SET_LANG_ARR_INDEX", index);
     },
     Set_Current_Region(context, info) {
       context.commit("Set_Current_Region", info);

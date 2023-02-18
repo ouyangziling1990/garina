@@ -9,22 +9,24 @@
 <template>
   <div class="body_wrap" v-loading="loading">home
     <ul>
-      <li v-for="item in linksArr" :key="item.id">{{item.name_link_json[0]}}</li>
+      <li v-for="item in linksArr" :key="item.id">{{item.name_link_json[langArrIndex]}}</li>
     </ul>
   </div>
 </template>
 
 <script>
 import { links } from "@/api/index";
+import { mapState } from "vuex";
 export default {
   name: "bodyComp",
   components: {},
-  computed: {},
+  computed: {
+    ...mapState(["langArrIndex"]),
+  },
   data() {
     return {
       loading: false,
       linksArr:[]
-
     };
   },
   mounted() {
