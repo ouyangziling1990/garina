@@ -66,7 +66,12 @@ export default {
       console.log("router", this.$router);
       const currentRoute = this.$router.currentRoute;
       // if (currentRoute.name != "tags") {
-      this.$router.push(`/tags/${item.id}`);
+        if(item.id === 1){
+          this.$router.push(`/welcome`);
+        }else{
+
+          this.$router.push(`/tags/${item.id}`);
+        }
       // }
     },
   },

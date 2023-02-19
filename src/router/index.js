@@ -43,6 +43,11 @@ const router = new Router({
           path:`/indicatorDetail/:indicatorId`,
           name:'indicatorDetail',
           component:()=>import("@/views/IndicatorDetail")
+        },
+        {
+          path:`/welcome`,
+          name:'welcome',
+          component:()=>import("@/views/Welcome")
         }
       ]
     },
