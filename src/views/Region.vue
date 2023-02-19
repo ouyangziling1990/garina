@@ -102,12 +102,14 @@ export default {
       console.log("regionDetail", item);
       if (item.clickable === false) return;
       this.$store.commit("Set_Current_Region", item);
+      const countryIdNext = this.$route.params.countryId
       this.$router.push(
         `/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`
       );
+      
       this.$store.commit("SET_LINK_ARR", {
         index: 3,
-        pathInfo: { path:'/region', name: item.region_json[this.langArrIndex] },
+        pathInfo: { path:`/region/${countryIdNext}`, name: item.region_json },
       });
     },
   },

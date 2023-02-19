@@ -303,7 +303,10 @@ export default {
   created() {},
   mounted() {
     this.initFetch();
-    this.$root.$i18n.locale = this.lang
+    // 初始化时获取缓存的语言内容
+    if(this.lang){
+      this.$root.$i18n.locale = this.lang
+    }
   },
   computed: {
     ...mapState(["langArrIndex", "langLabel", "lang"]),
@@ -321,13 +324,20 @@ export default {
       const op = langMap[cmd]
       this.$root.$i18n.locale = cmd
       console.log('this.$root.$i18n', this.$root.$i18n.t('header.login'))
-      // this.lang = op['label']
-      // this.langArrIndex = op['index']
+      
       const index = op['index']
       this.$store.commit('SET_LANG_ARR_INDEX', index)
       this.$store.commit('SET_LANG_LABEL', op['label'])
       this.$store.commit('SET_LANG', cmd)
-      // window.location.reload()
+
+      console.log('this.$route', this.$route)
+      if(this.$route.name == 'tagDetail'){
+        // 有表格的页面需要reload
+        this.$nextTick(()=>{
+          window.location.reload()
+        })
+      }
+      // 
     },
     regionChange(val) {
       if (val == 247) {
@@ -348,14 +358,14 @@ export default {
       this.signUpFlag = true;
       const data = await infrastructure();
       data.forEach((item) => {
-        item.regionNumLabel = `+${item.call_code}（${item.region_json[0]}）`;
+        item.regionNumLabel = `+${item.call_code}（${item.region_json[this.langArrIndex]}）`;
       });
       this.infrastructureArr = data;
     },
     handleCommand(command) {
       if (command === "loginOut") {
         localStorage.removeItem("access_token");
-        this.$router.push("/");
+        this.$router.push("/home");
       }
     },
     // 获取指标内容
@@ -363,7 +373,7 @@ export default {
       this.$emit("showTag", item);
       this.$store.commit("CHANG_LINK_INFO", item);
       const pathInfo = {
-        name: item.name_link_json[0],
+        name: item.name_link_json,
         path: `/tags/${item.id}`,
       };
       this.$store.commit("SET_LINK_ARR", { index: 0, pathInfo });

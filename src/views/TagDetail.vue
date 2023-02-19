@@ -1,3 +1,29 @@
+<i18n>
+{
+  "en": {
+    "name":"name",
+    "country":"country",
+    "region":"region",
+    "latestValue":"latest value",
+    "unit":"unit",
+    "currencies":"currencies",
+    "year_over_year":"year_over_year(%)",
+    "frequency":"frequency",
+    "sources":"sources"
+  },
+  "zh-CN":{
+    "name":"指标",
+    "country":"国家",
+    "region":"地区",
+    "latestValue":"最新值",
+    "unit":"单位",
+    "currencies":"币种",
+    "year_over_year":"同比(%)",
+    "frequency":"频率",
+    "sources":"数据来源"
+  }
+}
+</i18n>
 <template>
   <div class="TagDetail" v-loading="loading">
     <!-- <el-button @click="indectorDetail">获取指标详情</el-button> -->
@@ -31,21 +57,12 @@ export default {
   components: {},
   props: {},
   data() {
+    const _this=this
     return {
       loading:false,
       tableData: [],
       tableColumns: [
-        { label: "id", prop: "id" },
-        { label: "指标", prop: "name", width: "280" },
-        // { label: "国家", prop: "country_emoji_flag" },
-        { label: "国家", prop: "country" },
-        { label: "地区", prop: "regions" },
-        { label: "最新值", prop: "data_latest_value", align: "right" },
-        { label: "单位", prop: "units"},
-        { label: "币种", prop: "currencies" },
-        { label: "同比(%)", prop: "data_year_over_year", align:"right" },
-        { label: "频率", prop: "frequency" },
-        { label: "数据来源", prop: "sources" },
+        
       ],
     };
   },
@@ -55,9 +72,15 @@ export default {
     console.log('tagDetail router mounted')
     const {tagId, regionId} = this.$route.params
     this.getReginIndexInfo(tagId, regionId)
+    if(this.lang){
+      this.$i18n.locale = this.lang
+    }
+    console.log('lang', this.$i18n, this.$t('name'))
+    console.log('lang', this.$i18n.locale, this.$t('name'))
+    this.setTableHeader()
   },
   computed: {
-    ...mapState(["tagInfo", "currentRegion", "langArrIndex"]),
+    ...mapState(["tagInfo", "currentRegion", "langArrIndex", "lang"]),
   },
   watch: {
     currentRegion: {
@@ -66,8 +89,25 @@ export default {
       },
       immediate: true,
     },
+    lang(val){
+      this.$i18n.locale = val
+    }
   },
   methods: {
+    setTableHeader(){
+      this.tableColumns = [
+      { label: this.$t('name'), prop: "name", width: "280" },
+        // { label: "国家", prop: "country_emoji_flag" },
+        { label: this.$t('country'), prop: "country" },
+        { label: this.$t('region'), prop: "regions" },
+        { label: this.$t('latestValue'), prop: "data_latest_value", align: "right" },
+        { label: this.$t('unit'), prop: "units"},
+        { label: this.$t('currencies'), prop: "currencies" },
+        { label: this.$t('year_over_year'), prop: "data_year_over_year", align:"right", width:"150" },
+        { label: this.$t('frequency'), prop: "frequency" },
+        { label: this.$t('sources'), prop: "sources" },
+      ]
+    },
     async indectorDetail(singleData) {
       const id = singleData.id;
       // const indectorData = await getIndicatorDetail(id);
@@ -93,6 +133,7 @@ export default {
           let singleData = {
             id: item.id,
             name: item?.name_json[this.langArrIndex],
+            nameJson:item?.name_json,
             country_emoji_flag: item?.countries?.country_emoji_flag,
             country: item?.countries?.country_json[this.langArrIndex],
             regions: item?.regions?.region_json[this.langArrIndex],

@@ -91,7 +91,7 @@ export default {
         index: 1,
         pathInfo: {
           path: `/tags/${item.link_id}`,
-          name: item["name_tag_json"][this.langArrIndex],
+          name: item["name_tag_json"],
         },
       });
     },

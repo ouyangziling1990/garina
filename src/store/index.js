@@ -19,7 +19,8 @@ export default new Vuex.Store({
           // 只储存state中的linkArr
           linkArr: val.linkArr,
           langArrIndex: val.langArrIndex,
-          langLabel: val.langLabel
+          langLabel: val.langLabel,
+          lang:val.lang
         };
       },
     }),

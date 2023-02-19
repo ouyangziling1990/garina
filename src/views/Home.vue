@@ -8,7 +8,7 @@
           v-for="(link, index) in linkArr"
           :key="'link_' + index"
           :to="link.path"
-          >{{ link.name }}</el-breadcrumb-item
+          >{{ link.name[langArrIndex] }}</el-breadcrumb-item
         >
         <!-- <el-breadcrumb-item>标签</el-breadcrumb-item>
         <el-breadcrumb-item>国家</el-breadcrumb-item>
@@ -45,13 +45,28 @@ export default {
   computed: {
     ...mapState(["linkArr", "langArrIndex"]),
   },
-  watch: {},
+  watch: {
+    $route: {
+      handler: function (to) {
+        console.log("to", to);
+        const path = to.path;
+        const linkIndex = this.linkArr.findIndex((item) => item.path === path);
+        if (linkIndex != -1) {
+          this.$store.commit("SET_LINK_ARR", {
+            index: linkIndex,
+            pathInfo: this.linkArr[linkIndex],
+          });
+        }
+      },
+      deep: true,
+    },
+  },
   methods: {
     showTag(item) {
       console.log("router", this.$router);
       const currentRoute = this.$router.currentRoute;
       // if (currentRoute.name != "tags") {
-        this.$router.push(`/tags/${item.id}`);
+      this.$router.push(`/tags/${item.id}`);
       // }
     },
   },
