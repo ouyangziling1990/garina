@@ -446,7 +446,7 @@ header {
   width: 100%;
   height: 70px;
   background: rgb(30, 101, 213);
-  border: 1px solid #f6f5f7;
+  // border: 1px solid #f6f5f7;
   padding: 0;
   position: absolute;
   top: 0;
