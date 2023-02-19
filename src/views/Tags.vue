@@ -101,6 +101,7 @@ export default {
 <style lang="less" scoped>
 .tag_wrap {
   display: flex;
+  margin-left: 8px;
   flex: 1;
   flex-direction: row;
   & > div {

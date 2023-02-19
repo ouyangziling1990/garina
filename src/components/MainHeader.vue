@@ -458,8 +458,8 @@ header {
   height: 70px;
   display: flex;
   align-items: center;
-  width: 1200px;
-  margin: auto;
+  // width: 1200px;
+  margin: 0 40px;
   .name_link {
     margin-left: 10px;
     cursor: pointer;
