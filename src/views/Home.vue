@@ -68,12 +68,16 @@ export default {
   .link {
     padding: 20px 20px 10px;
     height: 14px;
+    width: 1200px;
+    margin: auto;
   }
   .content {
     padding: 5px 20px;
     display: flex;
     flex: 1;
     overflow: auto;
+    width: 1200px;
+    margin: auto;
   }
 }
 </style>
