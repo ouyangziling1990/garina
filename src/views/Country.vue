@@ -55,7 +55,7 @@ export default {
       this.$router.push(path)
       this.$store.commit("SET_LINK_ARR", {
         index: 2,
-        pathInfo: { path:'/country', name: item.country_json[this.langArrIndex] },
+        pathInfo: { path:'/country', name: item.country_json },
       });
       // const regions = await getRegions(id);
       // console.log("regions", regions);

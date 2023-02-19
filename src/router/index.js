@@ -1,6 +1,10 @@
 import Vue from "vue"
 import Router from "vue-router"
 import axios from "axios"
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+};
 Vue.use(Router)
 
 const router = new Router({
@@ -62,4 +66,5 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
+
 export default router

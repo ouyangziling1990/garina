@@ -1,12 +1,22 @@
 {
-    "en": {
-      "login": "sign in",
-      "signUp":"sign up",
-      "email": "email"
-    },
-    "zh-CN":{
-      "login":"登录",
-      "signUp": "注册",
-      "email":"请输入邮箱"
-    }
+  "en": {
+    "name":"name",
+    "region":"region",
+    "latestValue":"latest value",
+    "unit":"unit",
+    "currencies":"currencies",
+    "year_over_year":"year_over_year",
+    "frequency":"frequency",
+    "sources":"sources"
+  },
+  "zh-CN":{
+    "name":"指标",
+    "region":"地区",
+    "latestValue":"最新值",
+    "unit":"单位",
+    "currencies":"币种",
+    "year_over_year":"同比(%)",
+    "frequency":"频率",
+    "sources":"数据来源"
   }
+}
