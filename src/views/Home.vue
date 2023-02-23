@@ -66,7 +66,12 @@ export default {
       console.log("router", this.$router);
       const currentRoute = this.$router.currentRoute;
       // if (currentRoute.name != "tags") {
-      this.$router.push(`/tags/${item.id}`);
+        if(item.id === 1){
+          this.$router.push(`/welcome`);
+        }else{
+
+          this.$router.push(`/tags/${item.id}`);
+        }
       // }
     },
   },
@@ -83,16 +88,16 @@ export default {
   .link {
     padding: 20px 20px 10px;
     height: 14px;
-    width: 1200px;
-    margin: auto;
+    // width: 1200px;
+    margin-left: 20px;
   }
   .content {
-    padding: 5px 20px;
+    padding: 5px 32px;
     display: flex;
     flex: 1;
     overflow: auto;
-    width: 1200px;
-    margin: auto;
+    // width: 1200px;
+    // margin: auto;
   }
 }
 </style>

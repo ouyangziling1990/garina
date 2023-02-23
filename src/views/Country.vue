@@ -70,11 +70,8 @@ export default {
 <style lang="less" scoped>
 .Country {
   width: 100%;
-  padding: 0 20px 10px;
-  display: flex;
-  flex-direction: row;
   & > div {
-    flex: 1;
+    // flex: 1;
   }
   .title {
     font-size: 20px;
@@ -84,6 +81,9 @@ export default {
   .child {
     padding: 10px;
     color: #636e89;
+    display: inline-block;
+    line-height: 16px;
+    
     & > span {
       cursor: not-allowed;
     }
@@ -91,6 +91,7 @@ export default {
       cursor: pointer !important;
       font-size: 16px;
       color: rgb(10, 154, 206);
+      text-decoration: underline;
     }
   }
 

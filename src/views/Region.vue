@@ -27,7 +27,7 @@ export default {
   props: {},
   data() {
     return {
-      loading:false,
+      loading: false,
       treeData: [],
       showTableFlag: false,
       defaultProps: {
@@ -85,7 +85,7 @@ export default {
       this.treeData = arr;
     },
     async getRegion() {
-      this.loading = true
+      this.loading = true;
       const tmpRegion = await getRegions(this.countryId);
       const regions_id = this.regionInfo.regions_id || [];
       tmpRegion.forEach((item) => {
@@ -96,20 +96,20 @@ export default {
         }
       });
       this.region = tmpRegion;
-      this.loading = false
+      this.loading = false;
     },
     RegionDetail(item) {
       console.log("regionDetail", item);
       if (item.clickable === false) return;
       this.$store.commit("Set_Current_Region", item);
-      const countryIdNext = this.$route.params.countryId
+      const countryIdNext = this.$route.params.countryId;
       this.$router.push(
         `/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`
       );
-      
+
       this.$store.commit("SET_LINK_ARR", {
         index: 3,
-        pathInfo: { path:`/region/${countryIdNext}`, name: item.region_json },
+        pathInfo: { path: `/region/${countryIdNext}`, name: item.region_json },
       });
     },
   },
@@ -138,11 +138,14 @@ export default {
   }
   .tag_detail {
     color: #636e89;
-    margin: 5px;
+    // margin: 5px;
     cursor: not-allowed;
+    line-height: 30px;
   }
   .allowed {
     cursor: pointer !important;
+    color: rgb(10, 154, 206);
+    text-decoration: underline;
   }
 }
 </style>

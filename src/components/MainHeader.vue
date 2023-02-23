@@ -1,4 +1,3 @@
-
 <i18n>
   {
     "en": {
@@ -38,10 +37,11 @@
 
         <div class="logo_opt">
           <div class="lang-wrap">
-            <el-dropdown  @command="langCommand">
-              <el-button type="text">
-                {{ langLabel||'中文' }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
+            <el-dropdown @command="langCommand">
+              <span class="label"
+                >{{ langLabel || "中文"
+                }}<i class="el-icon-arrow-down el-icon--right"></i
+              ></span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="zh-CN">中文</el-dropdown-item>
                 <el-dropdown-item command="en">English</el-dropdown-item>
@@ -49,10 +49,12 @@
             </el-dropdown>
           </div>
           <div v-if="loginStatus === 0">
-            <el-button plain @click="LoginDialogFlag = true">{{ $t("login") }}</el-button>
-            <el-button type="primary" @click="signUpFun" plain
-              >{{ $t("signUp") }}</el-button
-            >
+            <el-button plain @click="LoginDialogFlag = true">{{
+              $t("login")
+            }}</el-button>
+            <el-button type="primary" @click="signUpFun" plain>{{
+              $t("signUp")
+            }}</el-button>
           </div>
           <div v-else>
             <el-dropdown @command="handleCommand">
@@ -89,9 +91,9 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')"
-              >{{ $t("login") }}</el-button
-            >
+            <el-button type="primary" @click="submitForm('ruleForm')">{{
+              $t("login")
+            }}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -183,9 +185,9 @@
           <el-input v-model="signUpform.company" placeholder="公司"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="signUpFormSubmit('ruleForm')"
-            >{{ $t("signUp") }}</el-button
-          >
+          <el-button type="primary" @click="signUpFormSubmit('ruleForm')">{{
+            $t("signUp")
+          }}</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -201,7 +203,7 @@ import {
   signUp,
   infrastructure,
 } from "@/api/index";
-import langMap from '@/utils/langMap.js'
+import langMap from "@/utils/langMap.js";
 export default {
   name: "MainHeader",
   components: {},
@@ -226,7 +228,7 @@ export default {
         callback();
       }
     };
-    const _this = this
+    const _this = this;
     return {
       // 地区名称 及区号
       infrastructureArr: [],
@@ -247,11 +249,13 @@ export default {
         username: [
           {
             type: "email",
-            message: _this.$t('emailReq'),
+            message: _this.$t("emailReq"),
             trigger: ["blur", "change"],
           },
         ],
-        password: [{ required: true, message: _this.$t('passwordReq'), trigger: "blur" }],
+        password: [
+          { required: true, message: _this.$t("passwordReq"), trigger: "blur" },
+        ],
       },
       // 注册
       signUpFlag: false,
@@ -304,8 +308,8 @@ export default {
   mounted() {
     this.initFetch();
     // 初始化时获取缓存的语言内容
-    if(this.lang){
-      this.$root.$i18n.locale = this.lang
+    if (this.lang) {
+      this.$root.$i18n.locale = this.lang;
     }
   },
   computed: {
@@ -314,30 +318,30 @@ export default {
     loginStatus() {
       return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
     },
-    localI18n(){
-      return this.$root.$i18n
-    }
+    localI18n() {
+      return this.$root.$i18n;
+    },
   },
   watch: {},
   methods: {
-    langCommand(cmd){
-      const op = langMap[cmd]
-      this.$root.$i18n.locale = cmd
-      console.log('this.$root.$i18n', this.$root.$i18n.t('header.login'))
-      
-      const index = op['index']
-      this.$store.commit('SET_LANG_ARR_INDEX', index)
-      this.$store.commit('SET_LANG_LABEL', op['label'])
-      this.$store.commit('SET_LANG', cmd)
+    langCommand(cmd) {
+      const op = langMap[cmd];
+      this.$root.$i18n.locale = cmd;
+      console.log("this.$root.$i18n", this.$root.$i18n.t("header.login"));
 
-      console.log('this.$route', this.$route)
-      if(this.$route.name == 'tagDetail'){
+      const index = op["index"];
+      this.$store.commit("SET_LANG_ARR_INDEX", index);
+      this.$store.commit("SET_LANG_LABEL", op["label"]);
+      this.$store.commit("SET_LANG", cmd);
+
+      console.log("this.$route", this.$route);
+      if (this.$route.name == "tagDetail") {
         // 有表格的页面需要reload
-        this.$nextTick(()=>{
-          window.location.reload()
-        })
+        this.$nextTick(() => {
+          window.location.reload();
+        });
       }
-      // 
+      //
     },
     regionChange(val) {
       if (val == 247) {
@@ -358,7 +362,9 @@ export default {
       this.signUpFlag = true;
       const data = await infrastructure();
       data.forEach((item) => {
-        item.regionNumLabel = `+${item.call_code}（${item.region_json[this.langArrIndex]}）`;
+        item.regionNumLabel = `+${item.call_code}（${
+          item.region_json[this.langArrIndex]
+        }）`;
       });
       this.infrastructureArr = data;
     },
@@ -376,6 +382,9 @@ export default {
         name: item.name_link_json,
         path: `/tags/${item.id}`,
       };
+      if(item.id === 1){
+        pathInfo.path = '/welcome'
+      }
       this.$store.commit("SET_LINK_ARR", { index: 0, pathInfo });
     },
     //
@@ -436,8 +445,8 @@ export default {
 header {
   width: 100%;
   height: 70px;
-  background: #fff;
-  border: 1px solid #f6f5f7;
+  background: rgb(30, 101, 213);
+  // border: 1px solid #f6f5f7;
   padding: 0;
   position: absolute;
   top: 0;
@@ -449,11 +458,12 @@ header {
   height: 70px;
   display: flex;
   align-items: center;
-  width: 1200px;
-  margin: auto;
+  // width: 1200px;
+  margin: 0 40px;
   .name_link {
     margin-left: 10px;
     cursor: pointer;
+    color: white;
   }
   .logo {
     width: 130px;
@@ -465,8 +475,14 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    .lang-wrap{
+    .lang-wrap {
       margin-right: 10px;
+      .label {
+        color: white;
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+      }
     }
   }
 }
