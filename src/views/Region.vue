@@ -1,7 +1,17 @@
 <template>
   <div class="Region" v-loading="loading">
     <div class="show_data_wrap">
-      <div class="show_data">
+      <div  v-for="(group, index) in region">
+        <p class="tag_detail_header"> {{group["region_json"][langArrIndex]}}</p>
+        <div class="tag_detail_group">
+          <div v-for="(item, i) in group.child"
+          :class="{tag_detail:true,allowed:item.clickable}"
+          @click="RegionDetail(item)">
+            {{item["region_json"][langArrIndex]}}
+          </div>
+        </div>
+      </div>
+      <!-- <div class="show_data">
         <p
           v-for="r in region"
           :class="{
@@ -14,7 +24,7 @@
         >
           {{ r.region_json[langArrIndex] }}
         </p>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -87,7 +97,31 @@ export default {
     async getRegion() {
       this.loading = true
       const tmpRegion = await getRegions(this.countryId);
+      console.log(tmpRegion);
+      const group = tmpRegion.filter(item=>{
+        return !item.parent_id
+      }).map(item=>{
+        item.child = []
+        return item
+      })
       const regions_id = this.regionInfo.regions_id || [];
+      console.log(regions_id);
+      tmpRegion.forEach((item) => {
+        group.forEach(g=>{
+
+        console.log(item,g);
+          if (item.parent_id&&item.parent_id=== g.id) {
+            item.clickable = false;
+            if(regions_id.includes(item.id)){
+              item.clickable = true;
+            }
+            g.child.push(item)
+          }
+        })
+      });
+      console.log(group);
+      this.region = group
+
       tmpRegion.forEach((item) => {
         item.clickable = false;
 
@@ -95,7 +129,7 @@ export default {
           item.clickable = true;
         }
       });
-      this.region = tmpRegion;
+      // this.region = tmpRegion;
       this.loading = false
     },
     RegionDetail(item) {
@@ -106,7 +140,7 @@ export default {
       this.$router.push(
         `/tagDetail/tagId/${this.tagInfo.id}/region/${item.id}`
       );
-      
+
       this.$store.commit("SET_LINK_ARR", {
         index: 3,
         pathInfo: { path:`/region/${countryIdNext}`, name: item.region_json },
@@ -123,26 +157,31 @@ export default {
   width: 100%;
   // padding: 12px 20px;
   .show_data_wrap {
-    display: flex;
-    flex-direction: row;
-  }
-  .show_data {
-    flex: 1;
-  }
-
-  .tag_detail_header {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 20px 0;
-    cursor: not-allowed;
-  }
-  .tag_detail {
-    color: #636e89;
-    margin: 5px;
-    cursor: not-allowed;
-  }
-  .allowed {
-    cursor: pointer !important;
+    .tag_detail_header {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0;
+      cursor: not-allowed;
+    }
+    .tag_detail_group {
+      margin-top: 2px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .tag_detail {
+      color: #636e89;
+      margin: 5px;
+      cursor: not-allowed;
+    }
+    .allowed {
+      cursor: pointer !important;
+      font-size: 16px;
+      color: rgb(10, 154, 206);
+       &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
   }
 }
 </style>

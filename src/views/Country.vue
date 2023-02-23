@@ -5,21 +5,18 @@
     </div> -->
     <div v-for="(country, index) in countries" :key="'state' + country.id">
       <p class="title">{{ country.country_json[langArrIndex] }}</p>
-
-      <p
-        class="child"
-        v-for="child1 in country.children"
-      >
-        <span :class="{ allowed: child1.clickable }" @click="getRegions(child1)">{{
-          child1.country_json[langArrIndex]
-        }}</span>
-        <template v-if="child1.children">
-          <p class="region" v-for="region in child1.children">
-            <span @click="getDetail(region)">{{ region.region_json[langArrIndex] }}</span>
-          </p>
+      <div class="group">
+        <div class="child" v-for="child1 in country.children">
+          <span :class="{ allowed: child1.clickable }" @click="getRegions(child1)">{{
+            child1.country_json[langArrIndex]
+          }}</span>
+          <template v-if="child1.children">
+            <p class="region" v-for="region in child1.children">
+              <span @click="getDetail(region)">{{ region.region_json[langArrIndex] }}</span>
+            </p>
         </template>
-      </p>
-
+      </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,9 +67,7 @@ export default {
 <style lang="less" scoped>
 .Country {
   width: 100%;
-  padding: 0 20px 10px;
-  display: flex;
-  flex-direction: row;
+  padding: 0 0px 10px;
   & > div {
     flex: 1;
   }
@@ -80,6 +75,10 @@ export default {
     font-size: 20px;
     margin: 20px 10px;
     font-weight: bold;
+  }
+  .group {
+    display: flex;
+    flex-wrap: wrap;
   }
   .child {
     padding: 10px;
