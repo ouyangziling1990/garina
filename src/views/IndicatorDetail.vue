@@ -1,17 +1,31 @@
+<i18n>
+{
+  "en": {
+    "dataSource": "DataSource",
+    "lastUpdated": "LastUpdatedTime",
+    "paraphrase": "Paraphrase"
+  },
+  "zh-CN":{
+    "dataSource": "数据来源",
+    "lastUpdated": "最近更新",
+    "paraphrase": "释义"
+  }
+}
+</i18n>
 <template>
   <div class="IndicatorDetail" v-loading="loading">
     <div class="detail-wrap">
       <div class="chart-data">
         <div class="chart-head">
-          <div class="c-title">{{ dataInfo.title }}</div>
+          <div class="c-title">{{ dataInfo.title[langArrIndex] }}</div>
           <div class="c-tag-1" v-if="dataInfo.method">
-            {{ dataInfo.method }}
+            {{ dataInfo.method[langArrIndex] }}
           </div>
           <div class="c-tag-2" v-if="dataInfo.country_emoji_flag">
-            {{ dataInfo.country_emoji_flag }}
+            <span :class="['fi', `fi-${dataInfo.country_emoji_flag}`]"></span>
           </div>
           <div class="c-tag-3" v-if="dataInfo.region">
-            {{ dataInfo.region }}
+            {{ dataInfo.region[langArrIndex] }}
           </div>
         </div>
         <div class="chart-head-2">
@@ -20,17 +34,21 @@
               {{ dataObj.data_latest_value }}
             </div>
             <div class="c-tag-5">
-              {{ dataObj.unit }}
+              {{ dataObj.unit[langArrIndex] }}
             </div>
             <div class="c-tag-6">
-              {{ dataObj.currencie }}
+              {{ dataObj.currencie[langArrIndex] }}
             </div>
             <div class="c-tag-7">
               {{ dataObj.rate }}
             </div>
           </div>
           <div class="chart-head-2-r">
-            <div>最近更新：{{ dataObj.data_latest_update_time }}</div>
+            <div>
+              {{ $t('lastUpdated') }}:{{
+                dataObj.data_latest_update_time
+              }}
+            </div>
           </div>
         </div>
         <ChartTool
@@ -42,13 +60,13 @@
         <GRChart id="chart" ref="chart" :options="option" />
       </div>
       <div class="desc-data">
-        <div class="desc-title">释义</div>
+        <div class="desc-title">{{ $t('dataSource') }}</div>
         <div class="desc-content">
-          {{ descriptions }}
+          {{ descriptions[langArrIndex] }}
         </div>
-        <div class="desc-title">数据来源</div>
+        <div class="desc-title">{{ $t() }}</div>
         <div class="desc-content">
-          {{ source }}
+          {{ source[langArrIndex] }}
         </div>
       </div>
     </div>
@@ -86,7 +104,7 @@ export default {
     })
   },
   computed: {
-    ...mapState([]),
+    ...mapState(['langArrIndex']),
     indicatorId() {
       const id = this.$route.params['indicatorId']
       // if(id){
@@ -115,11 +133,10 @@ export default {
       const option = this.buildChartOption(rowData)
       this.option = option
       // 描述数据
-      const descriptions =
-        rowData.descriptions?.description_json[LANGUAGE_INDEX]
+      const descriptions = rowData.descriptions?.description_json
       this.descriptions = descriptions
 
-      const source = rowData.sources?.source_json[LANGUAGE_INDEX]
+      const source = rowData.sources?.source_json
       this.source = source
 
       this.loading = false
@@ -136,10 +153,10 @@ export default {
       data_year_over_year_fixed
     }) {
       let dataInfo = {
-        title: name_json[LANGUAGE_INDEX],
-        method: methods?.method_json[LANGUAGE_INDEX],
-        country_emoji_flag: countries?.country_emoji_flag,
-        region: regions?.region_json[LANGUAGE_INDEX]
+        title: name_json,
+        method: methods?.method_json,
+        country_emoji_flag: countries?.iso3166_alpha2.toLowerCase(),
+        region: regions?.region_json
       }
       this.dataInfo = dataInfo
       const rate =
@@ -152,8 +169,8 @@ export default {
           : null
       let dataObj = {
         data_latest_value: data?.data_latest_value.toFixed(2),
-        unit: units?.unit_json[LANGUAGE_INDEX],
-        currencie: currencies?.currency_json[LANGUAGE_INDEX],
+        unit: units?.unit_json,
+        currencie: currencies?.currency_json,
         rate: rate,
         data_latest_update_time: data?.data_latest_update_time
       }
@@ -332,7 +349,7 @@ export default {
       })
       img.onload = function () {
         var canvas = document.createElement('canvas')
-        console.log(canvas);
+        console.log(canvas)
         canvas.width = img.width
         canvas.height = img.height
         var ctx = canvas.getContext('2d')

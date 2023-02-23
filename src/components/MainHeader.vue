@@ -7,7 +7,7 @@
       "emailReq":"val is not email",
       "password":"password",
       "passwordReq":"password is required"
-      
+
     },
     "zh-CN":{
       "login":"登录",
@@ -34,7 +34,11 @@
             {{ item.name_link_json[langArrIndex] }}</span
           >
         </div>
-
+        <div class="search">
+          <el-input v-model="input" placeholder="请输入内容">
+            <i slot="suffix" class="el-input__icon el-icon-search"></i>
+          </el-input>
+        </div>
         <div class="logo_opt">
           <div class="lang-wrap">
             <el-dropdown @command="langCommand">
@@ -43,7 +47,7 @@
                 }}<i class="el-icon-arrow-down el-icon--right"></i
               ></span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="zh-CN">中文</el-dropdown-item>
+                <el-dropdown-item command="zh-CN">简体中文</el-dropdown-item>
                 <el-dropdown-item command="en">English</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -74,6 +78,7 @@
       title="欢迎使用盖林数据"
       :visible.sync="LoginDialogFlag"
       width="448px"
+      class="dialog"
     >
       <div class="login_con">
         <el-form ref="form" :rules="rules" :model="form">
@@ -98,7 +103,7 @@
         </el-form>
       </div>
     </el-dialog>
-    <el-dialog title="免费注册" :visible.sync="signUpFlag" width="448px">
+    <el-dialog title="免费注册" :visible.sync="signUpFlag" width="448px" class="dialog">
       <el-form
         label-width="99px"
         ref="signUpform"
@@ -425,7 +430,9 @@ export default {
     async signUpFormSubmit() {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
-          this.signUpFlag.phone = `+${this.signUpFlag.regionNum} ${this.signUpFlag.phone}`;
+          console.log(valid);
+          console.log(this.signUpform,this.signUpform.regionNum,this.signUpform.phone);
+          this.signUpform.phone = `+${this.signUpform.regionNum} ${this.signUpform.phone}`;
           const res = await signUp(this.signUpform);
           this.$message.success("注册成功，请前往邮箱验证");
           console.log("res", res);
@@ -462,6 +469,7 @@ header {
   margin: 0 40px;
   .name_link {
     margin-left: 10px;
+    color: #fff;
     cursor: pointer;
     color: white;
   }
@@ -486,7 +494,18 @@ header {
     }
   }
 }
+/deeep/.dialog .el-dialog {
+  border-radius: 20px;
+  background-color: red;
+
+}
+.search {
+  margin-left: 20px
+}
 .login_con {
   padding: 0 10px;
+}
+.el-dropdown-link {
+  color: #fff
 }
 </style>

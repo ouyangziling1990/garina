@@ -1,22 +1,12 @@
 <template>
   <div class="tag_wrap" v-loading="loading">
-    <div
-      v-for="(splitItem, index) in splitDetails"
-      class="wrap"
-      :key="'split_id' + index"
-    >
-      <p
-        v-for="(item, index1) in splitItem"
-        :class="{
-          tag_detail_header: item.parent_id === null,
-          tag_detail: item.parent_id != null,
-          first_header: index1 == 0,
-        }"
-        :key="item.id"
-        @click="getLocatInfoArr(item)"
-      >
-        {{ item["name_tag_json"][langArrIndex] }}
-      </p>
+    <div  v-for="(group, index) in splitDetails">
+      <p class="tag_detail_header"> {{group["name_tag_json"][langArrIndex]}}</p>
+      <div class="tag_detail_group">
+        <div v-for="(item, i) in group.child" class="tag_detail" @click="getLocatInfoArr(item)">
+          {{item["name_tag_json"][langArrIndex]}}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -30,7 +20,7 @@ export default {
   props: {},
   data() {
     return {
-      splitDetails: [[], [], []],
+      splitDetails: [],
       loading: false,
     };
   },
@@ -59,7 +49,7 @@ export default {
   },
   methods: {
     async getlinkInfo() {
-      this.splitDetails = [[], [], []];
+      this.splitDetails = [];
       this.loading = true;
       const tagInfo = await getTags(this.tagId);
       this.tagDetails = tagInfo;
@@ -67,15 +57,22 @@ export default {
       this.splitTagsArr(tagInfo);
     },
     splitTagsArr(tagInfo) {
-      let index = -1;
-      this.splitDetails = [[], [], []];
+      console.log(tagInfo);
+      const group = tagInfo.filter(item=>{
+        return !item.parent_id
+      }).map(item=>{
+        item.child = []
+        return item
+      })
       tagInfo.forEach((item) => {
-        if (item.parent_id === null) {
-          index = index + 1;
-          index = index % 3;
-        }
-        this.splitDetails[index].push(item);
+        group.forEach(g=>{
+          if (item.parent_id&&item.parent_id=== g.id) {
+            g.child.push(item)
+          }
+        })
       });
+      console.log(group);
+      this.splitDetails = group
     },
     async getLocatInfoArr(item) {
       console.log("tag info", item);
@@ -100,12 +97,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .tag_wrap {
-  display: flex;
-  margin-left: 8px;
-  flex: 1;
-  flex-direction: row;
   & > div {
-    flex: 1;
   }
   .tag_detail_header {
     font-size: 20px;
@@ -113,11 +105,17 @@ export default {
     margin: 20px 0;
     margin-bottom: 30px;
   }
+  .tag_detail_group {
+    margin-top: 2px;
+    display: flex;
+    flex-wrap: wrap;
+  }
   .tag_detail {
     color: #636e89;
-    margin: 10px 5px;
+    margin: 5px 15px 10px 0;
     &:hover {
       cursor: pointer;
+      text-decoration: underline;
     }
   }
   .first_header{
