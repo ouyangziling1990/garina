@@ -2,13 +2,15 @@
 {
   "en": {
     "dataSource": "DataSource",
+    "dataRange": "dataRange",
     "lastUpdated": "LastUpdatedTime",
     "paraphrase": "Paraphrase"
   },
   "zh-CN":{
     "dataSource": "数据来源",
+    "dataRange": "数据范围",
     "lastUpdated": "最近更新",
-    "paraphrase": "释义"
+    "paraphrase": "简介"
   }
 }
 </i18n>
@@ -27,6 +29,9 @@
           <div class="c-tag-3" v-if="dataInfo.region">
             {{ dataInfo.region[langArrIndex] }}
           </div>
+          <div class="plus-optional">
+            <el-button :type="inFavorites?'info':'primary'" @click="favoritesClickHandler"><i class="el-icon-plus"/>自选</el-button>
+          </div>
         </div>
         <div class="chart-head-2">
           <div class="chart-head-2-l">
@@ -36,7 +41,7 @@
             <div class="c-tag-5">
               {{ dataObj.unit[langArrIndex] }}
             </div>
-            <div class="c-tag-6">
+            <div class="c-tag-6" v-if="dataObj.currencie">
               {{ dataObj.currencie[langArrIndex] }}
             </div>
             <div class="c-tag-7">
@@ -60,11 +65,15 @@
         <GRChart id="chart" ref="chart" :options="option" />
       </div>
       <div class="desc-data">
-        <div class="desc-title">{{ $t('dataSource') }}</div>
+        <div class="desc-title">{{ $t('paraphrase') }}</div>
         <div class="desc-content">
           {{ descriptions[langArrIndex] }}
         </div>
-        <div class="desc-title">{{ $t() }}</div>
+        <div class="desc-title">{{ $t('dataRange') }}</div>
+        <div class="desc-content">
+          {{ dataRange }}
+        </div>
+        <div class="desc-title">{{ $t('dataSource') }}</div>
         <div class="desc-content">
           {{ source[langArrIndex] }}
         </div>
@@ -77,7 +86,7 @@
 import GRChart from '@/components/GRChart'
 import ChartTool from '@/components/ChartTool'
 import { mapState } from 'vuex'
-import { getIndicatorDetail } from '@/api/index'
+import { getIndicatorDetail, addFavorites, cancelFavorites, getFavorites } from '@/api/index'
 
 const LANGUAGE_INDEX = 0
 export default {
@@ -93,24 +102,24 @@ export default {
       loading: false,
       descriptions: null,
       source: null,
-      tableData: {}
+      range: null,
+      tableData: {},
+      dataRange: null
     }
   },
   beforeCreate() {},
   created() {},
   mounted() {
-    this.$nextTick(() => {
-      // this.buildChart()
-    })
+    this.getFavoritesList()
   },
   computed: {
-    ...mapState(['langArrIndex']),
+    ...mapState(['langArrIndex','favorites']),
     indicatorId() {
       const id = this.$route.params['indicatorId']
-      // if(id){
-      //   this.getData(val)
-      // }
       return id
+    },
+    inFavorites() {
+      return this.favorites.indexOf(Number(this.indicatorId))!== -1
     }
   },
   watch: {
@@ -128,6 +137,7 @@ export default {
       this.loading = true
       const rowData = await getIndicatorDetail(id)
       this.setInfoDataq(rowData)
+      console.log(rowData,'🔥');
       // 图表数据
 
       const option = this.buildChartOption(rowData)
@@ -138,6 +148,9 @@ export default {
 
       const source = rowData.sources?.source_json
       this.source = source
+
+      const dataRange = `${rowData.data.data_earliest_time} ~ ${rowData.data.data_latest_time}`
+      this.dataRange = dataRange
 
       this.loading = false
     },
@@ -177,7 +190,6 @@ export default {
       this.dataObj = dataObj
     },
     buildChartOption(rowData) {
-      console.log(rowData)
       let xAxisData = []
       let seriesData = []
       const keyObj = rowData.data.data_json
@@ -206,7 +218,6 @@ export default {
         }
         tableData[key] = obj
       })
-      console.log(tableData)
       this.tableData = tableData
 
       let option = {
@@ -227,7 +238,7 @@ export default {
             const key = data[0]['axisValue']
 
             return `${data[0].axisValue} <br/>
-                ${data[0].value}${this.dataObj.unit}<br/>
+                ${data[0].value}${this.dataObj.unit[this.langArrIndex]}<br/>
                 同比：${this.tableData[key].tongbiRate}
                 <br/>
                 环比：${this.tableData[key].huanbiRate}
@@ -297,21 +308,17 @@ export default {
       })
     },
     changeChartToolsHandler(e, res) {
-      console.log(e, res)
       let obj = this.option
       if (e[0] == 'series') {
         obj.series.forEach(item => {
           let sObj = item
-          console.log(sObj)
           e.forEach((attr, index) => {
             if (index == 0) return
             if (index < e.length - 1) {
               sObj = sObj[attr]
             }
           })
-          console.log(sObj)
           this.$set(sObj, e[e.length - 1], res)
-          console.log(this.option)
         })
       } else {
         e.forEach((attr, index) => {
@@ -349,7 +356,6 @@ export default {
       })
       img.onload = function () {
         var canvas = document.createElement('canvas')
-        console.log(canvas)
         canvas.width = img.width
         canvas.height = img.height
         var ctx = canvas.getContext('2d')
@@ -364,6 +370,22 @@ export default {
         a.dispatchEvent(event)
         a.remove()
       }
+    },
+    async getFavoritesList() {
+      let res = await getFavorites()
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites)
+    },
+    async favoritesClickHandler() {
+      if(this.inFavorites) {
+        let res = await cancelFavorites(this.indicatorId)
+        this.$store.commit("SET_FAVORITES_DATA", res.favorites)
+        this.$message.success("移除自选成功");
+      } else {
+        let res = await addFavorites(this.indicatorId)
+        this.$store.commit("SET_FAVORITES_DATA", res.favorites)
+        this.$message.success("添加自选成功");
+      }
+
     }
   }
 }
@@ -371,16 +393,19 @@ export default {
 <style lang="less" scoped>
 .IndicatorDetail {
   height: 100%;
-  width: 1200px;
+  width: 100%;
   margin: auto;
   .detail-wrap {
-    width: 1200px;
+    width: 100%;
     display: flex;
     .chart-data {
       width: calc(100% - 500px);
       padding: 10px;
       .chart-head {
         display: flex;
+        .plus-optional {
+          margin-left: auto;
+        }
         .c-title {
           font-size: 20px;
           font-weight: bold;
@@ -457,7 +482,8 @@ export default {
       }
     }
     .desc-data {
-      width: 500px;
+      width: 450px;
+      margin-left: 50px;
       .desc-title {
         font-size: 16px;
         font-weight: bold;

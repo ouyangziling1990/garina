@@ -47,7 +47,8 @@ export default new Vuex.Store({
     // 导航条
     linkArr: [],
     // userInfo
-    userInfo:''
+    userInfo:'',
+    favorites: []
   },
   getters:{
     filterHeaderTags:state=>{
@@ -120,6 +121,9 @@ export default new Vuex.Store({
     Set_Current_Region(state, info) {
       state.currentRegion = info;
     },
+    SET_FAVORITES_DATA(state, favorites) {
+      state.favorites = favorites
+    }
   },
   actions: {
     Set_Region_Info(context, info) {
@@ -149,5 +153,8 @@ export default new Vuex.Store({
     CHANG_LINK_INFO(context, linkInfo) {
       context.commit("CHANG_LINK_INFO", linkInfo);
     },
+    SET_FAVORITES_DATA(context, favorites) {
+      context.commit("SET_FAVORITES_DATA", favorites);
+    }
   },
 });

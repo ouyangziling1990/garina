@@ -81,3 +81,31 @@ export const verify = (sub) => {
   const params = { sub };
   return axios.get(url, params).then((res) => res.data);
 };
+
+// 添加指标自选
+export const addFavorites = (indicator) => {
+  const url = `${apiVersion}/user/favorites/set/add`;
+  const params = { indicator };
+  return axios.patch(url, params).then((res) => res.data);
+};
+
+// 取消指标自选
+export const cancelFavorites = (indicator) => {
+  const url = `${apiVersion}/user/favorites/set/cancel`;
+  const params = { indicator };
+  return axios.patch(url, params).then((res) => res.data);
+};
+
+// 获取自选指标
+export const getFavorites = () => {
+  const url = `${apiVersion}/user/favorites/set`;
+  return axios.get(url).then((res) => res.data);
+};
+
+// 获取自选指标数据列表
+export const getFavoritesList = () => {
+  const url = `${apiVersion}/user/favorites/list`;
+  return axios.get(url).then((res) => res.data);
+};
+
+

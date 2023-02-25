@@ -12,17 +12,26 @@ const router = new Router({
     {
       path: "/garnia",
       name: "body",
-      component: ()=>import("@/views/Body") 
+      component: ()=>import("@/views/Body")
     },
     {
       path:'/home',
       name:"home",
       component: ()=>import("@/views/Home"),
       children:[
+        {//在地址为空时，直接跳转cell路由
+          path:'',
+          redirect:'/welcome'
+        },
+        {
+          path:`/welcome`,
+          name:'welcome',
+          component:()=>import("@/views/Welcome")
+        },
         {
           path:'/country',
           name:"country",
-          component: ()=>import("@/views/Country") 
+          component: ()=>import("@/views/Country")
         },
         {
           path:'/tags/:tagId',
@@ -54,7 +63,7 @@ const router = new Router({
     {
       path:'/verify',
       name:"verify",
-      component: ()=>import("@/views/Verify") 
+      component: ()=>import("@/views/Verify")
     },
     {
       path:"/lang",

@@ -160,14 +160,15 @@ export default {
       flex-wrap: wrap;
     }
     .tag_detail {
-      color: #636e89;
+      color: #aaaaaa;
       margin: 5px;
       cursor: not-allowed;
     }
     .allowed {
       cursor: pointer !important;
       font-size: 16px;
-      color: rgb(10, 154, 206);
+      color: #636e89;
+      text-decoration: underline;
        &:hover {
         cursor: pointer;
         text-decoration: underline;

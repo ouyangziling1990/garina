@@ -1,9 +1,9 @@
 <template>
   <div class="Home">
     <MainHeader @showTag="showTag"></MainHeader>
-    <div class="link">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item> -->
+    <div class="link" v-if="showLink">
+      <el-breadcrumb separator-class="el-icon-arrow-right" >
+        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item
           v-for="(link, index) in linkArr"
           :key="'link_' + index"
@@ -37,11 +37,14 @@ export default {
   data() {
     return {
       loading: false,
+      showLink: true
     };
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.hasShowLink()
+  },
   computed: {
     ...mapState(["linkArr", "langArrIndex"]),
   },
@@ -57,6 +60,7 @@ export default {
             pathInfo: this.linkArr[linkIndex],
           });
         }
+        this.hasShowLink()
       },
       deep: true,
     },
@@ -74,6 +78,18 @@ export default {
         }
       // }
     },
+
+    hasShowLink() {
+      const noLinks = ['welcome', 'indicatorDetail']
+      const arr = this.$route.path.split('/')
+      console.log('------');
+      console.log(arr,'🔥');
+      if(noLinks.indexOf(arr[1])!==-1){
+        this.showLink = false
+      }else{
+        this.showLink = true
+      }
+    }
   },
 };
 </script>
@@ -86,12 +102,19 @@ export default {
   flex-direction: column;
   flex-shrink: 0;
   .link {
-    padding: 20px 20px 10px;
+    width: calc(100% - 350px);
+    margin: 0 auto;
+    padding: 20px;
     height: 14px;
     // width: 1200px;
-    margin-left: 20px;
+    /deep/.el-breadcrumb__inner {
+      text-decoration: underline;
+      color: #646F88;
+    }
   }
   .content {
+    width: calc(100% - 350px);
+    margin: 0 auto;
     padding: 5px 32px;
     display: flex;
     flex: 1;

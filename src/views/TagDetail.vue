@@ -9,7 +9,9 @@
     "currencies":"currencies",
     "year_over_year":"year_over_year(%)",
     "frequency":"frequency",
-    "sources":"sources"
+    "dataRange":"dataRange",
+    "sources":"sources",
+    "isUpdating":"is updating"
   },
   "zh-CN":{
     "name":"指标",
@@ -20,7 +22,9 @@
     "currencies":"币种",
     "year_over_year":"同比(%)",
     "frequency":"频率",
-    "sources":"数据来源"
+    "dataRange":"数据范围",
+    "sources":"数据来源",
+    "isUpdating":"持续更新"
   }
 }
 </i18n>
@@ -45,13 +49,21 @@
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
+      <el-table-column fixed="right" label="自选" width="100" align="center">
+        <template  slot-scope="scope">
+          <div class="operate">
+            <i class="el-icon-remove-outline remove" v-if="inFavorites(scope.row.id)" @click="cancelFavoritesHanlder(scope.row.id)"></i>
+            <i class="el-icon-circle-plus-outline plus" v-else @click="addFavoritesHanlder(scope.row.id)"></i>
+          </div>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import { getDataDetail, getIndicatorDetail } from "@/api/index";
+import { getDataDetail, getIndicatorDetail, getFavorites, addFavorites, cancelFavorites, } from "@/api/index";
 export default {
   name: "TagDetail",
   components: {},
@@ -62,7 +74,7 @@ export default {
       loading:false,
       tableData: [],
       tableColumns: [
-        
+
       ],
     };
   },
@@ -75,12 +87,11 @@ export default {
     if(this.lang){
       this.$i18n.locale = this.lang
     }
-    console.log('lang', this.$i18n, this.$t('name'))
-    console.log('lang', this.$i18n.locale, this.$t('name'))
     this.setTableHeader()
+    this.getFavoritesList()
   },
   computed: {
-    ...mapState(["tagInfo", "currentRegion", "langArrIndex", "lang"]),
+    ...mapState(["tagInfo", "currentRegion", "langArrIndex", "lang", "favorites"]),
   },
   watch: {
     currentRegion: {
@@ -105,6 +116,8 @@ export default {
         { label: this.$t('currencies'), prop: "currencies" },
         { label: this.$t('year_over_year'), prop: "data_year_over_year", align:"right", width:"150" },
         { label: this.$t('frequency'), prop: "frequency" },
+        { label: this.$t('dataRange'), prop: "dataRange" },
+        { label: this.$t('isUpdating'), prop: "isUpdating" },
         { label: this.$t('sources'), prop: "sources" },
       ]
     },
@@ -115,11 +128,6 @@ export default {
       // this.$router.push(`/indicatorDetail/${id}`);
      let pathInfo = this.$router.resolve(`/indicatorDetail/${id}`);
       window.open(pathInfo.href, '_blank');
-      const {tagId, regionId} = this.$route.params
-      this.$store.commit("SET_LINK_ARR", {
-        index: 4,
-        pathInfo: { path:`/tagDetail/tagId/${tagId}/region/${regionId}`, name: singleData.name },
-      });
     },
     headerClass() {
       return "header-class";
@@ -128,7 +136,6 @@ export default {
       this.loading = true
       const preTableData = await getDataDetail(tagId, regionId);
       this.loading = false
-      console.log("preTableData", preTableData);
       if (preTableData && preTableData.length) {
         preTableData.forEach((item) => {
           let singleData = {
@@ -142,6 +149,8 @@ export default {
             units: item?.units?.unit_json[this.langArrIndex],
             currencies: item?.currencies?.currency_json[this.langArrIndex] || '--',
             frequency: item?.frequency?.frequency_json[this.langArrIndex],
+            dataRange: `${item.data.data_earliest_time.slice(0,4)} ~ ${item.data.data_latest_time.slice(0,4)}`,
+            isUpdating: item.is_updating?'Y':'N',
             sources: item?.sources?.source_json[this.langArrIndex],
           };
           if (
@@ -161,6 +170,25 @@ export default {
         });
       }
     },
+    inFavorites(id) {
+      return this.favorites.indexOf(Number(id))!== -1
+    },
+
+    async getFavoritesList() {
+      let res = await getFavorites()
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites)
+    },
+
+    async addFavoritesHanlder(id) {
+      let res = await addFavorites(id)
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites)
+      this.$message.success("添加自选成功");
+    },
+    async cancelFavoritesHanlder(id) {
+      let res = await cancelFavorites(id)
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites)
+      this.$message.success("移除自选成功");
+    }
   },
 };
 </script>
@@ -180,5 +208,13 @@ export default {
     color: #268dff;
     cursor: pointer;
   }
+}
+.operate {
+  font-size: 15px;
+  color: #268dff;
+  cursor: pointer;
+}
+.remove {
+  color: #F56C6C
 }
 </style>

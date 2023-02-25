@@ -81,7 +81,7 @@ export default {
   }
   .child {
     padding: 10px;
-    color: #636e89;
+    color: #aaaaaa;
     display: inline-block;
     line-height: 16px;
 
@@ -91,14 +91,14 @@ export default {
     .allowed{
       cursor: pointer !important;
       font-size: 16px;
-      color: rgb(10, 154, 206);
+      color: #636e89;
       text-decoration: underline;
     }
   }
 
   .point {
     cursor: pointer;
-    color: rgb(10, 154, 206);
+    color: #636e89;
   }
   .region{
     padding: 10px;
