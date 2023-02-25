@@ -30,6 +30,7 @@
 </i18n>
 <template>
   <div class="TagDetail" v-loading="loading">
+    <div class="title">筛选列表</div>
     <!-- <el-button @click="indectorDetail">获取指标详情</el-button> -->
     <el-table
       :data="tableData"
@@ -111,10 +112,10 @@ export default {
         // { label: "国家", prop: "country_emoji_flag" },
         { label: this.$t('country'), prop: "country" },
         { label: this.$t('region'), prop: "regions" },
-        { label: this.$t('latestValue'), prop: "data_latest_value", align: "right" },
+        { label: this.$t('latestValue'), prop: "data_latest_value",  },
         { label: this.$t('unit'), prop: "units"},
         { label: this.$t('currencies'), prop: "currencies" },
-        { label: this.$t('year_over_year'), prop: "data_year_over_year", align:"right", width:"150" },
+        { label: this.$t('year_over_year'), prop: "data_year_over_year", },
         { label: this.$t('frequency'), prop: "frequency" },
         { label: this.$t('dataRange'), prop: "dataRange" },
         { label: this.$t('isUpdating'), prop: "isUpdating" },
@@ -196,6 +197,12 @@ export default {
 .TagDetail {
   position: relative;
   width: 100%;
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 40px 0 20px;
+  }
   /deep/ .el-table {
     position: absolute;
     .header-class {

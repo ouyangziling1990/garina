@@ -1,8 +1,8 @@
 <template>
   <div class="tag_wrap" v-loading="loading">
     <div  v-for="(group, index) in splitDetails">
-      <p class="tag_detail_header"> {{group["name_tag_json"][langArrIndex]}}</p>
-      <div class="tag_detail_group">
+      <p class="title"> {{group["name_tag_json"][langArrIndex]}}</p>
+      <div class="group">
         <div v-for="(item, i) in group.child" class="tag_detail" @click="getLocatInfoArr(item)">
           {{item["name_tag_json"][langArrIndex]}}
         </div>
@@ -99,13 +99,12 @@ export default {
 .tag_wrap {
   & > div {
   }
-  .tag_detail_header {
+  .title {
     font-size: 20px;
     font-weight: bold;
-    margin: 20px 0;
-    margin-bottom: 30px;
+    margin: 40px 0 20px;
   }
-  .tag_detail_group {
+  .group {
     margin-top: 2px;
     display: flex;
     flex-wrap: wrap;

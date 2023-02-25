@@ -113,9 +113,11 @@ export default {
     }
   }
   .content {
-    width: calc(100% - 350px);
+    // width: calc(100% - 350px);
+    width: 100%;
     margin: 0 auto;
-    padding: 5px 32px;
+    padding: 5px 175px;
+    box-sizing: border-box;
     display: flex;
     flex: 1;
     overflow: auto;

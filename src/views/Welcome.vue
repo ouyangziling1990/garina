@@ -9,7 +9,9 @@
     "currencies":"currencies",
     "year_over_year":"year_over_year(%)",
     "frequency":"frequency",
-    "sources":"sources"
+    "sources":"sources",
+    "dataRange":"dataRange",
+    "isUpdating":"is updating"
   },
   "zh-CN":{
     "name":"指标",
@@ -20,7 +22,9 @@
     "currencies":"币种",
     "year_over_year":"同比(%)",
     "frequency":"频率",
-    "sources":"数据来源"
+    "sources":"数据来源",
+    "dataRange":"数据范围",
+    "isUpdating":"持续更新"
   }
 }
 </i18n>
@@ -101,6 +105,8 @@ export default {
         { label: this.$t('currencies'), prop: "currencies" },
         { label: this.$t('year_over_year'), prop: "data_year_over_year", align:"right", width:"150" },
         { label: this.$t('frequency'), prop: "frequency" },
+        { label: this.$t('dataRange'), prop: "dataRange" },
+        { label: this.$t('isUpdating'), prop: "isUpdating" },
         { label: this.$t('sources'), prop: "sources" },
       ]
     },
@@ -129,6 +135,8 @@ export default {
             units: item?.units?.unit_json[this.langArrIndex],
             currencies: item?.currencies?.currency_json[this.langArrIndex] || '--',
             frequency: item?.frequency?.frequency_json[this.langArrIndex],
+            dataRange: `${item.data.data_earliest_time.slice(0,4)} ~ ${item.data.data_latest_time.slice(0,4)}`,
+            isUpdating: item.is_updating?'Y':'N',
             sources: item?.sources?.source_json[this.langArrIndex],
           };
           if (
@@ -167,6 +175,11 @@ export default {
     position: relative;
     margin-top: 40px;
     width: 100%;
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 40px 0 20px;
+    }
     /deep/ .el-table {
       position: absolute;
       .header-class {

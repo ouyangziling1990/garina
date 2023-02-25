@@ -72,7 +72,7 @@ export default {
   }
   .title {
     font-size: 20px;
-    margin: 20px 10px;
+    margin: 40px 0px 20px;
     font-weight: bold;
   }
   .group {
@@ -80,7 +80,7 @@ export default {
     flex-wrap: wrap;
   }
   .child {
-    padding: 10px;
+    margin: 5px 15px 10px 0;;
     color: #aaaaaa;
     display: inline-block;
     line-height: 16px;

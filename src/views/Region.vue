@@ -2,8 +2,8 @@
   <div class="Region" v-loading="loading">
     <div class="show_data_wrap">
       <div  v-for="(group, index) in region">
-        <p class="tag_detail_header"> {{group["region_json"][langArrIndex]}}</p>
-        <div class="tag_detail_group">
+        <p class="title"> {{group["region_json"][langArrIndex]}}</p>
+        <div class="group">
           <div v-for="(item, i) in group.child"
           :class="{tag_detail:true,allowed:item.clickable}"
           @click="RegionDetail(item)">
@@ -16,7 +16,7 @@
           v-for="r in region"
           :class="{
             allowed: r.clickable,
-            tag_detail_header: r.parent_id === null,
+            title: r.parent_id === null,
             tag_detail: r.parent_id != null,
           }"
           :key="r.id"
@@ -148,20 +148,20 @@ export default {
   width: 100%;
   // padding: 12px 20px;
   .show_data_wrap {
-    .tag_detail_header {
+    .title {
       font-size: 20px;
       font-weight: bold;
-      margin: 20px 0;
+      margin: 40px 0px 20px;
       cursor: not-allowed;
     }
-    .tag_detail_group {
+    .group {
       margin-top: 2px;
       display: flex;
       flex-wrap: wrap;
     }
     .tag_detail {
       color: #aaaaaa;
-      margin: 5px;
+      margin: 5px 15px 10px 0;;
       cursor: not-allowed;
     }
     .allowed {
