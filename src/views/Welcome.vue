@@ -162,6 +162,7 @@ export default {
 <style lang="less" scoped>
 .Welcome {
   width: 100%;
+  height: 100px;
   .title {
     font-size: 30px;
     font-weight: bold;
@@ -189,7 +190,8 @@ export default {
     }
     .name {
       font-size: 15px;
-      color: #268dff;
+      color: #636e89;
+      text-decoration: underline;
       cursor: pointer;
     }
   }

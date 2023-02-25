@@ -24,20 +24,22 @@
     <header class="Main_Header">
       <div class="header">
         <img src="/gra_logo.png" class="logo" alt="盖林数据" />
-        <div>
-          <span
-            v-for="item in filterHeaderTags"
-            class="name_link"
-            @click="getIndex(item)"
-            :key="item.id"
-          >
-            {{ item.name_link_json[langArrIndex] }}</span
-          >
-        </div>
-        <div class="search">
-          <el-input v-model="input" placeholder="请输入内容">
-            <i slot="suffix" class="el-input__icon el-icon-search"></i>
-          </el-input>
+        <div class="header-content">
+          <div>
+            <span
+              v-for="item in filterHeaderTags"
+              class="name_link"
+              @click="getIndex(item)"
+              :key="item.id"
+            >
+              {{ item.name_link_json[langArrIndex] }}</span
+            >
+          </div>
+          <div class="search">
+            <el-input v-model="input" placeholder="请输入内容">
+              <i slot="suffix" class="el-input__icon el-icon-search"></i>
+            </el-input>
+          </div>
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
@@ -465,8 +467,15 @@ header {
   height: 70px;
   display: flex;
   align-items: center;
+  // justify-content: center;
+
   // width: 1200px;
-  margin: 0 40px;
+  .header-content{
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
   .name_link {
     margin-left: 10px;
     color: #fff;
@@ -478,7 +487,6 @@ header {
     height: 40px;
   }
   .logo_opt {
-    margin-left: auto;
     // width: 200px;
     display: flex;
     justify-content: flex-end;

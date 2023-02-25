@@ -5,6 +5,7 @@
     "country":"country",
     "region":"region",
     "latestValue":"latest value",
+    "latestTime":"lastest time",
     "unit":"unit",
     "currencies":"currencies",
     "year_over_year":"year_over_year(%)",
@@ -18,6 +19,7 @@
     "country":"国家",
     "region":"地区",
     "latestValue":"最新值",
+    "latestTime":"最新时间",
     "unit":"单位",
     "currencies":"币种",
     "year_over_year":"同比(%)",
@@ -109,9 +111,8 @@ export default {
     setTableHeader(){
       this.tableColumns = [
       { label: this.$t('name'), prop: "name", width: "280" },
-        // { label: "国家", prop: "country_emoji_flag" },
-        { label: this.$t('country'), prop: "country" },
         { label: this.$t('region'), prop: "regions" },
+        { label: this.$t('latestTime'), prop: "latestTime" },
         { label: this.$t('latestValue'), prop: "data_latest_value",  },
         { label: this.$t('unit'), prop: "units"},
         { label: this.$t('currencies'), prop: "currencies" },
@@ -146,6 +147,7 @@ export default {
             country_emoji_flag: item?.countries?.country_emoji_flag,
             country: item?.countries?.country_json[this.langArrIndex],
             regions: item?.regions?.region_json[this.langArrIndex],
+            latestTime: item?.data?.data_latest_time,
             data_latest_value: item.data?.data_latest_value,
             units: item?.units?.unit_json[this.langArrIndex],
             currencies: item?.currencies?.currency_json[this.langArrIndex] || '--',
@@ -156,7 +158,7 @@ export default {
           };
           if (
             item?.data_year_over_year?.data_latest_value &&
-            item.data_year_over_year_fixed
+            (item.data_year_over_year_fixed||item.data_year_over_year_fixed==0)
           ) {
             let tmpD =
               item.data_year_over_year.data_latest_value -
@@ -212,7 +214,8 @@ export default {
   }
   .name {
     font-size: 15px;
-    color: #268dff;
+    color: #636e89;
+    text-decoration: underline;
     cursor: pointer;
   }
 }

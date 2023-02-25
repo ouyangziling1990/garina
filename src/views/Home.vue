@@ -102,7 +102,8 @@ export default {
   flex-direction: column;
   flex-shrink: 0;
   .link {
-    width: calc(100% - 350px);
+    max-width: 1280px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     height: 14px;
@@ -113,12 +114,13 @@ export default {
     }
   }
   .content {
-    // width: calc(100% - 350px);
-    width: 100%;
+    max-width: 1280px;
+    height: 100px;
     margin: 0 auto;
-    padding: 5px 175px;
-    box-sizing: border-box;
-    display: flex;
+    width: 100%;
+
+    // box-sizing: border-box;
+    // display: flex;
     flex: 1;
     overflow: auto;
     // width: 1200px;
