@@ -112,6 +112,7 @@ export default {
   .tag_detail {
     color: #636e89;
     margin: 5px 15px 10px 0;
+    text-decoration: underline;
     &:hover {
       cursor: pointer;
       text-decoration: underline;

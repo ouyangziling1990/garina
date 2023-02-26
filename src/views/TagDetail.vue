@@ -52,7 +52,7 @@
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="自选" width="100" align="center">
+      <el-table-column v-if="loginStatus" fixed="right" label="自选" width="100" align="center">
         <template  slot-scope="scope">
           <div class="operate">
             <i class="el-icon-remove-outline remove" v-if="inFavorites(scope.row.id)" @click="cancelFavoritesHanlder(scope.row.id)"></i>
@@ -91,10 +91,16 @@ export default {
       this.$i18n.locale = this.lang
     }
     this.setTableHeader()
-    this.getFavoritesList()
+    if(this.loginStatus) {
+      this.getFavoritesList()
+    }
   },
   computed: {
     ...mapState(["tagInfo", "currentRegion", "langArrIndex", "lang", "favorites"]),
+
+    loginStatus() {
+      return localStorage.getItem("access_token") ? 1 : 0;
+    },
   },
   watch: {
     currentRegion: {

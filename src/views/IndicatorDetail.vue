@@ -110,7 +110,10 @@ export default {
   beforeCreate() {},
   created() {},
   mounted() {
-    this.getFavoritesList()
+
+    if(this.loginStatus) {
+      this.getFavoritesList()
+    }
   },
   computed: {
     ...mapState(['langArrIndex','favorites']),
@@ -120,7 +123,11 @@ export default {
     },
     inFavorites() {
       return this.favorites.indexOf(Number(this.indicatorId))!== -1
-    }
+    },
+
+    loginStatus() {
+      return localStorage.getItem("access_token") ? 1 : 0;
+    },
   },
   watch: {
     indicatorId: {
