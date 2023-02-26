@@ -60,6 +60,14 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column v-else fixed="right" label="自选" width="100" align="center">
+        <template  slot-scope="scope">
+          <div class="operate">
+            <i class="el-icon-circle-plus-outline plus" @click="addFavoritesHanlder(scope.row.id)"></i>
+          </div>
+        </template>
+      </el-table-column>
+
     </el-table>
   </div>
 </template>
