@@ -114,7 +114,7 @@ export default {
     }
   }
   .content {
-    max-width: 1280px;
+    // max-width: 1280px;
     height: 100px;
     margin: 0 auto;
     width: 100%;

@@ -97,6 +97,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .tag_wrap {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
   & > div {
   }
   .title {

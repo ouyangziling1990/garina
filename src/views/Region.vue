@@ -145,7 +145,10 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-width: 1280px;
   width: 100%;
+  margin: 0 auto;
+
   // padding: 12px 20px;
   .show_data_wrap {
     .title {

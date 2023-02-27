@@ -400,6 +400,7 @@ export default {
 <style lang="less" scoped>
 .IndicatorDetail {
   height: 100%;
+  max-width: 1280px;
   width: 100%;
   margin: auto;
   .detail-wrap {
