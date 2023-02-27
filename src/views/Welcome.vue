@@ -5,6 +5,7 @@
     "country":"country",
     "region":"region",
     "latestValue":"latest value",
+    "latestTime":"lastest time",
     "unit":"unit",
     "currencies":"currencies",
     "year_over_year":"year_over_year(%)",
@@ -18,6 +19,7 @@
     "country":"国家",
     "region":"地区",
     "latestValue":"最新值",
+    "latestTime":"最新时间",
     "unit":"单位",
     "currencies":"币种",
     "year_over_year":"同比(%)",
@@ -51,10 +53,29 @@
           :key="'column' + index"
         >
           <template  slot-scope="scope">
-            <p v-if="column.prop === 'name'" class="name" @click="indectorDetail(scope.row)">
-              {{ scope.row.name }}
-            </p>
-            <span v-else>{{ scope.row[column.prop] }}</span>
+            <div v-if="column.prop === 'name'" @click="indectorDetail(scope.row)" class="name-col">
+              <div class="name val">{{ scope.row.name }}</div>
+              <div><span class="name-country">{{ scope.row['country'] }}</span><span class="name-regions">{{ scope.row['regions'] }}</span></div>
+            </div>
+            <div v-else-if="column.prop === 'latestTime'">
+              <div class="val">{{ scope.row[column.prop] }}</div>
+              <div>{{ latestTimeToFrequency(scope.row[column.prop], scope.row['frequency']) }}{{ scope.row['frequency'] }}</div>
+            </div>
+            <div v-else-if="column.prop === 'data_latest_value'">
+              <div><span class="data-latest-value">{{ scope.row[column.prop] }}</span><span>{{ scope.row['units'] }}</span></div>
+              <div>{{scope.row['currencies']}}</div>
+            </div>
+            <div v-else-if="column.prop === 'data_year_over_year'">
+              <div><span v-if="scope.row[column.prop]" class="data-year-over-year">{{ scope.row[column.prop]>0?'+':'-' }}{{ scope.row[column.prop] }}</span><span v-if="scope.row[column.prop]">%</span></div>
+              <div v-if="!scope.row[column.prop]">--</div>
+            </div>
+            <div v-else-if="column.prop === 'sources'">
+              <div class="val">{{ scope.row[column.prop] }}</div>
+              <div>{{ scope.row['isUpdating'] }}</div>
+            </div>
+            <div v-else>
+              <div class="val">{{ scope.row[column.prop] }}</div>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -91,22 +112,21 @@ export default {
     },
   },
   watch: {
-    userInfo() {}
+    userInfo() {},
+    langArrIndex() {
+      this.setTableHeader()
+      this.getFavoritesDataList()
+    }
   },
   methods: {
     setTableHeader(){
       this.tableColumns = [
         { label: this.$t('name'), prop: "name", width: "280" },
-        // { label: "国家", prop: "country_emoji_flag" },
-        { label: this.$t('country'), prop: "country" },
-        { label: this.$t('region'), prop: "regions" },
-        { label: this.$t('latestValue'), prop: "data_latest_value", align: "right" },
-        { label: this.$t('unit'), prop: "units"},
-        { label: this.$t('currencies'), prop: "currencies" },
-        { label: this.$t('year_over_year'), prop: "data_year_over_year", align:"right", width:"150" },
+        { label: this.$t('latestTime'), prop: "latestTime", },
         { label: this.$t('frequency'), prop: "frequency" },
+        { label: this.$t('latestValue'), prop: "data_latest_value", align: "right" },
+        { label: this.$t('year_over_year'), prop: "data_year_over_year", align:"right", width:"150" },
         { label: this.$t('dataRange'), prop: "dataRange" },
-        { label: this.$t('isUpdating'), prop: "isUpdating" },
         { label: this.$t('sources'), prop: "sources" },
       ]
     },
@@ -122,6 +142,7 @@ export default {
     async getFavoritesDataList() {
       let preTableData = await getFavoritesList()
       console.log(preTableData,'🔥');
+      let tableData = []
       if (preTableData && preTableData.length) {
         preTableData.forEach((item) => {
           let singleData = {
@@ -131,17 +152,19 @@ export default {
             country_emoji_flag: item?.countries?.country_emoji_flag,
             country: item?.countries?.country_json[this.langArrIndex],
             regions: item?.regions?.region_json[this.langArrIndex],
+            latestTime: item?.data?.data_latest_time,
             data_latest_value: item.data?.data_latest_value,
             units: item?.units?.unit_json[this.langArrIndex],
             currencies: item?.currencies?.currency_json[this.langArrIndex] || '--',
             frequency: item?.frequency?.frequency_json[this.langArrIndex],
             dataRange: `${item.data.data_earliest_time.slice(0,4)} ~ ${item.data.data_latest_time.slice(0,4)}`,
-            isUpdating: item.is_updating?'Y':'N',
+            isUpdating: item.is_updating?'持续更新':'',
             sources: item?.sources?.source_json[this.langArrIndex],
           };
+          console.log(item);
           if (
             item?.data_year_over_year?.data_latest_value &&
-            item.data_year_over_year_fixed
+            (item.data_year_over_year_fixed||item.data_year_over_year_fixed==0)
           ) {
             let tmpD =
               item.data_year_over_year.data_latest_value -
@@ -149,12 +172,33 @@ export default {
             tmpD = tmpD.toFixed(2);
             singleData["data_year_over_year"] = tmpD;
           }else{
-            singleData["data_year_over_year"] = '--';
+            singleData["data_year_over_year"] = '';
           }
 
-          this.tableData.push(singleData);
+          tableData.push(singleData);
         });
       }
+      this.tableData = tableData
+    },
+    latestTimeToFrequency(date, frequency) {
+      const arr = date.split('-')
+      const month = Number(arr[1])
+      switch (frequency) {
+        case '年':
+          return arr[0]
+          break;
+        case '季':
+        case 'Quarterly':
+          return  Math.floor( (month%3 == 0 ? (month/3):(month/3 + 1) ) );
+          break;
+        case '月':
+          return month
+        case '日':
+          return arr[2]
+        default:
+          break;
+      }
+
     }
   },
 };
@@ -190,11 +234,30 @@ export default {
         color: black;
       }
     }
-    .name {
-      font-size: 15px;
-      color: #636e89;
-      text-decoration: underline;
-      cursor: pointer;
+    .name-col {
+      .name {
+        font-size: 15px;
+        color: #636e89;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .name-country {
+
+      }
+      .name-regions {
+        margin-left: 10px;
+      }
+
+    }
+    .val {
+      font-weight: 500;
+      font-size: 16px;
+    }
+    .data-latest-value, .data-year-over-year {
+      font-size: 20px;
+      color: #c62a29;
+      font-weight: 550;
+      margin-right: 5px;
     }
   }
 }
