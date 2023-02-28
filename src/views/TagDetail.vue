@@ -22,7 +22,7 @@
     "latestTime":"最新时间",
     "unit":"单位",
     "currencies":"币种",
-    "year_over_year":"同比(%)",
+    "year_over_year":"% 同比",
     "frequency":"频率",
     "dataRange":"数据范围",
     "sources":"数据来源",
