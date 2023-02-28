@@ -30,7 +30,11 @@
             {{ dataInfo.region[langArrIndex] }}
           </div>
           <div class="plus-optional">
-            <el-button :type="inFavorites?'info':'primary'" @click="favoritesClickHandler"><i class="el-icon-plus"/>自选</el-button>
+            <el-button
+              :type="inFavorites ? 'info' : 'primary'"
+              @click="favoritesClickHandler"
+              ><i class="el-icon-plus" />自选</el-button
+            >
           </div>
         </div>
         <div class="chart-head-2">
@@ -50,9 +54,7 @@
           </div>
           <div class="chart-head-2-r">
             <div>
-              {{ $t('lastUpdated') }}:{{
-                dataObj.data_latest_update_time
-              }}
+              {{ $t('lastUpdated') }}:{{ dataObj.data_latest_update_time }}
             </div>
           </div>
         </div>
@@ -86,7 +88,12 @@
 import GRChart from '@/components/GRChart'
 import ChartTool from '@/components/ChartTool'
 import { mapState } from 'vuex'
-import { getIndicatorDetail, addFavorites, cancelFavorites, getFavorites } from '@/api/index'
+import {
+  getIndicatorDetail,
+  addFavorites,
+  cancelFavorites,
+  getFavorites
+} from '@/api/index'
 
 const LANGUAGE_INDEX = 0
 export default {
@@ -96,7 +103,12 @@ export default {
   data() {
     return {
       formatData: [],
-      dataInfo: {},
+      dataInfo: {
+        title: null,
+        method: null,
+        country_emoji_flag: null,
+        region: null
+      },
       dataObj: {},
       option: {},
       loading: false,
@@ -110,24 +122,23 @@ export default {
   beforeCreate() {},
   created() {},
   mounted() {
-
-    if(this.loginStatus) {
+    if (this.loginStatus) {
       this.getFavoritesList()
     }
   },
   computed: {
-    ...mapState(['langArrIndex','favorites']),
+    ...mapState(['langArrIndex', 'favorites']),
     indicatorId() {
       const id = this.$route.params['indicatorId']
       return id
     },
     inFavorites() {
-      return this.favorites.indexOf(Number(this.indicatorId))!== -1
+      return this.favorites.indexOf(Number(this.indicatorId)) !== -1
     },
 
     loginStatus() {
-      return localStorage.getItem("access_token") ? 1 : 0;
-    },
+      return localStorage.getItem('access_token') ? 1 : 0
+    }
   },
   watch: {
     indicatorId: {
@@ -144,7 +155,7 @@ export default {
       this.loading = true
       const rowData = await getIndicatorDetail(id)
       this.setInfoDataq(rowData)
-      console.log(rowData,'🔥');
+      console.log(rowData, '🔥')
       // 图表数据
 
       const option = this.buildChartOption(rowData)
@@ -180,9 +191,7 @@ export default {
       }
       this.dataInfo = dataInfo
       const rate =
-        data_year_over_year &&
-        data_year_over_year.data_latest_value &&
-        data_year_over_year_fixed
+        data_year_over_year && data_year_over_year.data_latest_value
           ? (
               data_year_over_year.data_latest_value - data_year_over_year_fixed
             ).toFixed(2) + '%'
@@ -380,19 +389,18 @@ export default {
     },
     async getFavoritesList() {
       let res = await getFavorites()
-      this.$store.commit("SET_FAVORITES_DATA", res.favorites)
+      this.$store.commit('SET_FAVORITES_DATA', res.favorites)
     },
     async favoritesClickHandler() {
-      if(this.inFavorites) {
+      if (this.inFavorites) {
         let res = await cancelFavorites(this.indicatorId)
-        this.$store.commit("SET_FAVORITES_DATA", res.favorites)
-        this.$message.success("移除自选成功");
+        this.$store.commit('SET_FAVORITES_DATA', res.favorites)
+        this.$message.success('移除自选成功')
       } else {
         let res = await addFavorites(this.indicatorId)
-        this.$store.commit("SET_FAVORITES_DATA", res.favorites)
-        this.$message.success("添加自选成功");
+        this.$store.commit('SET_FAVORITES_DATA', res.favorites)
+        this.$message.success('添加自选成功')
       }
-
     }
   }
 }
@@ -406,6 +414,7 @@ export default {
   .detail-wrap {
     width: 100%;
     display: flex;
+    margin-top: 20px;
     .chart-data {
       width: calc(100% - 500px);
       padding: 10px;

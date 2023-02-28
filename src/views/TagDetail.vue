@@ -170,10 +170,7 @@ export default {
             isUpdating: item.is_updating?'Y':'N',
             sources: item?.sources?.source_json[this.langArrIndex],
           };
-          if (
-            item?.data_year_over_year?.data_latest_value &&
-            (item.data_year_over_year_fixed||item.data_year_over_year_fixed==0)
-          ) {
+          if (item?.data_year_over_year?.data_latest_value ) {
             let tmpD =
               item.data_year_over_year.data_latest_value -
               item.data_year_over_year_fixed;

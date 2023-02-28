@@ -46,27 +46,52 @@
         style="width: 100%"
         border
         :header-cell-class-name="headerClass"
+        row-key="id"
       >
         <el-table-column
           v-for="(column, index) in tableColumns"
           v-bind="column"
           :key="'column' + index"
         >
-          <template  slot-scope="scope">
-            <div v-if="column.prop === 'name'" @click="indectorDetail(scope.row)" class="name-col">
+          <template slot-scope="scope">
+            <div
+              v-if="column.prop === 'name'"
+              @click="indectorDetail(scope.row)"
+              class="name-col"
+            >
               <div class="name val">{{ scope.row.name }}</div>
-              <div><span class="name-country">{{ scope.row['country'] }}</span><span class="name-regions">{{ scope.row['regions'] }}</span></div>
+              <div>
+                <span :class="['fi', `fi-${scope.row['country_emoji_flag']}`]"></span>
+                <span class="name-regions">{{ scope.row['regions'] }}</span>
+              </div>
             </div>
             <div v-else-if="column.prop === 'latestTime'">
               <div class="val">{{ scope.row[column.prop] }}</div>
-              <div>{{ latestTimeToFrequency(scope.row[column.prop], scope.row['frequency']) }}{{ scope.row['frequency'] }}</div>
+              <div>
+                {{
+                  latestTimeToFrequency(
+                    scope.row[column.prop],
+                    scope.row['frequency']
+                  )
+                }}{{ scope.row['frequency'] }}
+              </div>
             </div>
             <div v-else-if="column.prop === 'data_latest_value'">
-              <div><span class="data-latest-value">{{ scope.row[column.prop] }}</span><span>{{ scope.row['units'] }}</span></div>
-              <div>{{scope.row['currencies']}}</div>
+              <div>
+                <span class="data-latest-value">{{
+                  scope.row[column.prop]
+                }}</span
+                ><span>{{ scope.row['units'] }}</span>
+              </div>
+              <div>{{ scope.row['currencies'] }}</div>
             </div>
             <div v-else-if="column.prop === 'data_year_over_year'">
-              <div><span v-if="scope.row[column.prop]" class="data-year-over-year">{{ scope.row[column.prop]>0?'+':'-' }}{{ scope.row[column.prop] }}</span><span v-if="scope.row[column.prop]">%</span></div>
+              <div>
+                <span v-if="scope.row[column.prop]" class="data-year-over-year"
+                  >{{ scope.row[column.prop] > 0 ? '+' : ''
+                  }}{{ scope.row[column.prop] }}</span
+                ><span v-if="scope.row[column.prop]">%</span>
+              </div>
               <div v-if="!scope.row[column.prop]">--</div>
             </div>
             <div v-else-if="column.prop === 'sources'">
@@ -78,38 +103,63 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column fixed="right" label="" width="100" align="center">
+          <template slot-scope="scope">
+            <el-dropdown
+              @command="e => menuCommandHandle(e, scope.row.id)"
+              placement="bottom-start"
+            >
+              <div class="operate">
+                <i class="el-icon-more"></i>
+              </div>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  command="remove"
+                  icon="el-icon-remove-outline"
+                  divided
+                  >移除自选</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { getFavoritesList } from '@/api/index'
+import { mapState } from 'vuex'
+import {
+  getFavoritesList,
+  cancelFavorites,
+  setFavoritesOrder
+} from '@/api/index'
+import Sortable from 'sortablejs'
 
 export default {
-  name: "welcome",
+  name: 'welcome',
   components: {},
   props: {},
   data() {
     return {
       tableColumns: [],
-      tableData: [],
-    };
+      tableData: []
+    }
   },
   beforeCreate() {},
   created() {},
   mounted() {
-    if(this.loginStatus){
+    if (this.loginStatus) {
       this.setTableHeader()
       this.getFavoritesDataList()
     }
   },
   computed: {
-    ...mapState(["langArrIndex", "userInfo"]),
+    ...mapState(['langArrIndex', 'userInfo']),
     loginStatus() {
-      return localStorage.getItem("access_token") ? 1 : 0;
-    },
+      return localStorage.getItem('access_token') ? 1 : 0
+    }
   },
   watch: {
     userInfo() {},
@@ -119,66 +169,79 @@ export default {
     }
   },
   methods: {
-    setTableHeader(){
+    setTableHeader() {
       this.tableColumns = [
-        { label: this.$t('name'), prop: "name", width: "280" },
-        { label: this.$t('latestTime'), prop: "latestTime", },
-        { label: this.$t('frequency'), prop: "frequency" },
-        { label: this.$t('latestValue'), prop: "data_latest_value", align: "right" },
-        { label: this.$t('year_over_year'), prop: "data_year_over_year", align:"right", width:"150" },
-        { label: this.$t('dataRange'), prop: "dataRange" },
-        { label: this.$t('sources'), prop: "sources" },
+        { label: this.$t('name'), prop: 'name', width: '280' },
+        { label: this.$t('latestTime'), prop: 'latestTime' },
+        {
+          label: this.$t('latestValue'),
+          prop: 'data_latest_value'
+        },
+        {
+          label: this.$t('year_over_year'),
+          prop: 'data_year_over_year',
+          width: '150'
+        },
+        { label: this.$t('frequency'), prop: 'frequency' },
+        { label: this.$t('sources'), prop: 'sources' }
       ]
     },
     indectorDetail(singleData) {
-      console.log(singleData);
-      const id = singleData.id;
+      console.log(singleData)
+      const id = singleData.id
       // const indectorData = await getIndicatorDetail(id);
       // console.log("indectorData", indectorData);
       // this.$router.push(`/indicatorDetail/${id}`);
-      let pathInfo = this.$router.resolve(`/indicatorDetail/${id}`);
-      window.open(pathInfo.href, '_blank');
+      let pathInfo = this.$router.resolve(`/indicatorDetail/${id}`)
+      window.open(pathInfo.href, '_blank')
+    },
+
+    headerClass() {
+      return 'header-class'
     },
     async getFavoritesDataList() {
       let preTableData = await getFavoritesList()
-      console.log(preTableData,'🔥');
+      console.log(preTableData, '🔥')
       let tableData = []
       if (preTableData && preTableData.length) {
-        preTableData.forEach((item) => {
+        preTableData.forEach(item => {
+          console.log(item);
           let singleData = {
             id: item.id,
             name: item?.name_json[this.langArrIndex],
-            nameJson:item?.name_json,
-            country_emoji_flag: item?.countries?.country_emoji_flag,
+            nameJson: item?.name_json,
             country: item?.countries?.country_json[this.langArrIndex],
             regions: item?.regions?.region_json[this.langArrIndex],
             latestTime: item?.data?.data_latest_time,
             data_latest_value: item.data?.data_latest_value,
             units: item?.units?.unit_json[this.langArrIndex],
-            currencies: item?.currencies?.currency_json[this.langArrIndex] || '--',
+            currencies:
+              item?.currencies?.currency_json[this.langArrIndex] || '',
+            country_emoji_flag: item?.countries?.iso3166_alpha2.toLowerCase(),
             frequency: item?.frequency?.frequency_json[this.langArrIndex],
-            dataRange: `${item.data.data_earliest_time.slice(0,4)} ~ ${item.data.data_latest_time.slice(0,4)}`,
-            isUpdating: item.is_updating?'持续更新':'',
-            sources: item?.sources?.source_json[this.langArrIndex],
-          };
-          console.log(item);
-          if (
-            item?.data_year_over_year?.data_latest_value &&
-            (item.data_year_over_year_fixed||item.data_year_over_year_fixed==0)
-          ) {
+            dataRange: `${item.data.data_earliest_time.slice(
+              0,
+              4
+            )} ~ ${item.data.data_latest_time.slice(0, 4)}`,
+            isUpdating: item.is_updating ? '持续更新' : '',
+            sources: item?.sources?.source_json[this.langArrIndex]
+          }
+          console.log(item)
+          if (item?.data_year_over_year?.data_latest_value) {
             let tmpD =
               item.data_year_over_year.data_latest_value -
-              item.data_year_over_year_fixed;
-            tmpD = tmpD.toFixed(2);
-            singleData["data_year_over_year"] = tmpD;
-          }else{
-            singleData["data_year_over_year"] = '';
+              item.data_year_over_year_fixed
+            tmpD = tmpD.toFixed(2)
+            singleData['data_year_over_year'] = tmpD
+          } else {
+            singleData['data_year_over_year'] = ''
           }
 
-          tableData.push(singleData);
-        });
+          tableData.push(singleData)
+        })
       }
       this.tableData = tableData
+      this.rowDrop()
     },
     latestTimeToFrequency(date, frequency) {
       const arr = date.split('-')
@@ -186,22 +249,55 @@ export default {
       switch (frequency) {
         case '年':
           return arr[0]
-          break;
+          break
         case '季':
         case 'Quarterly':
-          return  Math.floor( (month%3 == 0 ? (month/3):(month/3 + 1) ) );
-          break;
+          return Math.floor(month % 3 == 0 ? month / 3 : month / 3 + 1)
+          break
         case '月':
           return month
         case '日':
           return arr[2]
         default:
-          break;
+          break
       }
-
+    },
+    async menuCommandHandle(e, id) {
+      switch (e) {
+        case 'remove':
+          this.cancelFavoritesHanlder(id)
+          break
+        default:
+          break
+      }
+    },
+    async cancelFavoritesHanlder(id) {
+      let res = await cancelFavorites(id)
+      this.$store.commit('SET_FAVORITES_DATA', res.favorites)
+      this.$message.success('移除自选成功')
+      this.getFavoritesDataList()
+    },
+    //行拖拽
+    async rowDrop() {
+      const tbody = document.querySelector('.el-table__body-wrapper tbody')
+      const _this = this
+      Sortable.create(tbody, {
+        onEnd: async ({ newIndex, oldIndex }) => {
+          const currRow = _this.tableData.splice(oldIndex, 1)[0]
+          _this.tableData.splice(newIndex, 0, currRow)
+          const data = {
+            indicators: _this.tableData.map(item => {
+              return Number(item.id)
+            })
+          }
+          console.log(data)
+          let res = await setFavoritesOrder(data)
+          console.log(res)
+        }
+      })
     }
-  },
-};
+  }
+}
 </script>
 <style lang="less" scoped>
 .Welcome {
@@ -242,23 +338,27 @@ export default {
         cursor: pointer;
       }
       .name-country {
-
       }
       .name-regions {
         margin-left: 10px;
       }
-
     }
     .val {
       font-weight: 500;
       font-size: 16px;
     }
-    .data-latest-value, .data-year-over-year {
+    .data-latest-value,
+    .data-year-over-year {
       font-size: 20px;
       color: #c62a29;
       font-weight: 550;
       margin-right: 5px;
     }
+  }
+  .operate {
+    font-size: 15px;
+    color: #268dff;
+    cursor: pointer;
   }
 }
 </style>

@@ -108,4 +108,9 @@ export const getFavoritesList = () => {
   return axios.get(url).then((res) => res.data);
 };
 
+// 自选指标排序
+export const setFavoritesOrder = (data) => {
+  const url = `${apiVersion}/user/favorites/set/order`;
+  return axios.put(url, data).then((res) => res.data);
+};
 
