@@ -303,8 +303,9 @@ export default {
 .Welcome {
   max-width: 1280px;
   width: 100%;
-  height: 100px;
+  height: 100%;
   margin: 0 auto;
+  padding-top: 15px;
   .title {
     font-size: 30px;
     font-weight: bold;
