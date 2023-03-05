@@ -8,7 +8,8 @@
     "methods": "methods",
     "followers":"followers",
     "optional":"follow",
-    "followed":"Followed"
+    "followed":"Followed",
+    "isUpdating":"Continuous update"
   },
   "zh-CN":{
     "dataSource": "数据来源",
@@ -18,7 +19,8 @@
     "methods":"统计方法",
     "followers":"人关注",
     "optional":"自选",
-    "followed":"已添加"
+    "followed":"已添加",
+    "isUpdating":"持续更新"
   }
 }
 </i18n>
@@ -98,6 +100,9 @@
         <div class="desc-content">
           {{ source[langArrIndex] }}
         </div>
+        <div class="desc-content-plus">
+          {{ $t('isUpdating') }}: {{ isUpdating ? '是' : '否' }}
+        </div>
       </div>
     </div>
   </div>
@@ -136,7 +141,8 @@ export default {
       range: null,
       tableData: {},
       dataRange: null,
-      methods: null
+      methods: null,
+      isUpdating: true
     }
   },
   beforeCreate() {},
@@ -192,6 +198,9 @@ export default {
 
       const methods = rowData.methods?.method_json
       this.methods = methods
+
+      const isUpdating = rowData.is_updating
+      this.isUpdating = isUpdating
 
       this.loading = false
     },
@@ -549,6 +558,13 @@ export default {
         font-size: 14px;
         color: #33353c;
         line-height: 21px;
+      }
+      .desc-content-plus {
+        font-size: 12px;
+        font-weight: 400;
+        color: #909499;
+        line-height: 14px;
+        margin-top: 5px;
       }
     }
   }
