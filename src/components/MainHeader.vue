@@ -41,7 +41,7 @@
               <i slot="suffix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
-          <div class="login-btns-wrap" v-if="loginStatus === 0">
+          <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0">
             <div class="wrap">
               <i class="bimicon icon-renyuan"></i>
               <div id="login-btns">登录/注册</div>
@@ -345,6 +345,9 @@ export default {
   },
   watch: {},
   methods: {
+    goToLogin(){
+      this.$router.push('/login')
+    },
     langCommand(cmd) {
       const op = langMap[cmd];
       this.$root.$i18n.locale = cmd;
