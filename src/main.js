@@ -9,6 +9,8 @@ import "@/assets/reset.less";
 import axios from "@/utils/axiosInterceptors";
 import GET_TOKEN from "@/utils/getGeipToken";
 import "element-ui/lib/theme-chalk/index.css";
+// 图标
+import "@/assets/font/iconfont.css"
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import {
   Pagination,
