@@ -55,6 +55,10 @@
 
 <script>
 import { mapState } from "vuex";
+import {
+  Login,
+  fecthUserInfo
+} from "@/api/index";
 export default {
   name: "Login",
   components: {},
@@ -62,6 +66,7 @@ export default {
   data() {
     const _this = this;
     return {
+        accessToken:'',
       form: {
         email: "",
         username: "",
@@ -88,12 +93,46 @@ export default {
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+  mounted() {
+    
+  },
   computed: {
     ...mapState([]),
+    loginStatus() {
+      return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
+    },
   },
   watch: {},
-  methods: {},
+  methods: {
+    async submitForm() {
+      this.$refs["form"].validate(async (valid) => {
+        if (valid) {
+          const loginRes = await Login(this.form);
+          const accessToken = loginRes.access_token;
+          if (accessToken) {
+            this.accessToken = accessToken;
+            localStorage.setItem("access_token", accessToken);
+            this.$message.info("登录成功");
+
+            await this.getUserInfo();
+            this.$router.push('/welcome')
+          }
+        } else {
+          console.log("error submit!!");
+          this.$message.error("登录信息校验未通过，请验证");
+          return false;
+        }
+      });
+    },
+    async getUserInfo() {
+      if (this.loginStatus) {
+        const userInfo = await fecthUserInfo();
+        console.log("userInfo", userInfo);
+        this.userInfo = userInfo;
+        this.$store.commit("SET_USER_INFO", userInfo);
+      }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
