@@ -10,6 +10,10 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
+      path:'',
+      redirect:'/welcome'
+    },
+    {
       path: "/garnia",
       name: "body",
       component: ()=>import("@/views/Body")
