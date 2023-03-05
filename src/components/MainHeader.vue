@@ -44,6 +44,7 @@
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
+            <i class="white bimicon icon-diqiuquanqiu"></i>
             <el-dropdown @command="langCommand">
               <span class="label"
                 >{{ langLabel || "中文"
@@ -515,12 +516,19 @@ header {
     justify-content: flex-end;
     align-items: center;
     .lang-wrap {
-      margin-right: 10px;
+      margin-right: 15px;
+      .white{
+        color: #fff;
+        margin-right: 5px;
+      }
       .label {
         color: white;
         display: inline-block;
         height: 20px;
         line-height: 20px;
+      }
+      /deep/ .el-icon-arrow-down{
+        display: none;
       }
     }
   }
