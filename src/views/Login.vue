@@ -20,17 +20,17 @@
     }
   </i18n>
 <template>
-  <div class="Login">
+  <div class="Login" v-loading="loading">
     <div id="login">
       <el-form ref="form" :rules="rules" :model="form">
-        <el-form-item label="" prop="username">
+        <el-form-item label="" class="form-item1" prop="username">
           <el-input
             v-model="form.username"
             :placeholder="$t('email')"
           ></el-input>
         </el-form-item>
         <p class="forget-p">
-            <span>忘记密码？</span>
+          <span>忘记密码？</span>
         </p>
         <el-form-item label="" prop="password">
           <el-input
@@ -39,14 +39,17 @@
             show-password
           ></el-input>
         </el-form-item>
-        
+
         <el-form-item>
-          <el-button type="primary" class="btn" @click="submitForm('ruleForm')">{{
-            $t("login")
-          }}</el-button>
+          <el-button
+            type="primary"
+            class="btn"
+            @click="submitForm('ruleForm')"
+            >{{ $t("login") }}</el-button
+          >
         </el-form-item>
         <p class="forget-p">
-            <span>还没有账号，立即注册</span>
+          <span>还没有账号，立即注册</span>
         </p>
       </el-form>
     </div>
@@ -55,10 +58,7 @@
 
 <script>
 import { mapState } from "vuex";
-import {
-  Login,
-  fecthUserInfo
-} from "@/api/index";
+import { Login, fecthUserInfo } from "@/api/index";
 export default {
   name: "Login",
   components: {},
@@ -66,7 +66,8 @@ export default {
   data() {
     const _this = this;
     return {
-        accessToken:'',
+      loading: false,
+      accessToken: "",
       form: {
         email: "",
         username: "",
@@ -93,9 +94,7 @@ export default {
   },
   beforeCreate() {},
   created() {},
-  mounted() {
-    
-  },
+  mounted() {},
   computed: {
     ...mapState([]),
     loginStatus() {
@@ -107,6 +106,7 @@ export default {
     async submitForm() {
       this.$refs["form"].validate(async (valid) => {
         if (valid) {
+          this.loading = true;
           const loginRes = await Login(this.form);
           const accessToken = loginRes.access_token;
           if (accessToken) {
@@ -115,8 +115,9 @@ export default {
             this.$message.info("登录成功");
 
             await this.getUserInfo();
-            this.$router.push('/welcome')
+            this.$router.push("/welcome");
           }
+          this.loading = false;
         } else {
           console.log("error submit!!");
           this.$message.error("登录信息校验未通过，请验证");
@@ -148,17 +149,20 @@ export default {
     border-radius: 8px;
     box-shadow: 0px 1px 8px 4px rgba(0, 0, 0, 0.12);
     padding: 30px 20px;
-    .forget-p{
-        text-align: right;
-        margin-bottom: 12px;
-        color:#268dff;
-        span{
-            cursor: pointer;
-            font-size: 13px;
-        }
+    .form-item1 {
+      margin-bottom: 12px;
+    }
+    .forget-p {
+      text-align: right;
+      margin-bottom: 12px;
+      color: #268dff;
+      span {
+        cursor: pointer;
+        font-size: 13px;
+      }
     }
   }
-  .btn{
+  .btn {
     width: 100%;
   }
 }

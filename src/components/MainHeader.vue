@@ -395,7 +395,9 @@ export default {
     handleCommand(command) {
       if (command === "loginOut") {
         localStorage.removeItem("access_token");
-        this.$router.push("/home");
+        console.log('logOut')
+        window.location.href.reload()
+        // this.$router.push("/");
       }
     },
     // 获取指标内容
