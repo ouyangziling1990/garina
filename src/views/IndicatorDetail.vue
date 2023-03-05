@@ -4,13 +4,21 @@
     "dataSource": "DataSource",
     "dataRange": "dataRange",
     "lastUpdated": "LastUpdatedTime",
-    "paraphrase": "Paraphrase"
+    "paraphrase": "Paraphrase",
+    "methods": "methods",
+    "followers":"followers",
+    "optional":"follow",
+    "followed":"Followed"
   },
   "zh-CN":{
     "dataSource": "数据来源",
     "dataRange": "数据范围",
     "lastUpdated": "最近更新",
-    "paraphrase": "简介"
+    "paraphrase": "简介",
+    "methods":"统计方法",
+    "followers":"人关注",
+    "optional":"自选",
+    "followed":"已添加"
   }
 }
 </i18n>
@@ -20,9 +28,9 @@
       <div class="chart-data">
         <div class="chart-head">
           <div class="c-title">{{ dataInfo.title[langArrIndex] }}</div>
-          <div class="c-tag-1" v-if="dataInfo.method">
+          <!-- <div class="c-tag-1" v-if="dataInfo.method">
             {{ dataInfo.method[langArrIndex] }}
-          </div>
+          </div> -->
           <div class="c-tag-2" v-if="dataInfo.country_emoji_flag">
             <span :class="['fi', `fi-${dataInfo.country_emoji_flag}`]"></span>
           </div>
@@ -33,8 +41,11 @@
             <el-button
               :type="inFavorites ? 'info' : 'primary'"
               @click="favoritesClickHandler"
-              ><i class="el-icon-plus" />自选</el-button
+              class="plus-optional-btn"
             >
+              <i :class="inFavorites ? 'el-icon-check' : 'el-icon-plus'" />
+              {{ inFavorites ? $t('followed') : $t('optional') }}
+            </el-button>
           </div>
         </div>
         <div class="chart-head-2">
@@ -49,11 +60,15 @@
               {{ dataObj.currencie[langArrIndex] }}
             </div>
             <div class="c-tag-7">
-              {{ dataObj.rate }}
+              {{ dataObj.rate > 0 ? '+' : ''
+              }}{{ dataObj.rate ? dataObj.rate + '%' : '' }}
             </div>
           </div>
           <div class="chart-head-2-r">
-            <div>
+            <div class="chart-head-2-r-item">
+              {{ dataObj.favorites }} {{ $t('followers') }}
+            </div>
+            <div class="chart-head-2-r-item">
               {{ $t('lastUpdated') }}:{{ dataObj.data_latest_update_time }}
             </div>
           </div>
@@ -70,6 +85,10 @@
         <div class="desc-title">{{ $t('paraphrase') }}</div>
         <div class="desc-content">
           {{ descriptions[langArrIndex] }}
+        </div>
+        <div class="desc-title" v-if="methods">{{ $t('methods') }}</div>
+        <div class="desc-content" v-if="methods">
+          {{ methods[langArrIndex] }}
         </div>
         <div class="desc-title">{{ $t('dataRange') }}</div>
         <div class="desc-content">
@@ -116,7 +135,8 @@ export default {
       source: null,
       range: null,
       tableData: {},
-      dataRange: null
+      dataRange: null,
+      methods: null
     }
   },
   beforeCreate() {},
@@ -170,6 +190,9 @@ export default {
       const dataRange = `${rowData.data.data_earliest_time} ~ ${rowData.data.data_latest_time}`
       this.dataRange = dataRange
 
+      const methods = rowData.methods?.method_json
+      this.methods = methods
+
       this.loading = false
     },
     setInfoDataq({
@@ -181,7 +204,8 @@ export default {
       units,
       currencies,
       data_year_over_year,
-      data_year_over_year_fixed
+      data_year_over_year_fixed,
+      favorites
     }) {
       let dataInfo = {
         title: name_json,
@@ -194,14 +218,15 @@ export default {
         data_year_over_year && data_year_over_year.data_latest_value
           ? (
               data_year_over_year.data_latest_value - data_year_over_year_fixed
-            ).toFixed(2) + '%'
+            ).toFixed(2)
           : null
       let dataObj = {
         data_latest_value: data?.data_latest_value.toFixed(2),
         unit: units?.unit_json,
         currencie: currencies?.currency_json,
         rate: rate,
-        data_latest_update_time: data?.data_latest_update_time
+        data_latest_update_time: data?.data_latest_update_time,
+        favorites: favorites
       }
       this.dataObj = dataObj
     },
@@ -422,6 +447,14 @@ export default {
         display: flex;
         .plus-optional {
           margin-left: auto;
+          .plus-optional-btn {
+            padding: 8px 20px;
+          }
+          /deep/.el-button--info {
+            background-color: #e6f1fb;
+            color: #06c;
+            border: 1px solid #e6f1fb;
+          }
         }
         .c-title {
           font-size: 20px;
@@ -491,6 +524,9 @@ export default {
           font-weight: 400;
           color: #909499;
           line-height: 14px;
+          .chart-head-2-r-item {
+            margin-bottom: 3px;
+          }
         }
       }
       #chart {
