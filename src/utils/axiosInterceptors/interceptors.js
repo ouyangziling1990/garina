@@ -45,7 +45,7 @@ axios.interceptors.response.use(
     if (error.config.url === "/data/v1/signup/verify") {
       message = `具体信息 ${data?.detail[0].msg},邮箱验证失败`;
     } else {
-      const { status_description } = data.status_description;
+      const { status_description } = data?.status_description || '';
       const showM =
         status_description && status_description[0]
           ? status_description[0]
@@ -56,7 +56,7 @@ axios.interceptors.response.use(
     console.error(message);
     if (status == 401) {
       localStorage.removeItem("access_token");
-      window.location.href = "/home";
+      window.location.href = "/";
     }
     return Promise.reject(data);
   }

@@ -64,7 +64,8 @@ module.exports = {
     proxy: {
       "/data": {
         // target: "https://api.garinasset.com",
-        target: "http://ipv6.api-pro.garinasset.com:8000",
+        // target: "http://ipv6.api-pro.garinasset.com:8000",
+        target: "http://api-pro.garinasset.com:8000",
         changeOrigin: true,
         secure: false,
       },
