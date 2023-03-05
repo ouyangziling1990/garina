@@ -9,7 +9,8 @@
     "followers":"followers",
     "optional":"follow",
     "followed":"Followed",
-    "isUpdating":"Continuous update"
+    "isUpdating":"Continuous update",
+    "stopUpdating": "Stop updateing"
   },
   "zh-CN":{
     "dataSource": "数据来源",
@@ -20,7 +21,8 @@
     "followers":"人关注",
     "optional":"自选",
     "followed":"已添加",
-    "isUpdating":"持续更新"
+    "isUpdating":"持续更新",
+    "stopUpdating":"停止更新"
   }
 }
 </i18n>
@@ -97,11 +99,13 @@
           {{ dataRange }}
         </div>
         <div class="desc-title">{{ $t('dataSource') }}</div>
-        <div class="desc-content">
-          {{ source[langArrIndex] }}
-        </div>
-        <div class="desc-content-plus">
-          {{ $t('isUpdating') }}: {{ isUpdating ? '是' : '否' }}
+        <div class="desc-content flex">
+          <div>{{ source[langArrIndex] }}</div>
+          <div class="desc-content-plus">
+            <span class="weight">
+              {{ isUpdating ? $t('isUpdating') : $t('stopUpdating') }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -181,7 +185,6 @@ export default {
       this.loading = true
       const rowData = await getIndicatorDetail(id)
       this.setInfoDataq(rowData)
-      console.log(rowData, '🔥')
       // 图表数据
 
       const option = this.buildChartOption(rowData)
@@ -559,12 +562,16 @@ export default {
         color: #33353c;
         line-height: 21px;
       }
+      .flex {
+        display: flex;
+        // justify-content: space-between;
+      }
       .desc-content-plus {
-        font-size: 12px;
-        font-weight: 400;
-        color: #909499;
-        line-height: 14px;
-        margin-top: 5px;
+        margin-left: 5px;
+        color: #33353c;
+        background-color: #e6f1fb;
+        color: #06c;
+        padding: 0 5px;
       }
     }
   }
