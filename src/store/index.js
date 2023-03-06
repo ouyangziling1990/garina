@@ -20,7 +20,8 @@ export default new Vuex.Store({
           linkArr: val.linkArr,
           langArrIndex: val.langArrIndex,
           langLabel: val.langLabel,
-          lang:val.lang
+          lang:val.lang,
+          headerTagArr:val.headerTagArr
         };
       },
     }),

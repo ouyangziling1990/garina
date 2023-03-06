@@ -38,7 +38,7 @@
       <p class="title">宏观微观经济数据</p>
       <p class="p">体验最全面的经济数据库，覆盖超过213+个国家</p>
     </div>
-    <div class="TagDetail" v-if="loginStatus">
+    <div class="TagDetail" v-if="loginStatus" v-loading="loading">
       <div class="title">自选指标</div>
       <!-- <el-button @click="indectorDetail">获取指标详情</el-button> -->
       <el-table
@@ -145,7 +145,8 @@ export default {
   data() {
     return {
       tableColumns: [],
-      tableData: []
+      tableData: [],
+      loading:false
     }
   },
   beforeCreate() {},
@@ -203,6 +204,7 @@ export default {
       }
     },
     async getFavoritesDataList() {
+      this.loading = true
       let preTableData = await getFavoritesList()
       console.log(preTableData, '🔥')
       let tableData = []
@@ -238,6 +240,7 @@ export default {
           tableData.push(singleData)
         })
       }
+      this.loading = false
       this.tableData = tableData
       this.rowDrop()
     },

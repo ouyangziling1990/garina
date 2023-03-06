@@ -396,7 +396,7 @@ export default {
       if (command === "loginOut") {
         localStorage.removeItem("access_token");
         console.log('logOut')
-        window.location.href.reload()
+        window.location.reload()
         // this.$router.push("/");
       }
     },
@@ -512,6 +512,7 @@ header {
       height: 100%;
       display: flex;
       align-items: center;
+      // font-size: 16px;
     }
   }
   .name_link {
