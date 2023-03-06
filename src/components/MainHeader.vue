@@ -29,9 +29,9 @@
             <span
               v-for="item in filterHeaderTags"
               class="name_link"
-              :class="[item.active?'active':'' ]"
+              :class="[item.active ? 'active' : '']"
               @click="getIndex(item)"
-              :key="'header_'+item.id"
+              :key="'header_' + item.id"
             >
               {{ item.name_link_json[langArrIndex] }}</span
             >
@@ -41,9 +41,22 @@
               <i slot="suffix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
+          <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0">
+            <div class="wrap">
+              <i class="bimicon icon-renyuan"></i>
+              <div id="login-btns">登录/注册</div>
+            </div>
+            <!-- <el-button plain @click="LoginDialogFlag = true">{{
+              $t("login")
+            }}</el-button>
+            <el-button type="primary" @click="signUpFun" plain>{{
+              $t("signUp")
+            }}</el-button> -->
+          </div>
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
+            <i class="white bimicon icon-diqiuquanqiu"></i>
             <el-dropdown @command="langCommand">
               <span class="label"
                 >{{ langLabel || "中文"
@@ -55,15 +68,8 @@
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-          <div v-if="loginStatus === 0">
-            <el-button plain @click="LoginDialogFlag = true">{{
-              $t("login")
-            }}</el-button>
-            <el-button type="primary" @click="signUpFun" plain>{{
-              $t("signUp")
-            }}</el-button>
-          </div>
-          <div v-else>
+
+          <div v-if="loginStatus">
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
                 {{ userInfo.username || ""
@@ -106,7 +112,12 @@
         </el-form>
       </div>
     </el-dialog>
-    <el-dialog title="免费注册" :visible.sync="signUpFlag" width="448px" class="dialog">
+    <el-dialog
+      title="免费注册"
+      :visible.sync="signUpFlag"
+      width="448px"
+      class="dialog"
+    >
       <el-form
         label-width="99px"
         ref="signUpform"
@@ -239,7 +250,7 @@ export default {
     const _this = this;
     return {
       // 搜索
-      searchInput:'',
+      searchInput: "",
       // 地区名称 及区号
       infrastructureArr: [],
       linksArr: [],
@@ -334,6 +345,9 @@ export default {
   },
   watch: {},
   methods: {
+    goToLogin(){
+      this.$router.push('/login')
+    },
     langCommand(cmd) {
       const op = langMap[cmd];
       this.$root.$i18n.locale = cmd;
@@ -381,13 +395,15 @@ export default {
     handleCommand(command) {
       if (command === "loginOut") {
         localStorage.removeItem("access_token");
-        this.$router.push("/home");
+        console.log('logOut')
+        window.location.href.reload()
+        // this.$router.push("/");
       }
     },
     // 获取指标内容
     getIndex(item) {
-      this.filterHeaderTags.forEach(item=>item.active = false)
-      this.$set(item, 'active', true)
+      this.filterHeaderTags.forEach((item) => (item.active = false));
+      this.$set(item, "active", true);
       // item.active = true
       this.$emit("showTag", item);
       this.$store.commit("CHANG_LINK_INFO", item);
@@ -395,11 +411,11 @@ export default {
         name: item.name_link_json,
         path: `/tags/${item.id}`,
       };
-      if(item.id === 1){
-        pathInfo.path = '/welcome'
+      if (item.id === 1) {
+        pathInfo.path = "/welcome";
       }
       this.$store.commit("SET_LINK_ARR", { index: 0, pathInfo });
-      this.$forceUpdate()
+      this.$forceUpdate();
     },
     //
     async getLinks() {
@@ -407,9 +423,9 @@ export default {
       const res = await links();
       this.linksArr = res;
       this.loading = false;
-      res.forEach(item=>item.active=false)
-      if(res.length>0){
-        res[0]['active'] = true
+      res.forEach((item) => (item.active = false));
+      if (res.length > 0) {
+        res[0]["active"] = true;
       }
       this.$store.commit("SET_TAG_ARR", res);
     },
@@ -444,7 +460,11 @@ export default {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
           console.log(valid);
-          console.log(this.signUpform,this.signUpform.regionNum,this.signUpform.phone);
+          console.log(
+            this.signUpform,
+            this.signUpform.regionNum,
+            this.signUpform.phone
+          );
           this.signUpform.phone = `+${this.signUpform.regionNum} ${this.signUpform.phone}`;
           const res = await signUp(this.signUpform);
           this.$message.success("注册成功，请前往邮箱验证");
@@ -482,13 +502,13 @@ header {
   // justify-content: center;
 
   // width: 1200px;
-  .header-content{
+  .header-content {
     width: 100%;
     height: 100%;
     flex: 1;
     display: flex;
     align-items: center;
-    .header-item-wrap{
+    .header-item-wrap {
       height: 100%;
       display: flex;
       align-items: center;
@@ -502,8 +522,8 @@ header {
     line-height: 70px;
     padding: 0 10px;
   }
-  .active{
-      background: linear-gradient(180deg, rgba(0,108,255,0) 0%, #006CFF 100%);
+  .active {
+    background: linear-gradient(180deg, rgba(0, 108, 255, 0) 0%, #006cff 100%);
   }
   .logo {
     width: 130px;
@@ -515,28 +535,52 @@ header {
     justify-content: flex-end;
     align-items: center;
     .lang-wrap {
-      margin-right: 10px;
+      margin-right: 15px;
+      .white {
+        color: #fff;
+        margin-right: 5px;
+      }
       .label {
         color: white;
         display: inline-block;
         height: 20px;
         line-height: 20px;
       }
+      /deep/ .el-icon-arrow-down {
+        display: none;
+      }
+    }
+  }
+  .login-btns-wrap {
+    margin: 0 10px;
+    color: #fff;
+    i {
+      margin-right: 5px;
+    }
+    #login-btns {
+      display: inline-block;
+    }
+    .wrap {
+      height: 38px;
+      line-height: 38px;
+      border: 1px solid #fff;
+      border-radius: 11px;
+      padding: 0 10px;
+      cursor: pointer;
     }
   }
 }
 /deeep/.dialog .el-dialog {
   border-radius: 20px;
   background-color: red;
-
 }
 .search {
-  margin-left: 20px
+  margin-left: 20px;
 }
 .login_con {
   padding: 0 10px;
 }
 .el-dropdown-link {
-  color: #fff
+  color: #fff;
 }
 </style>
