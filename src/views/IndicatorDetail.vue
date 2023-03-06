@@ -41,6 +41,9 @@
           <div class="c-tag-3" v-if="dataInfo.region">
             {{ dataInfo.region[langArrIndex] }}
           </div>
+          <div class="c-tag-3">
+            {{ isUpdating ? $t('isUpdating') : $t('stopUpdating') }}
+          </div>
           <div class="plus-optional">
             <el-button
               :type="inFavorites ? 'info' : 'primary'"
@@ -101,11 +104,11 @@
         <div class="desc-title">{{ $t('dataSource') }}</div>
         <div class="desc-content flex">
           <div>{{ source[langArrIndex] }}</div>
-          <div class="desc-content-plus">
+          <!-- <div class="desc-content-plus">
             <span class="weight">
               {{ isUpdating ? $t('isUpdating') : $t('stopUpdating') }}
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -208,7 +211,7 @@ export default {
       this.loading = false
     },
     setInfoDataq({
-      name_json,
+      names,
       methods,
       countries,
       regions,
@@ -220,7 +223,7 @@ export default {
       favorites
     }) {
       let dataInfo = {
-        title: name_json,
+        title: names?.name_json,
         method: methods?.method_json,
         country_emoji_flag: countries?.iso3166_alpha2.toLowerCase(),
         region: regions?.region_json
