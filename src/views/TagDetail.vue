@@ -156,8 +156,7 @@ export default {
         preTableData.forEach((item) => {
           let singleData = {
             id: item.id,
-            name: item?.name_json[this.langArrIndex],
-            nameJson:item?.name_json,
+            name: item?.names?.name_json[this.langArrIndex],
             country_emoji_flag: item?.countries?.country_emoji_flag,
             country: item?.countries?.country_json[this.langArrIndex],
             regions: item?.regions?.region_json[this.langArrIndex],
