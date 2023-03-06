@@ -61,6 +61,11 @@ const router = new Router({
           path:`/welcome`,
           name:'welcome',
           component:()=>import("@/views/Welcome")
+        },
+        {
+          path:"/login",
+          name:"login",
+          component:()=> import("@/views/Login")
         }
       ]
     },
@@ -73,11 +78,6 @@ const router = new Router({
       path:"/lang",
       name:"lang",
       component: ()=>import("@/views/Lang")
-    },
-    {
-      path:"/login",
-      name:"login",
-      component:()=> import("@/views/Login")
     }
   ]
 })
