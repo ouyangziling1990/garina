@@ -107,8 +107,17 @@ export default {
       this.$refs["form"].validate(async (valid) => {
         if (valid) {
           this.loading = true;
-          const loginRes = await Login(this.form);
-          const accessToken = loginRes.access_token;
+          let  loginRes = ''
+          try {
+            loginRes = await Login(this.form);
+          } catch (error) {
+            console.log('loginError', error)
+            const msg1 = error.status_description[0]
+            // this.$message.error(msg1)
+            this.loading = false
+          }
+          
+          const accessToken = loginRes?.access_token;
           if (accessToken) {
             this.accessToken = accessToken;
             localStorage.setItem("access_token", accessToken);
