@@ -334,10 +334,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(["langArrIndex", "langLabel", "lang"]),
+    ...mapState(["langArrIndex", "langLabel", "lang", "userInfo"]),
     ...mapGetters(["filterHeaderTags"]),
     loginStatus() {
-      return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
+      return this.userInfo || localStorage.getItem("access_token") ? 1 : 0;
     },
     localI18n() {
       return this.$root.$i18n;
