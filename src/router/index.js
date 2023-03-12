@@ -66,7 +66,13 @@ const router = new Router({
           path:"/login",
           name:"login",
           component:()=> import("@/views/Login")
-        }
+        },
+        {
+          path:"/signup",
+          name:"signup",
+          component:()=> import("@/views/SignUp")
+        },
+        
       ]
     },
     {

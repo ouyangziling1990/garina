@@ -321,7 +321,7 @@ export default {
         password2: [{ validator: validatePass2, trigger: "blur" }],
       },
       accessToken: "",
-      userInfo: "",
+      // userInfo: "",
     };
   },
   beforeCreate() {},
@@ -451,8 +451,8 @@ export default {
     async getUserInfo() {
       if (this.loginStatus) {
         const userInfo = await fecthUserInfo();
-        console.log("userInfo", userInfo);
-        this.userInfo = userInfo;
+        // console.log("userInfo", userInfo);
+        // this.userInfo = userInfo;
         this.$store.commit("SET_USER_INFO", userInfo);
       }
     },
