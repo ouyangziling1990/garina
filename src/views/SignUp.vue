@@ -332,6 +332,9 @@ export default {
           const res = await signUp(this.signUpform);
           this.$message.success("注册成功，请前往邮箱验证");
           console.log("res", res);
+          setTimeout(()=>{
+              this.$router.push('/login')
+          }, 1000)
         } else {
           this.$message.error("验证失败，请查验");
           return false;

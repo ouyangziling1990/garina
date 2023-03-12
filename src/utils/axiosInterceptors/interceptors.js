@@ -33,11 +33,11 @@ axios.interceptors.response.use(
   (response) => {
     let { status, data } = response;
     console.log(response);
-    if (status === 200) {
-      return Promise.resolve(data);
-    } else {
-      return Promise.reject(data);
-    }
+    return Promise.resolve(data);
+    // if (status === 200) {
+    // } else {
+    //   return Promise.reject(data);
+    // }
   },
   (error) => {
     const { status, data } = error.response;
