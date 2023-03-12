@@ -1,3 +1,24 @@
+<i18n>
+    {
+      "en": {
+        "login": "sign in",
+        "signUp":"sign up",
+        "email":"email",
+        "emailReq":"val is not email",
+        "password":"password",
+        "passwordReq":"password is required"
+  
+      },
+      "zh-CN":{
+        "login":"登录",
+        "signUp": "注册",
+        "email":"请输入邮箱",
+        "emailReq":"请输入正确邮箱",
+        "password":"密码",
+        "passwordReq":"请输入密码"
+      }
+    }
+  </i18n>
 <template>
   <div class="SignUp">
     <div class="up">
@@ -136,7 +157,7 @@
             </div>
             <div class="item-wrap">
               <el-form-item label="" prop="password2">
-                <div class="warp">
+                <div class="wrap">
                   <el-input
                     v-model="signUpform.password2"
                     placeholder="请再次确认密码"
@@ -193,12 +214,14 @@
             </div>
             <div class="item-wrap">
               <el-form-item>
-                <el-button
-                  type="primary"
-                  style="width:100%"
-                  @click="signUpFormSubmit('ruleForm')"
-                  >{{ $t("signUp") }}</el-button
-                >
+                <div class="wrap">
+                  <el-button
+                    type="primary"
+                    style="width: 100%"
+                    @click="signUpFormSubmit('ruleForm')"
+                    >{{ $t("signUp") }}</el-button
+                  >
+                </div>
               </el-form-item>
             </div>
           </div>
@@ -209,6 +232,7 @@
 </template>
 
 <script>
+import { signUp, infrastructure } from "@/api/index";
 import { mapState } from "vuex";
 export default {
   name: "SignUp",
@@ -286,7 +310,7 @@ export default {
     this.signUpFun();
   },
   computed: {
-    ...mapState([]),
+    ...mapState(["langArrIndex"]),
   },
   watch: {},
   methods: {
@@ -294,6 +318,25 @@ export default {
       if (type === "login") {
         this.$router.push("/login");
       }
+    },
+    async signUpFormSubmit() {
+      this.$refs["signUpform"].validate(async (valid) => {
+        if (valid) {
+          console.log(valid);
+          console.log(
+            this.signUpform,
+            this.signUpform.regionNum,
+            this.signUpform.phone
+          );
+          this.signUpform.phone = `+${this.signUpform.regionNum} ${this.signUpform.phone}`;
+          const res = await signUp(this.signUpform);
+          this.$message.success("注册成功，请前往邮箱验证");
+          console.log("res", res);
+        } else {
+          this.$message.error("验证失败，请查验");
+          return false;
+        }
+      });
     },
     regionChange(val) {
       if (val == 247) {
@@ -389,17 +432,17 @@ export default {
             color: #898a8d;
           }
         }
-        .des{
-            width: 550px;
-            margin-left: 120px;
-            color:#898a8d;
-            line-height: 16px;
+        .des {
+          width: 500px;
+          margin-left: 100px;
+          color: #898a8d;
+          line-height: 16px;
+          font-size: 12px;
+          margin-bottom: 12px;
+          /deep/ .el-button {
+            padding: 2px 0px !important;
             font-size: 12px;
-            margin-bottom: 12px;
-            /deep/ .el-button{
-                padding: 2px 0px !important;
-                font-size: 12px;
-            }
+          }
         }
       }
     }
