@@ -33,19 +33,20 @@ axios.interceptors.response.use(
   (response) => {
     let { status, data } = response;
     console.log(response);
-    if (status === 200) {
-      return Promise.resolve(data);
-    } else {
-      return Promise.reject(data);
-    }
+    return Promise.resolve(data);
+    // if (status === 200) {
+    // } else {
+    //   return Promise.reject(data);
+    // }
   },
   (error) => {
-    let { status, data } = error.response;
+    const { status, data } = error.response;
+    const url = error.config.url
     let message = "";
-    if (error.config.url === "/data/v1/signup/verify") {
+    if (url === "/data/v1/signup/verify") {
       message = `具体信息 ${data?.detail[0].msg},邮箱验证失败`;
     } else {
-      const { status_description } = data?.status_description || '';
+      const status_description  = data?.status_description || '';
       const showM =
         status_description && status_description[0]
           ? status_description[0]
@@ -54,7 +55,7 @@ axios.interceptors.response.use(
     }
     Message.error(message);
     console.error(message);
-    if (status == 401) {
+    if (status == 401 && url !='/data/v1/auth/login') {
       localStorage.removeItem("access_token");
       window.location.href = "/";
     }

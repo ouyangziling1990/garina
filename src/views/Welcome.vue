@@ -255,6 +255,7 @@ export default {
       }
     },
     async getFavoritesDataList() {
+      this.loading = true
       let preTableData = await getFavoritesList()
       console.log(preTableData, '🔥')
       let tableData = []
@@ -289,6 +290,7 @@ export default {
           tableData.push(singleData)
         })
       }
+      this.loading = false
       this.tableData = tableData
       this.rowDrop()
     },
