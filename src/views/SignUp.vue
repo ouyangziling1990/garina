@@ -67,7 +67,7 @@
                     style="width: 100%"
                     v-model="signUpform.region_id"
                     filterable
-                    placeholder="国家或区域"
+                    placeholder="国家或地区"
                     @change="regionChange"
                   >
                     <el-option
@@ -177,7 +177,7 @@
                     v-model="signUpform.regionNum"
                     filterable
                     :disabled="regionNumDisabled"
-                    placeholder="国家或区域"
+                    placeholder="电话区号"
                   >
                     <el-option
                       v-for="item in infrastructureArr"
