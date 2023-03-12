@@ -68,8 +68,12 @@ import { CHART_TYPES } from './config/chartType.config'
 export default {
   data() {
     return {
-      currentType: 'line',
-      currentTools: ['yAxis.axisLine.show', 'xAxis.axisLine.show'],
+      currentType: 'area',
+      currentTools: [
+        'yAxis.axisLine.show',
+        'xAxis.axisLine.show',
+        'series.smooth'
+      ],
       lastTools: ['yAxis.axisLine.show', 'xAxis.axisLine.show'],
       types: [
         {

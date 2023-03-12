@@ -115,3 +115,9 @@ export const setFavoritesOrder = (data) => {
   return axios.put(url, data).then((res) => res.data);
 };
 
+// 自选指标排序
+export const getStatisticsData = (data) => {
+  const url = `${apiVersion}/statistics/data`;
+  return axios.get(url).then((res) => res.data);
+};
+

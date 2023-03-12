@@ -7,7 +7,7 @@
     "paraphrase": "Paraphrase",
     "methods": "methods",
     "followers":"followers",
-    "optional":"follow",
+    "optional":"Follow",
     "followed":"Followed",
     "isUpdating":"Continuous update",
     "stopUpdating": "Stop updateing"
@@ -314,7 +314,10 @@ export default {
             show: true
           },
           splitLine: {
-            show: false
+            show: false,
+            lineStyle: {
+              type: 'dashed'
+            }
           },
           data: xAxisData
         },
@@ -329,7 +332,10 @@ export default {
             show: true
           },
           splitLine: {
-            show: false
+            show: false,
+            lineStyle: {
+              type: 'dashed'
+            }
           },
           position: 'right'
         },
@@ -345,12 +351,35 @@ export default {
           {
             data: seriesData,
             type: 'line',
-
+            areaStyle: {},
             showSymbol: false,
-            smooth: false,
+            smooth: true,
             label: {
               show: true
             }
+          }
+        ],
+        graphic: [
+          {
+            type: 'group',
+            // rotation: Math.PI / 2,
+            bounding: 'raw',
+            right: 'center',
+            top: 'center',
+            // z: 100,
+            children: [
+              {
+                type: 'text',
+                left: 'center',
+                top: 'center',
+                // z: 100,
+                style: {
+                  fill: '#999999',
+                  text: `SOURCE: DATA.GARINASSET.COM`,
+                  font: 'bold 16px sans-serif'
+                }
+              }
+            ]
           }
         ]
       }
