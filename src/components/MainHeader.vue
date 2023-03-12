@@ -321,7 +321,7 @@ export default {
         password2: [{ validator: validatePass2, trigger: "blur" }],
       },
       accessToken: "",
-      userInfo: "",
+      // userInfo: "",
     };
   },
   beforeCreate() {},
@@ -334,10 +334,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(["langArrIndex", "langLabel", "lang"]),
+    ...mapState(["langArrIndex", "langLabel", "lang", "userInfo"]),
     ...mapGetters(["filterHeaderTags"]),
     loginStatus() {
-      return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
+      return this.userInfo || localStorage.getItem("access_token") ? 1 : 0;
     },
     localI18n() {
       return this.$root.$i18n;
@@ -396,7 +396,7 @@ export default {
       if (command === "loginOut") {
         localStorage.removeItem("access_token");
         console.log('logOut')
-        window.location.href.reload()
+        window.location.reload()
         // this.$router.push("/");
       }
     },
@@ -451,8 +451,8 @@ export default {
     async getUserInfo() {
       if (this.loginStatus) {
         const userInfo = await fecthUserInfo();
-        console.log("userInfo", userInfo);
-        this.userInfo = userInfo;
+        // console.log("userInfo", userInfo);
+        // this.userInfo = userInfo;
         this.$store.commit("SET_USER_INFO", userInfo);
       }
     },
@@ -512,6 +512,7 @@ header {
       height: 100%;
       display: flex;
       align-items: center;
+      // font-size: 16px;
     }
   }
   .name_link {

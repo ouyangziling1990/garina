@@ -49,7 +49,7 @@
           >
         </el-form-item>
         <p class="forget-p">
-          <span>还没有账号，立即注册</span>
+          <span @click="gotoSignup">还没有账号，立即注册</span>
         </p>
       </el-form>
     </div>
@@ -96,19 +96,31 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState([]),
+    ...mapState(['userInfo']),
     loginStatus() {
-      return this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
+      return this.userInfo || this.accessToken || localStorage.getItem("access_token") ? 1 : 0;
     },
   },
   watch: {},
   methods: {
+    gotoSignup(){
+      this.$router.push("/signup");
+    },
     async submitForm() {
       this.$refs["form"].validate(async (valid) => {
         if (valid) {
           this.loading = true;
-          const loginRes = await Login(this.form);
-          const accessToken = loginRes.access_token;
+          let  loginRes = ''
+          try {
+            loginRes = await Login(this.form);
+          } catch (error) {
+            console.log('loginError', error)
+            const msg1 = error.status_description[0]
+            // this.$message.error(msg1)
+            this.loading = false
+          }
+          
+          const accessToken = loginRes?.access_token;
           if (accessToken) {
             this.accessToken = accessToken;
             localStorage.setItem("access_token", accessToken);

@@ -79,5 +79,6 @@ html {
 #app {
   height: 100%;
   box-sizing: border-box;
+  // font-size: 12px;
 }
 </style>
