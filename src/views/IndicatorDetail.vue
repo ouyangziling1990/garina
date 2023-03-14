@@ -458,7 +458,7 @@ export default {
     },
     async getFavoritesList() {
       let res = await getFavorites()
-      this.$store.commit('SET_FAVORITES_DATA', res.favorites)
+      this.$store.commit('SET_FAVORITES_DATA', res.favorites||[])
     },
     async favoritesClickHandler() {
       if (this.inFavorites) {

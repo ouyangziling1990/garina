@@ -226,7 +226,8 @@ export default {
 
     async getFavoritesList() {
       let res = await getFavorites()
-      this.$store.commit('SET_FAVORITES_DATA', res.favorites)
+      console.log(res);
+      this.$store.commit('SET_FAVORITES_DATA', res.favorites||[])
     },
 
     async addFavoritesHanlder(id) {
