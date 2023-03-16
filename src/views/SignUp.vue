@@ -21,15 +21,9 @@
   </i18n>
 <template>
   <div class="SignUp">
-    <div class="up">
-      <p>创建账号</p>
-      <div class="next">
-        <el-button @click="goto('login')" type="text">登录</el-button>
-        <el-button type="text">没有收到邮件？</el-button>
-        <el-button type="text">隐私保护</el-button>
-      </div>
-    </div>
-    <div class="center">
+    <UpTips></UpTips>
+    <!-- !gotoEmailFlag -->
+    <div class="center" v-show="!gotoEmailFlag">
       <div class="up-text">
         <p class="h1">创建您的账号</p>
         <p>只需一个账号，您即可访问 GarinAsset LLC 旗下的所有产品。</p>
@@ -228,15 +222,24 @@
         </el-form>
       </div>
     </div>
+    <div class="center " v-show="gotoEmailFlag">
+      <div class="up-text">
+        <p class="h1" style="margin-top:15px">验证您的邮箱</p>
+        <p style="margin-top:10px; font-size: 17px">一封含有验证链接的确认邮件，已经发送至您的邮箱 {{ this.signUpform.email }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { signUp, infrastructure } from "@/api/index";
 import { mapState } from "vuex";
+import UpTips from '@/components/UpTips.vue'
 export default {
   name: "SignUp",
-  components: {},
+  components: {
+    UpTips
+  },
   props: {},
   data() {
     var validatePass = (rule, value, callback) => {
@@ -260,6 +263,7 @@ export default {
     };
     const _this = this;
     return {
+      gotoEmailFlag: false,
       regionNumDisabled: false,
       signUpform: {
         fullname: "",
@@ -322,19 +326,18 @@ export default {
     async signUpFormSubmit() {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
-          console.log(valid);
-          console.log(
-            this.signUpform,
-            this.signUpform.regionNum,
-            this.signUpform.phone
-          );
-          this.signUpform.phone = `+${this.signUpform.regionNum} ${this.signUpform.phone}`;
-          const res = await signUp(this.signUpform);
+          
+          // this.signUpform.phone = `+${this.signUpform.regionNum} ${this.signUpform.phoneInput}`;
+          const tmpSign = JSON.parse(JSON.stringify(this.signUpform))
+          tmpSign.phone = `+${this.signUpform.regionNum}` + ' ' + this.signUpform.phoneInput
+          const res = await signUp(tmpSign);
           this.$message.success("注册成功，请前往邮箱验证");
           console.log("res", res);
-          setTimeout(()=>{
-              this.$router.push('/login')
-          }, 1000)
+
+          this.gotoEmailFlag = true
+          // setTimeout(()=>{
+          //     this.$router.push('/login')
+          // }, 1000)
         } else {
           this.$message.error("验证失败，请查验");
           return false;
@@ -370,23 +373,7 @@ export default {
   flex-direction: column;
   height: 100%;
 
-  .up {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(99, 97, 97, 0.2);
-    p {
-      margin-left: 20px;
-      font-size: 20px;
-      flex: 1;
-    }
-    .next {
-      width: 300px;
-      display: flex;
-      justify-content: space-around;
-      margin-right: 40px;
-    }
-  }
+  
   .center {
     flex: 1;
     width: 700px;
