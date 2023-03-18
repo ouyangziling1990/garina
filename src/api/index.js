@@ -62,8 +62,8 @@ export const getCountries = () => {
   const url = `${apiVersion}/countries`;
   return axios.get(url).then((res) => res.data);
 };
-export const getRegions = (countryId) => {
-  const url = `${apiVersion}/countries/${countryId}/regions`;
+export const getRegions = (countryId, regions ) => {
+  const url = `${apiVersion}/countries/${countryId}/${regions}`;
   return axios.get(url).then((res) => res.data);
 };
 
