@@ -94,7 +94,13 @@ export default {
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+  mounted() {
+    const query = this.$route.query
+    if(query.email){
+      this.form.email = query.email
+      this.form.username = query.email
+    }
+  },
   computed: {
     ...mapState(['userInfo']),
     loginStatus() {

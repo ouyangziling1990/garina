@@ -93,9 +93,9 @@ export default {
           
           this.loading = false;
           
-          if(res?.status_code === 204){
-            this.normalFlag = true
-            this.findBackEmail = res.data
+          if(res?.status_code === 202){
+            this.normalFlag = false
+            this.findBackEmail = res.data.email
           }
           console.log("res", res);
         }
