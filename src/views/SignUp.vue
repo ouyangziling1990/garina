@@ -222,23 +222,26 @@
         </el-form>
       </div>
     </div>
-    <div class="center " v-show="gotoEmailFlag">
+    <div class="center" v-show="gotoEmailFlag">
       <div class="up-text">
-        <p class="h1" style="margin-top:15px">验证您的邮箱</p>
-        <p style="margin-top:10px; font-size: 17px">一封含有验证链接的确认邮件，已经发送至您的邮箱 {{ this.signUpform.email }}</p>
+        <p class="h1" style="margin-top: 15px">验证您的邮箱</p>
+        <p style="margin-top: 10px; font-size: 17px">
+          一封含有验证链接的确认邮件，已经发送至您的邮箱
+          {{ this.signUpform.email }}
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { signUp, infrastructure } from "@/api/index";
+import { signUp, infrastructure, acceptUserName, acceptEmail } from "@/api/index";
 import { mapState } from "vuex";
-import UpTips from '@/components/UpTips.vue'
+import UpTips from "@/components/UpTips.vue";
 export default {
   name: "SignUp",
   components: {
-    UpTips
+    UpTips,
   },
   props: {},
   data() {
@@ -259,6 +262,41 @@ export default {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
+      }
+    };
+    const userNameUniVal = async (rule, value, callback) => {
+      let res = ''
+      try {
+        res = await acceptUserName(value);
+      } catch (error) {
+        console.log(error)
+      }
+      console.log("acceptUserName res", res);
+      console.log("acceptUserName value", value);
+      const status_code = res.status_code
+      if (status_code === 202) {
+        callback();
+      } else if(status_code === 406) {
+        callback(new Error("昵称,已经被注册，请更换"));
+      }else{
+        callback(new Error(res?.status_description[0]))
+      }
+    };
+    const emailUniVal = async (rule, value, callback) => {
+      let res = ''
+      try {
+        res = await acceptEmail(value);
+      } catch (error) {
+        console.log(error)
+        callback(new Error(res?.status_description[0]))
+      }
+      console.log("acceptEmail res", res);
+      console.log("acceptEmail value", value);
+      const status_code = res.status_code
+      if (status_code === 202) {
+        callback();
+      } else if(status_code === 406) {
+        callback(new Error("邮箱已经被注册，请更换"));
       }
     };
     const _this = this;
@@ -290,9 +328,13 @@ export default {
             message: "请输入正确的邮箱地址",
             trigger: ["blur", "change"],
           },
+          { validator: emailUniVal, trigger: "blur" }
         ],
         fullname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        username: [{ required: true, message: "请输入昵称", trigger: "blur" }],
+        username: [
+          { required: true, message: "请输入昵称", trigger: "blur" },
+          { validator: userNameUniVal, trigger: "blur" },
+        ],
         region_id: [
           { required: true, message: "请输入国家或区域", trigger: "blur" },
         ],
@@ -326,15 +368,15 @@ export default {
     async signUpFormSubmit() {
       this.$refs["signUpform"].validate(async (valid) => {
         if (valid) {
-          
           // this.signUpform.phone = `+${this.signUpform.regionNum} ${this.signUpform.phoneInput}`;
-          const tmpSign = JSON.parse(JSON.stringify(this.signUpform))
-          tmpSign.phone = `+${this.signUpform.regionNum}` + ' ' + this.signUpform.phoneInput
+          const tmpSign = JSON.parse(JSON.stringify(this.signUpform));
+          tmpSign.phone =
+            `+${this.signUpform.regionNum}` + " " + this.signUpform.phoneInput;
           const res = await signUp(tmpSign);
           this.$message.success("注册成功，请前往邮箱验证");
           console.log("res", res);
 
-          this.gotoEmailFlag = true
+          this.gotoEmailFlag = true;
           // setTimeout(()=>{
           //     this.$router.push('/login')
           // }, 1000)
@@ -373,7 +415,6 @@ export default {
   flex-direction: column;
   height: 100%;
 
-  
   .center {
     flex: 1;
     width: 700px;
