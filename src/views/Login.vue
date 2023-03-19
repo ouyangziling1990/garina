@@ -122,7 +122,7 @@ export default {
           } catch (error) {
             console.log('loginError', error)
             const msg1 = error.status_description[0]
-            // this.$message.error(msg1)
+            this.$message.error(msg1)
             this.loading = false
           }
           
