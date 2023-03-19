@@ -72,6 +72,11 @@ const router = new Router({
           name:"signup",
           component:()=> import("@/views/SignUp")
         },
+        {
+          path:"/findaccent",
+          name:"findaccent",
+          component:()=> import("@/views/FindAccent")
+        },
         
       ]
     },

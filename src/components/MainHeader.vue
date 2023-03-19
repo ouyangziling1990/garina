@@ -362,7 +362,7 @@ header {
     background: linear-gradient(180deg, rgba(0, 108, 255, 0) 0%, #006cff 100%);
   }
   .logo {
-    width: 130px;
+    width: 165px;
     height: 40px;
   }
   .logo_opt {

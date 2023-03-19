@@ -131,3 +131,8 @@ export const acceptEmail = (email)=>{
   const params = {email}
   return axios.post(url, params).then((res) => res);
 }
+export const findAccount = (data)=>{
+  const url = `${apiVersion}/account/email/find`
+  
+  return axios.post(url, data).then((res) => res);
+}
