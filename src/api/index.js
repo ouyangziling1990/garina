@@ -80,7 +80,7 @@ export const getIndicatorDetail = (id) => {
 export const verify = (sub) => {
   const url = `${apiVersion}/signup/verify`;
   const params = { sub };
-  return axios.get(url, params).then((res) => res.data);
+  return axios.get(url, {params}).then((res) => res.data);
 };
 
 // 添加指标自选

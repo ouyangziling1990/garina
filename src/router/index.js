@@ -77,14 +77,14 @@ const router = new Router({
           name:"findaccent",
           component:()=> import("@/views/FindAccent")
         },
-        
+        {
+          path:'/verify',
+          name:"verify",
+          component: ()=>import("@/views/Verify")
+        },
       ]
     },
-    {
-      path:'/verify',
-      name:"verify",
-      component: ()=>import("@/views/Verify")
-    },
+    
     {
       path:"/lang",
       name:"lang",
