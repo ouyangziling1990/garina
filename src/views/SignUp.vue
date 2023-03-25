@@ -269,15 +269,14 @@ export default {
       try {
         res = await acceptUserName(value);
       } catch (error) {
-        console.log(error)
+        res = error
+        console.log('accept user error', error)
       }
       console.log("acceptUserName res", res);
       console.log("acceptUserName value", value);
       const status_code = res.status_code
       if (status_code === 202) {
         callback();
-      } else if(status_code === 406) {
-        callback(new Error("昵称,已经被注册，请更换"));
       }else{
         callback(new Error(res?.status_description[0]))
       }

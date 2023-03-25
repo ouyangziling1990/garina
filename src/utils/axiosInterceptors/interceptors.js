@@ -44,14 +44,14 @@ axios.interceptors.response.use(
     const url = error.config.url
     let message = "";
     if (url === "/data/v1/signup/verify/email") {
-      message = `${data?.status_description[0].detail}`;
+      message = `${data?.status_description[0]}`;
     } else {
       const status_description  = data?.status_description || '';
       const showM =
         status_description && status_description[0]
-          ? status_description[0].detail
+          ? status_description[0]
           : "";
-      message = `${codeMap[status] || ""} 具体信息：${showM}`;
+      message = `${showM}`;
     }
     Message.error(message);
     console.error(data, message);
