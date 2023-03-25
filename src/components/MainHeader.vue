@@ -361,13 +361,14 @@ header {
     }
   }
   .name_link {
-    margin: 0 6px;
+    margin: 0 4px;
     color: #fff;
     cursor: pointer;
     height: 100%;
     line-height: 85px;
-    padding: 0 10px;
+    padding: 0 8px;
     margin-bottom: 15px;
+    overflow: hidden;
   }
   .active {
     // background: linear-gradient(180deg, rgba(0, 108, 255, 0) 0%, #006cff 100%);
@@ -427,7 +428,10 @@ header {
 }
 .search {
   margin-left: 20px;
-  width: 300px;
+  // width: 300px;
+  flex: 1;
+  margin-right: 10px;
+  max-width: 350px;
 }
 .login_con {
   padding: 0 10px;
