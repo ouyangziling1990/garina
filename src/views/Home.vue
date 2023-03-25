@@ -80,7 +80,7 @@ export default {
     },
 
     hasShowLink() {
-      const noLinks = ['welcome', 'indicatorDetail', 'login', 'signup']
+      const noLinks = ['welcome', 'indicatorDetail', 'login', 'signup', 'findaccent', 'verify']
       const arr = this.$route.path.split('/')
       console.log('------');
       console.log(arr,'🔥');

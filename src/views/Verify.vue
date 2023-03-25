@@ -1,18 +1,29 @@
 <template>
-  <div class="Verify">
-    <h1>验证页面</h1>
+  <div class="Verify" v-loading="loading">
+    <UpTips></UpTips>
+    <div class="content" v-if="showFlag">
+      <h1>您的邮箱已经通过验证，现在您可以登录你的账户</h1>
+      <p>页面将在 10S 后自动跳转到登录页，<span click="goto">立即跳转</span></p>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import {verify} from "@/api/index";
+import UpTips from "@/components/UpTips.vue";
 export default {
   name: "verify",
-  components: {},
+  components: {
+    UpTips
+  },
   props: {},
   data() {
-    return {};
+    return {
+      showFlag: false,
+      loading:false,
+      returnBakEmail:''
+    };
   },
   beforeCreate() {},
   created() {},
@@ -27,7 +38,26 @@ export default {
     async parseSub(){
         const sub = this.$route.query.sub
         console.log('sub', sub)
-        const data = await verify(sub)
+        if(!sub){
+          return
+        }
+        this.loading = true
+        try {
+          const data = await verify(sub)
+          if(data.status_code === 200){
+            this.returnBakEmail = data.email
+            this.showFlag = true
+            setTimeout(()=>{
+              this.goto()
+            }, 10*1000)
+          }
+        } catch (error) {
+          this.$message.error('验证失败')
+        }
+        this.loading = false
+    },
+    goto(){
+      this.$router.push({path:'/login', email:this.returnBakEmail})
     }
   },
 };
@@ -36,9 +66,20 @@ export default {
 .Verify {
     padding: 18px 12px;
     h1{
-        font-size: 18px;
-        font-weight: bold;
+        font-size: 22px;
+        // font-weight: bold;
         text-align: center;
+    }
+    .content{
+      margin-top: 30px;
+      text-align: center;
+      p{
+        margin-top: 15px;
+        span{
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
     }
 }
 </style>
