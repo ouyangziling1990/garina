@@ -41,7 +41,9 @@
               <i slot="suffix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
-          
+          <div>
+            <el-button type="danger" @click="deleteA">删除</el-button>
+          </div>
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
@@ -72,7 +74,7 @@
           <div v-if="loginStatus">
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
-                {{ userInfo.username || ""
+                {{ userInfo?.username || ""
                 }}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
@@ -89,10 +91,9 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import {
-  Login,
   links,
   fecthUserInfo,
-  signUp,
+  deleteAccount,
   infrastructure,
 } from "@/api/index";
 import langMap from "@/utils/langMap.js";
@@ -218,6 +219,12 @@ export default {
   },
   watch: {},
   methods: {
+    async deleteA(){
+      const res = await deleteAccount()
+      setTimeout(()=>{
+        this.goToLogin()
+      }, 3000)
+    },
     goToLogin(){
       this.$router.push('/login')
     },

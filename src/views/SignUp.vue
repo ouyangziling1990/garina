@@ -391,13 +391,15 @@ export default {
       });
     },
     regionChange(val) {
-      if (val == 247) {
-        this.regionNumDisabled = true;
-        this.signUpform.regionNum = 86;
-        // {id:'247', regionNumLabel:'+86（中国大陆）'}
-      } else {
-        this.regionNumDisabled = false;
-      }
+      this.regionNumDisabled = true;
+      const tmpR = this.infrastructureArr.find(item=>item.id == val)
+      this.signUpform.regionNum = tmpR.call_code
+      // if (val == 247) {
+      //   this.signUpform.regionNum = 86;
+      //   // {id:'247', regionNumLabel:'+86（中国大陆）'}
+      // } else {
+      //   this.regionNumDisabled = false;
+      // }
     },
     // 注册请求
     async signUpFun() {

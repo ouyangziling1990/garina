@@ -22,7 +22,7 @@
         </el-form>
       </div>
     </div>
-    <div id="find-res" v-if="!normalFlag">
+    <div id="find-res" v-if="!normalFlag && findFlag">
       <div class="tips">
         <span class="el-icon-circle-check"></span>
       </div>
@@ -30,6 +30,16 @@
       <p class="title2">您的账号为：{{ findBackEmail }}</p>
       <p class="button">
         <el-button type="primary" @click="goto('login')">访问您的账号</el-button>
+      </p>
+    </div>
+    <div id="not-find" v-if="!normalFlag && !findFlag">
+      <div class="tips danger">
+        <span class="el-icon-warning-outline"></span>
+      </div>
+      <p class="title1">没有找到账号</p>
+      <p class="title2">我们找不到与提供的信息所匹配的账号。</p>
+      <p class="button">
+        <el-button type="primary" @click="tryAgain()">在试一次</el-button>
       </p>
     </div>
   </div>
@@ -50,6 +60,7 @@ export default {
       findBackEmail: "",
       loading: false,
       normalFlag: true,
+      findFlag:true,
       form: {
         fullname: "",
         username: "",
@@ -80,6 +91,9 @@ export default {
   },
   watch: {},
   methods: {
+    tryAgain(){
+      this.normalFlag = true
+    },
     submitForm() {
       this.$refs["form"].validate(async (valid) => {
         if (valid) {
@@ -87,16 +101,18 @@ export default {
           let res = ''
           try {
             res = await findAccount(this.form);
+            this.normalFlag = false
+            if(res?.status_code === 200){
+              this.findFlag = true
+              this.findBackEmail = res.data.email
+            }
           } catch (error) {
+            this.normalFlag = false
             console.log('error', error)
+            this.findFlag = false
           }
           
           this.loading = false;
-          
-          if(res?.status_code === 202){
-            this.normalFlag = false
-            this.findBackEmail = res.data.email
-          }
           console.log("res", res);
         }
       });
@@ -136,7 +152,7 @@ export default {
     width: 300px;
   }
 
-  #find-res {
+  #find-res, #not-find {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -148,6 +164,9 @@ export default {
       font-size: 70px;
       color: #46c9b5;
       margin: 35px 15px;
+    }
+    .danger{
+      color:rgb(196, 36, 36);
     }
     .title1 {
       font-size: 26px;

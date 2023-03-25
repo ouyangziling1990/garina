@@ -3,7 +3,7 @@
     <UpTips></UpTips>
     <div class="content" v-if="showFlag">
       <h1>您的邮箱已经通过验证，现在您可以登录你的账户</h1>
-      <p>页面将在 10S 后自动跳转到登录页，<span click="goto">立即跳转</span></p>
+      <p>页面将在 {{timeRemain}}S 后自动跳转到登录页，<span click="goto">立即跳转</span></p>
     </div>
   </div>
 </template>
@@ -22,7 +22,8 @@ export default {
     return {
       showFlag: false,
       loading:false,
-      returnBakEmail:''
+      returnBakEmail:'',
+      timeRemain:10
     };
   },
   beforeCreate() {},
@@ -44,20 +45,27 @@ export default {
         this.loading = true
         try {
           const data = await verify(sub)
-          if(data.status_code === 200){
+          // if(data.status_code === 200){
             this.returnBakEmail = data.email
             this.showFlag = true
-            setTimeout(()=>{
-              this.goto()
-            }, 10*1000)
-          }
+            this.countRemain()
+          // }
         } catch (error) {
-          this.$message.error('验证失败')
         }
         this.loading = false
     },
+    countRemain(){
+      if(this.timeRemain>1){
+        setTimeout(()=>{
+          this.countRemain()
+          this.timeRemain -= 1
+        }, 1000)
+      }else{
+        this.goto()
+      }
+    },
     goto(){
-      this.$router.push({path:'/login', email:this.returnBakEmail})
+      this.$router.replace({path:'/login', email:this.returnBakEmail})
     }
   },
 };
@@ -78,6 +86,11 @@ export default {
         span{
           text-decoration: underline;
           cursor: pointer;
+        }
+      }
+      span{
+        &:hover{
+          color: rgb(36, 153, 200);
         }
       }
     }
