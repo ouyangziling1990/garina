@@ -39,7 +39,9 @@
             >
           </div>
           <TopSearch class="search"/>
-
+          <!-- <div>
+            <el-button type="danger" @click="deleteA">删除</el-button>
+          </div> -->
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
@@ -72,7 +74,7 @@
 
               <span class="el-dropdown-link">
                 <i class="el-icon-user" v-if="userInfo.username"></i>
-                {{ userInfo.username || ""
+                {{ userInfo?.username || ""
                 }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
@@ -89,10 +91,9 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import {
-  Login,
   links,
   fecthUserInfo,
-  signUp,
+  deleteAccount,
   infrastructure,
 } from "@/api/index";
 import langMap from "@/utils/langMap.js";
@@ -220,6 +221,12 @@ export default {
   },
   watch: {},
   methods: {
+    async deleteA(){
+      const res = await deleteAccount()
+      setTimeout(()=>{
+        this.goToLogin()
+      }, 3000)
+    },
     goToLogin(){
       this.$router.push('/login')
     },

@@ -43,19 +43,20 @@ axios.interceptors.response.use(
     const { status, data } = error.response;
     const url = error.config.url
     let message = "";
-    if (url === "/data/v1/signup/verify") {
-      message = `具体信息 ${data?.detail[0].msg},邮箱验证失败`;
+    if (url === "/data/v1/signup/verify/email") {
+      message = `${data?.status_description[0].detail}`;
     } else {
       const status_description  = data?.status_description || '';
       const showM =
         status_description && status_description[0]
-          ? status_description[0]
+          ? status_description[0].detail
           : "";
       message = `${codeMap[status] || ""} 具体信息：${showM}`;
     }
     Message.error(message);
-    console.error(message);
-    if (status == 401 && url !='/data/v1/auth/login') {
+    console.error(data, message);
+    const excloudUlrs = ['/data/v1/auth/login', '/data/v1/signup/verify/email']
+    if (status == 401 && !excloudUlrs.includes(url)) {
       localStorage.removeItem("access_token");
       window.location.href = "/";
     }
