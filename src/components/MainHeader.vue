@@ -59,7 +59,7 @@
             <i class="white bimicon icon-diqiuquanqiu"></i>
             <el-dropdown @command="langCommand">
               <span class="label"
-                >{{ langLabel || "中文"
+                >{{ langLabel || "简体中文"
                 }}<i class="el-icon-arrow-down el-icon--right"></i
               ></span>
               <el-dropdown-menu slot="dropdown">
@@ -71,9 +71,11 @@
 
           <div v-if="loginStatus">
             <el-dropdown @command="handleCommand">
+
               <span class="el-dropdown-link">
+                <i class="el-icon-user" v-if="userInfo.username"></i>
                 {{ userInfo.username || ""
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
+                }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="loginOut">退出</el-dropdown-item>
