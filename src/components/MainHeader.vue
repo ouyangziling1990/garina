@@ -41,18 +41,7 @@
               <i slot="suffix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
-          <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0">
-            <div class="wrap">
-              <i class="bimicon icon-renyuan"></i>
-              <div id="login-btns">登录/注册</div>
-            </div>
-            <!-- <el-button plain @click="LoginDialogFlag = true">{{
-              $t("login")
-            }}</el-button>
-            <el-button type="primary" @click="signUpFun" plain>{{
-              $t("signUp")
-            }}</el-button> -->
-          </div>
+          
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
@@ -68,7 +57,18 @@
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-
+          <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0">
+            <div class="wrap">
+              <i class="bimicon icon-renyuan"></i>
+              <div id="login-btns">登录/注册</div>
+            </div>
+            <!-- <el-button plain @click="LoginDialogFlag = true">{{
+              $t("login")
+            }}</el-button>
+            <el-button type="primary" @click="signUpFun" plain>{{
+              $t("signUp")
+            }}</el-button> -->
+          </div>
           <div v-if="loginStatus">
             <el-dropdown @command="handleCommand">
 
@@ -85,133 +85,6 @@
         </div>
       </div>
     </header>
-    <el-dialog
-      title="欢迎使用盖林数据"
-      :visible.sync="LoginDialogFlag"
-      width="448px"
-      class="dialog"
-    >
-      <div class="login_con">
-        <el-form ref="form" :rules="rules" :model="form">
-          <el-form-item label="" prop="username">
-            <el-input
-              v-model="form.username"
-              :placeholder="$t('email')"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="" prop="password">
-            <el-input
-              v-model="form.password"
-              :placeholder="$t('password')"
-              show-password
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">{{
-              $t("login")
-            }}</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-dialog>
-    <el-dialog
-      title="免费注册"
-      :visible.sync="signUpFlag"
-      width="448px"
-      class="dialog"
-    >
-      <el-form
-        label-width="99px"
-        ref="signUpform"
-        :rules="signUprules"
-        :model="signUpform"
-      >
-        <el-form-item label="姓名" prop="fullname">
-          <el-input
-            v-model="signUpform.fullname"
-            placeholder="请输入姓名"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="昵称" prop="username">
-          <el-input v-model="signUpform.username" placeholder="昵称"></el-input>
-        </el-form-item>
-        <el-form-item label="国家或区域" prop="region_id">
-          <el-select
-            v-model="signUpform.region_id"
-            filterable
-            placeholder="国家或区域"
-            @change="regionChange"
-          >
-            <el-option
-              v-for="item in infrastructureArr"
-              :key="item.id"
-              :label="item.region_json[0]"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="出生日期" prop="brith_date">
-          <el-date-picker
-            v-model="signUpform.brith_date"
-            type="date"
-            placeholder="出生日期"
-            value-format="yyyy-MM-dd"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input
-            v-model="signUpform.email"
-            placeholder="请输入邮箱"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="signUpform.password"
-            placeholder="请输入密码"
-            show-password
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="password2">
-          <el-input
-            v-model="signUpform.password2"
-            placeholder="请再次确认密码"
-            show-password
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="国际区号" prop="regionNum">
-          <el-select
-            v-model="signUpform.regionNum"
-            filterable
-            :disabled="regionNumDisabled"
-            placeholder="国家或区域"
-          >
-            <el-option
-              v-for="item in infrastructureArr"
-              :key="'region_num+' + item.id"
-              :label="item.regionNumLabel"
-              :value="item.call_code"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="电话号码" prop="phoneInput">
-          <el-input
-            v-model="signUpform.phoneInput"
-            type="number"
-            placeholder="电话"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="公司" prop="company">
-          <el-input v-model="signUpform.company" placeholder="公司"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="signUpFormSubmit('ruleForm')">{{
-            $t("signUp")
-          }}</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
   </div>
 </template>
 
@@ -431,25 +304,6 @@ export default {
       }
       this.$store.commit("SET_TAG_ARR", res);
     },
-    async submitForm() {
-      this.$refs["form"].validate(async (valid) => {
-        if (valid) {
-          const loginRes = await Login(this.form);
-          const accessToken = loginRes.access_token;
-          if (accessToken) {
-            this.accessToken = accessToken;
-            localStorage.setItem("access_token", accessToken);
-            this.$message.info("登录成功");
-            this.LoginDialogFlag = false;
-            this.getUserInfo();
-          }
-        } else {
-          console.log("error submit!!");
-          this.$message.error("登录信息校验未通过，请验证");
-          return false;
-        }
-      });
-    },
     async getUserInfo() {
       if (this.loginStatus) {
         const userInfo = await fecthUserInfo();
@@ -457,25 +311,6 @@ export default {
         // this.userInfo = userInfo;
         this.$store.commit("SET_USER_INFO", userInfo);
       }
-    },
-    async signUpFormSubmit() {
-      this.$refs["signUpform"].validate(async (valid) => {
-        if (valid) {
-          console.log(valid);
-          console.log(
-            this.signUpform,
-            this.signUpform.regionNum,
-            this.signUpform.phone
-          );
-          this.signUpform.phone = `+${this.signUpform.regionNum} ${this.signUpform.phone}`;
-          const res = await signUp(this.signUpform);
-          this.$message.success("注册成功，请前往邮箱验证");
-          console.log("res", res);
-        } else {
-          this.$message.error("验证失败，请查验");
-          return false;
-        }
-      });
     },
   },
 };
@@ -529,7 +364,7 @@ header {
     background: linear-gradient(180deg, rgba(0, 108, 255, 0) 0%, #006cff 100%);
   }
   .logo {
-    width: 130px;
+    width: 165px;
     height: 40px;
   }
   .logo_opt {

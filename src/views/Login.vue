@@ -94,7 +94,13 @@ export default {
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+  mounted() {
+    const query = this.$route.query
+    if(query.email){
+      this.form.email = query.email
+      this.form.username = query.email
+    }
+  },
   computed: {
     ...mapState(['userInfo']),
     loginStatus() {
@@ -116,7 +122,7 @@ export default {
           } catch (error) {
             console.log('loginError', error)
             const msg1 = error.status_description[0]
-            // this.$message.error(msg1)
+            this.$message.error(msg1)
             this.loading = false
           }
           

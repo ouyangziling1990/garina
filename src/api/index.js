@@ -80,7 +80,7 @@ export const getIndicatorDetail = (id) => {
 export const verify = (sub) => {
   const url = `${apiVersion}/signup/verify`;
   const params = { sub };
-  return axios.get(url, params).then((res) => res.data);
+  return axios.get(url, {params}).then((res) => res);
 };
 
 // 添加指标自选
@@ -120,4 +120,19 @@ export const getStatisticsData = (data) => {
   const url = `${apiVersion}/statistics/data`;
   return axios.get(url).then((res) => res.data);
 };
-
+// 
+export const acceptUserName = (username)=>{
+  const url = `${apiVersion}/signup/accept/username`
+  const params = {username}
+  return axios.post(url, params).then((res) => res);
+}
+export const acceptEmail = (email)=>{
+  const url = `${apiVersion}/signup/accept/email`
+  const params = {email}
+  return axios.post(url, params).then((res) => res);
+}
+export const findAccount = (data)=>{
+  const url = `${apiVersion}/account/email/find`
+  
+  return axios.post(url, data).then((res) => res);
+}

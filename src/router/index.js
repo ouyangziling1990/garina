@@ -72,14 +72,19 @@ const router = new Router({
           name:"signup",
           component:()=> import("@/views/SignUp")
         },
-        
+        {
+          path:"/findaccent",
+          name:"findaccent",
+          component:()=> import("@/views/FindAccent")
+        },
+        {
+          path:'/verify',
+          name:"verify",
+          component: ()=>import("@/views/Verify")
+        },
       ]
     },
-    {
-      path:'/verify',
-      name:"verify",
-      component: ()=>import("@/views/Verify")
-    },
+    
     {
       path:"/lang",
       name:"lang",
