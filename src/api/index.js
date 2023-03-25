@@ -2,8 +2,8 @@
 // const baseUrl = "http://ipv4.api.garinasset.com:8000"
 const apiVersion =
   process.env.NODE_ENV === "production"
-    // ? "https://api.garinasset.com/data/v1"
-    ? "http://api-pro.garinasset.com:8000/data/v1"
+    ? "https://api.garinasset.com/data/v1"
+    // ? "http://api-pro.garinasset.com:8000/data/v1"
     : "/data/v1";
 import axios from "../utils/axiosInterceptors";
 
@@ -120,7 +120,7 @@ export const getStatisticsData = (data) => {
   const url = `${apiVersion}/statistics/data`;
   return axios.get(url).then((res) => res.data);
 };
-// 
+//
 export const acceptUserName = (username)=>{
   const url = `${apiVersion}/signup/accept/username`
   const params = {username}
@@ -132,7 +132,12 @@ export const acceptEmail = (email)=>{
   return axios.post(url, params).then((res) => res);
 }
 export const findAccount = (data)=>{
-  const url = `${apiVersion}/account/email/find`
-  
+  const url = `${apiVersion}/searches/indicators`
+
   return axios.post(url, data).then((res) => res);
+}
+
+export const searchIndicators = (val)=>{
+  const url = `${apiVersion}/searches/indicators?q=${val}`
+  return axios.get(url).then((res) => res.data);
 }
