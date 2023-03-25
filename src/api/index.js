@@ -1,11 +1,11 @@
 //基础路径
 // const baseUrl = "http://ipv4.api.garinasset.com:8000"
 const apiVersion =
-  process.env.NODE_ENV === 'production'
-    ? // ? "https://api.garinasset.com/data/v1"
-      'http://api-pro.garinasset.com:8000/data/v1'
-    : '/data/v1'
-import axios from '../utils/axiosInterceptors'
+  process.env.NODE_ENV === "production"
+    ? "https://api.garinasset.com/data/v1"
+    // ? "http://api-pro.garinasset.com:8000/data/v1"
+    : "/data/v1";
+import axios from "../utils/axiosInterceptors";
 
 function setHeader() {
   axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`
@@ -57,13 +57,13 @@ export const getLocateInfo = (tagId) => {
 }
 // 初始化 获取所有区域数据
 export const getCountries = () => {
-  const url = `${apiVersion}/countries`
-  return axios.get(url).then((res) => res.data)
-}
-export const getRegions = (countryId) => {
-  const url = `${apiVersion}/countries/${countryId}/regions`
-  return axios.get(url).then((res) => res.data)
-}
+  const url = `${apiVersion}/countries`;
+  return axios.get(url).then((res) => res.data);
+};
+export const getRegions = (countryId, regions ) => {
+  const url = `${apiVersion}/countries/${countryId}/${regions}`;
+  return axios.get(url).then((res) => res.data);
+};
 
 export const getDataDetail = (tag_id, region_id) => {
   const url = `${apiVersion}/indicators/tags/${tag_id}/regions/${region_id}/list`
@@ -117,11 +117,11 @@ export const setFavoritesOrder = (data) => {
 
 // 自选指标排序
 export const getStatisticsData = (data) => {
-  const url = `${apiVersion}/statistics/data`
-  return axios.get(url).then((res) => res.data)
-}
+  const url = `${apiVersion}/statistics/data`;
+  return axios.get(url).then((res) => res.data);
+};
 //
-export const acceptUserName = (username) => {
+export const acceptUserName = (username)=>{
   const url = `${apiVersion}/signup/accept/username`
   const params = { username }
   return axios.post(url, params).then((res) => res)
@@ -140,4 +140,9 @@ export const findAccount = (data) => {
 export const deleteAccount = () => {
   const url = `${apiVersion}/account/delete`
   return axios.delete(url).then((res) => res)
+}
+
+export const searchIndicators = (val)=>{
+  const url = `${apiVersion}/searches/indicators?q=${val}`
+  return axios.get(url).then((res) => res.data);
 }

@@ -7,7 +7,7 @@
         "emailReq":"val is not email",
         "password":"password",
         "passwordReq":"password is required"
-  
+
       },
       "zh-CN":{
         "login":"登录",

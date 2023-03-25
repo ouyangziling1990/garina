@@ -6,7 +6,8 @@
       "email":"email",
       "emailReq":"val is not email",
       "password":"password",
-      "passwordReq":"password is required"
+      "passwordReq":"password is required",
+      "search":"Search"
 
     },
     "zh-CN":{
@@ -15,7 +16,8 @@
       "email":"请输入邮箱",
       "emailReq":"请输入正确邮箱",
       "password":"密码",
-      "passwordReq":"请输入密码"
+      "passwordReq":"请输入密码",
+      "search":"搜索"
     }
   }
 </i18n>
@@ -36,21 +38,17 @@
               {{ item.name_link_json[langArrIndex] }}</span
             >
           </div>
-          <div class="search">
-            <el-input v-model="searchInput" placeholder="请输入内容">
-              <i slot="suffix" class="el-input__icon el-icon-search"></i>
-            </el-input>
-          </div>
-          <div>
+          <TopSearch class="search"/>
+          <!-- <div>
             <el-button type="danger" @click="deleteA">删除</el-button>
-          </div>
+          </div> -->
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
             <i class="white bimicon icon-diqiuquanqiu"></i>
             <el-dropdown @command="langCommand">
               <span class="label"
-                >{{ langLabel || "中文"
+                >{{ langLabel || "简体中文"
                 }}<i class="el-icon-arrow-down el-icon--right"></i
               ></span>
               <el-dropdown-menu slot="dropdown">
@@ -73,9 +71,11 @@
           </div>
           <div v-if="loginStatus">
             <el-dropdown @command="handleCommand">
+
               <span class="el-dropdown-link">
+                <i class="el-icon-user" v-if="userInfo.username"></i>
                 {{ userInfo?.username || ""
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
+                }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="loginOut">退出</el-dropdown-item>
@@ -97,9 +97,11 @@ import {
   infrastructure,
 } from "@/api/index";
 import langMap from "@/utils/langMap.js";
+import TopSearch from "@/components/TopSearch";
+
 export default {
   name: "MainHeader",
-  components: {},
+  components: {TopSearch},
   props: {},
   data() {
     var validatePass = (rule, value, callback) => {
@@ -327,7 +329,8 @@ export default {
 header {
   width: 100%;
   height: 70px;
-  background: #1d498f;
+  // background: #1d498f;
+  background: #1269c1;
   // rgb(30, 101, 213);
   // border: 1px solid #f6f5f7;
   padding: 0;
@@ -362,15 +365,20 @@ header {
     color: #fff;
     cursor: pointer;
     height: 100%;
-    line-height: 70px;
+    line-height: 85px;
     padding: 0 10px;
+    margin-bottom: 15px;
   }
   .active {
-    background: linear-gradient(180deg, rgba(0, 108, 255, 0) 0%, #006cff 100%);
+    // background: linear-gradient(180deg, rgba(0, 108, 255, 0) 0%, #006cff 100%);
+
+    line-height: 91px;
+    border-bottom: 3.5px solid #fff;
   }
   .logo {
-    width: 165px;
-    height: 40px;
+    // width: 165px;
+    height: 30px;
+    padding-right: 10px;
   }
   .logo_opt {
     // width: 200px;
@@ -419,6 +427,7 @@ header {
 }
 .search {
   margin-left: 20px;
+  width: 300px;
 }
 .login_con {
   padding: 0 10px;

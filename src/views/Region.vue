@@ -31,7 +31,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { getRegions } from "@/api/index";
+import { getRegions, getRegionsByAdmin} from "@/api/index";
 export default {
   name: "Region",
   props: {},
@@ -52,7 +52,7 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapState(["tagInfo", "regionInfo", "langArrIndex"]),
+    ...mapState(["tagInfo", "regionInfo", "langArrIndex", "linkInfo"]),
     countryId() {
       return this.$route.params.countryId;
     },
@@ -96,7 +96,7 @@ export default {
     },
     async getRegion() {
       this.loading = true;
-      const tmpRegion = await getRegions(this.countryId);
+      const tmpRegion = await getRegions(this.countryId,this.linkInfo.linkInfo.url);
       console.log(tmpRegion);
       const group = tmpRegion.filter(item=>{
         return !item.parent_id
