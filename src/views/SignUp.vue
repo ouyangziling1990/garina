@@ -327,6 +327,7 @@ export default {
         email: "",
         password: "",
         password2: "",
+        url_signup:""
       },
       signUprules: {
         email: [
@@ -383,14 +384,20 @@ export default {
           const tmpSign = JSON.parse(JSON.stringify(this.signUpform));
           tmpSign.phone =
             `+${this.signUpform.regionNum}` + " " + this.signUpform.phoneInput;
+          let url_signup = ''
+          if(process.env.NODE_ENV !== "production"){
+            url_signup = 'http://data-dev.gaichiyaole.icu:4080/#/verify?sub='
+          }else{
+            const loca = window.location
+            url_signup = loca.protocol + '//' + loca.host +'/#/verify?sub='
+          }
+          tmpSign.url_signup = url_signup
           const res = await signUp(tmpSign);
           this.$message.success("注册成功，请前往邮箱验证");
           console.log("res", res);
 
           this.gotoEmailFlag = true;
-          // setTimeout(()=>{
-          //     this.$router.push('/login')
-          // }, 1000)
+          
         } else {
           this.$message.error("验证失败，请查验");
           return false;
