@@ -65,7 +65,10 @@ export default {
       }
     },
     goto(){
-      this.$router.replace({path:'/login', email:this.returnBakEmail})
+      const query = {
+          'email': this.findBackEmail
+        }
+      this.$router.replace({path:'/login', query})
     }
   },
 };
