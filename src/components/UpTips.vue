@@ -1,9 +1,9 @@
 <template>
     <div class="up">
-      <p>创建账号</p>
+      <p>{{findFlag?'查找账号':'创建账号'}}</p>
       <div class="next">
         <el-button @click="goto('login')" type="text">登录</el-button>
-        <el-button type="text">没有收到邮件？</el-button>
+        <el-button v-if="!findFlag" type="text">没有收到邮件？</el-button>
         <el-button type="text">隐私保护</el-button>
       </div>
     </div>
@@ -15,6 +15,10 @@ export default{
   name: "UpTips",
   components: {},
   props: {
+    findFlag:{
+      type:Boolean,
+      default:false
+    }
   },
   data() {
     return {

@@ -1,6 +1,6 @@
 <template>
   <div class="FindAccent" v-loading="loading">
-    <UpTips></UpTips>
+    <UpTips :findFlag="findFlagUpTips"></UpTips>
     <div id="content" v-if="normalFlag">
       <p id="findTitle">输入下面信息查找您的账号</p>
       <div class="wrap">
@@ -39,7 +39,7 @@
       <p class="title1">没有找到账号</p>
       <p class="title2">我们找不到与提供的信息所匹配的账号。</p>
       <p class="button">
-        <el-button type="primary" @click="tryAgain()">在试一次</el-button>
+        <el-button type="primary" style="width:100px;" @click="tryAgain()">在试一次</el-button>
       </p>
     </div>
   </div>
@@ -57,6 +57,7 @@ export default {
   props: {},
   data() {
     return {
+      findFlagUpTips:true,
       findBackEmail: "",
       loading: false,
       normalFlag: true,
