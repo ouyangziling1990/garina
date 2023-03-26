@@ -266,6 +266,10 @@ export default {
     };
     const userNameUniVal = async (rule, value, callback) => {
       let res = ''
+      if(!value){
+        callback();
+        return
+      }
       try {
         res = await acceptUserName(value);
       } catch (error) {
@@ -283,6 +287,10 @@ export default {
     };
     const emailUniVal = async (rule, value, callback) => {
       let res = ''
+      if(!value){
+        callback();
+        return
+      }
       try {
         res = await acceptEmail(value);
       } catch (error) {
