@@ -14,7 +14,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              class="btn"
+              class="btn wider"
               @click="submitForm('ruleForm')"
               >继续</el-button
             >
@@ -29,7 +29,7 @@
       <p class="title1">已找到账号</p>
       <p class="title2">您的账号为：{{ findBackEmail }}</p>
       <p class="button">
-        <el-button type="primary" @click="goto('login')">访问您的账号</el-button>
+        <el-button type="primary" class="wider" @click="goto('login')">访问您的账号</el-button>
       </p>
     </div>
     <div id="not-find" v-if="!normalFlag && !findFlag">
@@ -39,7 +39,7 @@
       <p class="title1">没有找到账号</p>
       <p class="title2">我们找不到与提供的信息所匹配的账号。</p>
       <p class="button">
-        <el-button type="primary" style="width:100px;" @click="tryAgain()">在试一次</el-button>
+        <el-button type="primary" class="wider"  @click="tryAgain()">在试一次</el-button>
       </p>
     </div>
   </div>
@@ -177,6 +177,9 @@ export default {
       font-size: 16px;
       margin: 0px 0 30px;
     }
+  }
+  .wider{
+    width:100px
   }
 }
 </style>
