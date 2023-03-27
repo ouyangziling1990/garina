@@ -133,7 +133,7 @@ export default {
             this.$message.info("登录成功");
 
             await this.getUserInfo();
-            this.$router.push("/welcome");
+            this.$router.go(-1)
           }
           this.loading = false;
         } else {

@@ -311,7 +311,7 @@ export default {
             const loca = window.location
             url_signup = loca.protocol + '//' + loca.host + '/#/verify?sub='
           }
-          tmpSign.url_signup = url_signup
+          tmpSign.url_signup = encodeURI(url_signup)
           const res = await signUp(tmpSign)
           this.$message.success('注册成功，请前往邮箱验证')
           console.log('res', res)

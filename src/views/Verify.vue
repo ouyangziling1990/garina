@@ -51,6 +51,7 @@ export default {
             this.countRemain()
           // }
         } catch (error) {
+          // this.$message.error('验证失败')
         }
         this.loading = false
     },
@@ -65,6 +66,7 @@ export default {
       }
     },
     goto(){
+      console.log('goto')
       const query = {
           'email': this.findBackEmail
         }
@@ -75,7 +77,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .Verify {
-    padding: 18px 12px;
+    padding: 0px 12px;
     h1{
         font-size: 22px;
         // font-weight: bold;
