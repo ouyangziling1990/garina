@@ -39,7 +39,7 @@
       <p class="title1">没有找到账号</p>
       <p class="title2">我们找不到与提供的信息所匹配的账号。</p>
       <p class="button">
-        <el-button type="primary" class="wider"  @click="tryAgain()">在试一次</el-button>
+        <el-button type="primary" class="wider"  @click="tryAgain()">再试一次</el-button>
       </p>
     </div>
   </div>
@@ -112,7 +112,7 @@ export default {
             console.log('error', error)
             this.findFlag = false
           }
-          
+
           this.loading = false;
           console.log("res", res);
         }
