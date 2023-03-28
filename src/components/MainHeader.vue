@@ -39,9 +39,9 @@
             >
           </div>
           <TopSearch class="search"/>
-          <!-- <div>
+          <div v-if="showAccountDelete">
             <el-button type="danger" @click="deleteA">删除</el-button>
-          </div> -->
+          </div>
         </div>
         <div class="logo_opt">
           <div class="lang-wrap">
@@ -73,7 +73,7 @@
             <el-dropdown @command="handleCommand">
 
               <span class="el-dropdown-link">
-                <i class="el-icon-user" v-if="userInfo.username"></i>
+                <i class="el-icon-user" v-if="userInfo?.username"></i>
                 {{ userInfo?.username || ""
                 }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
@@ -218,6 +218,9 @@ export default {
     localI18n() {
       return this.$root.$i18n;
     },
+    showAccountDelete(){
+      return process.env.NODE_ENV !== 'production'
+    }
   },
   watch: {},
   methods: {
