@@ -93,6 +93,7 @@ const router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
+  console.log('router to', router)
   if (to.query.cloudToken) {
     console.log("参数cloudToken：" + to.query.cloudToken)
     axios.defaults.headers.common["Authorization"] = `Bearer ${to.query.cloudToken}`
