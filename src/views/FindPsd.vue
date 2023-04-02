@@ -50,7 +50,7 @@
       </div>
 
       <div v-else class="info">
-        <h2>{{ $t('verifyEmail') }} </h2>
+        <h2 class="info-title">{{ $t('verifyEmail') }} </h2>
         <p>{{ $t('sendemailSuccess') }} {{form.email}}</p>
       </div>
     </div>
@@ -179,5 +179,11 @@ export default {
 }
 .info{
   margin-top: 80px;
+  .info-title{
+    font-size: 22px;
+    // font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+  }
 }
 </style>

@@ -99,7 +99,7 @@ export default {
     return {
       form: {
         psd: '',
-        pad2: ''
+        psd2: ''
       },
       rules: {
         psd: [{ validator: validatePass, trigger: 'blur' }],
