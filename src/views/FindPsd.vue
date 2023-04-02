@@ -25,33 +25,58 @@
       </div>
     </div>
     <div id="content">
-      <p id="findTitle" v-if="!sendemailOk">输入需要重置密码的邮箱账号</p>
-      <div class="wrap" v-if="!sendemailOk">
-        <el-form ref="form" :rules="rules" :model="form">
-          <el-form-item label="" class="form-item" prop="email">
-            <el-input
-              v-model="form.email"
-              placeholder="邮箱"
-              @change="changeHandler"
-            ></el-input>
-          </el-form-item>
-          <div class="wrong-email" v-if="errorEmail">
-            {{ $t('wrongEmail') }}
-          </div>
-          <el-form-item>
-            <el-button
-              type="primary"
-              class="btn wider"
-              @click="submitForm('ruleForm')"
-              >继续</el-button
-            >
-          </el-form-item>
-        </el-form>
+      <div class="left">
+        <p class="title">忘记密码？</p>
+        <p class="desc">输入需要重置密码的邮箱账号</p>
+        <div class="wrap">
+          <el-form ref="form" :rules="rules" :model="form">
+            <el-form-item label="" class="form-item" prop="email">
+              <el-input
+                v-model="form.email"
+                placeholder="邮箱"
+                @change="changeHandler"
+              ></el-input>
+            </el-form-item>
+            <div class="wrong-email" v-if="errorEmail">
+              {{ $t('wrongEmail') }}
+            </div>
+            <div>
+              <p class="findaccent-p">
+                如果您忘记了账号，可以<span
+                  class="findaccent"
+                  type="text"
+                  @click="goto('findaccent')"
+                  >查找账号 </span
+                >。
+              </p>
+            </div>
+            <el-form-item>
+              <el-button
+                type="primary"
+                class="btn wider"
+                @click="submitForm('ruleForm')"
+                >继续</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
 
-      <div v-else class="info">
-        <h2 class="info-title">{{ $t('verifyEmail') }} </h2>
-        <p>{{ $t('sendemailSuccess') }} {{form.email}}</p>
+      <el-divider class="divider" direction="vertical"></el-divider>
+      <div class="right">
+        <img
+          v-if="sendemailOk"
+          src="../assets/image/shield-success.png"
+          alt=""
+        />
+        <img v-else src="../assets/image/shield-default.png" alt="" />
+        <div v-if="sendemailOk">
+          <h2 class="info-title">{{ $t('verifyEmail') }}</h2>
+          <p>{{ $t('sendemailSuccess') }} {{ form.email }}</p>
+        </div>
+        <div v-else>
+          你可以在此处重设忘记的密码。出于安全考虑，我们将向你的邮箱发送验证邮件，以验证该帐户属于你。
+        </div>
       </div>
     </div>
   </div>
@@ -120,7 +145,6 @@ export default {
             const res = await resetSendemail(obj)
             console.log(res)
             this.sendemailOk = true
-            res = await findAccount(this.form)
             // this.normalFlag = false
             // if (res?.status_code === 200) {
             //   this.findFlag = true
@@ -134,6 +158,9 @@ export default {
           console.log('res', res)
         }
       })
+    },
+    goto(type) {
+      this.$router.push('/findaccent')
     }
   }
 }
@@ -159,27 +186,62 @@ export default {
 #content {
   text-align: center;
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .left {
+    text-align: left;
+    width: 350px;
+    .title {
+      margin: 10px 0 20px;
+      font-size: 24px;
+      height: 50px;
+      line-height: 50px;
+      // font-weight: bold;
+    }
+    .desc {
+      margin: 0 0 20px;
+    }
+    .findaccent-p {
+      font-size: 14px;
+      .findaccent {
+        color: #3067bb;
+      }
+    }
+
+    .btn {
+      margin-top: 20px;
+    }
+  }
+  .divider {
+    margin: 40px;
+    height: 250px;
+  }
+  .right {
+    width: 350px;
+    text-align: left;
+    display: flex;
+    color: #6e6e6e;
+    line-height: 1.4;
+    font-size: 14px;
+    img {
+      height: 50px;
+      margin: 0 20px 0 40px;
+
+    }
+  }
 }
 .wrong-email {
   color: #e7322d;
   margin-bottom: 10px;
 }
-#findTitle {
-  margin: 10px 0 20px;
-  font-size: 24px;
-  height: 50px;
-  line-height: 50px;
-  // font-weight: bold;
-}
 .wrap {
   width: 300px;
 }
-.info{
+.info {
   margin-top: 80px;
-  .info-title{
+  .info-title {
     font-size: 22px;
     // font-weight: bold;
     text-align: center;

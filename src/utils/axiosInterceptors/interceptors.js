@@ -53,7 +53,7 @@ axios.interceptors.response.use(
           : "";
       message = `${showM}`;
     }
-    Message.error(message);
+    // Message.error(message);
     console.error(data, message);
     const excloudUlrs = ['/data/v1/auth/login', '/data/v1/signup/verify/email']
     if (status == 401 && !excloudUlrs.includes(url)) {
