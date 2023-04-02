@@ -58,7 +58,7 @@ axios.interceptors.response.use(
     const excloudUlrs = ['/data/v1/auth/login', '/data/v1/signup/verify/email']
     if (status == 401 && !excloudUlrs.includes(url)) {
       localStorage.removeItem("access_token");
-      window.location.href = "/#/login";
+      window.location.href = "/login";
     }
     return Promise.reject(data);
   }
