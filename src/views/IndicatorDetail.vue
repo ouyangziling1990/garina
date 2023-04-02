@@ -181,6 +181,10 @@ export default {
         }
       },
       immediate: true
+    },
+    langArrIndex(val) {
+      console.log(this.dataInfo.title, val)
+      document.title = `${this.dataInfo.title[val]} - ${this.dataInfo.country[val]} - ${this.dataInfo.region[val]} - DATA.GARINASSET.COM`
     }
   },
   methods: {
@@ -226,9 +230,12 @@ export default {
         title: names?.name_json,
         method: methods?.method_json,
         country_emoji_flag: countries?.iso3166_alpha2.toLowerCase(),
+        country: countries?.country_json,
         region: regions?.region_json
       }
       this.dataInfo = dataInfo
+
+      document.title = `${this.dataInfo.title[this.langArrIndex]} - ${this.dataInfo.country[this.langArrIndex]} - ${this.dataInfo.region[this.langArrIndex]} - DATA.GARINASSET.COM`
       const rate =
         data_year_over_year && data_year_over_year.data_latest_value
           ? (
@@ -458,7 +465,7 @@ export default {
     },
     async getFavoritesList() {
       let res = await getFavorites()
-      this.$store.commit('SET_FAVORITES_DATA', res.favorites||[])
+      this.$store.commit('SET_FAVORITES_DATA', res.favorites || [])
     },
     async favoritesClickHandler() {
       if (this.inFavorites) {

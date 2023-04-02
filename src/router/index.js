@@ -100,6 +100,9 @@ router.beforeEach((to, from, next) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${to.query.cloudToken}`
     window.isIframe = true
   }
+  if(to.meta.title) {
+    document.title = to.meta.title
+  }
   next()
 })
 

@@ -198,6 +198,7 @@ export default {
       },
       accessToken: "",
       // userInfo: "",
+      currentLink: null
     };
   },
   beforeCreate() {},
@@ -222,7 +223,9 @@ export default {
       return process.env.NODE_ENV !== 'production'
     }
   },
-  watch: {},
+  watch: {
+    langArrIndex(){},
+  },
   methods: {
     async deleteA(){
       const res = await deleteAccount()
@@ -301,6 +304,8 @@ export default {
       }
       this.$store.commit("SET_LINK_ARR", { index: 0, pathInfo });
       this.$forceUpdate();
+      this.currentLink = item
+      document.title = `${this.currentLink.name_link_json[this.langArrIndex]} - DATA.GARINASSET.COM`
     },
     //
     async getLinks() {
@@ -309,6 +314,7 @@ export default {
       this.linksArr = res;
       this.loading = false;
       res.forEach((item) => (item.active = false));
+      console.log(res);
       if (res.length > 0) {
         res[0]["active"] = true;
       }
