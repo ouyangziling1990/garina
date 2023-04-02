@@ -35,6 +35,7 @@
                 v-model="form.email"
                 placeholder="邮箱"
                 @change="changeHandler"
+                :disabled="sendemailOk"
               ></el-input>
             </el-form-item>
             <div class="wrong-email" v-if="errorEmail">
@@ -54,6 +55,7 @@
               <el-button
                 type="primary"
                 class="btn wider"
+                :disabled="sendemailOk"
                 @click="submitForm('ruleForm')"
                 >继续</el-button
               >
@@ -228,7 +230,6 @@ export default {
     img {
       height: 50px;
       margin: 0 20px 0 40px;
-
     }
   }
 }
