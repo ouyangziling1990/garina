@@ -146,3 +146,13 @@ export const searchIndicators = (val)=>{
   const url = `${apiVersion}/searches/indicators?q=${val}`
   return axios.get(url).then((res) => res.data);
 }
+
+export const resetSendemail = (params)=>{
+  const url = `${apiVersion}/account/password/forget/reset/sendemail`
+  return axios.post(url,params).then((res) => res.data);
+}
+
+export const resetPsd = (params)=>{
+  const url = `${apiVersion}/account/password/forget/reset/verify/email`
+  return axios.post(url,params).then((res) => res.data);
+}

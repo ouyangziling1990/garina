@@ -83,6 +83,16 @@ const router = new Router({
           name:"verify",
           component: ()=>import("@/views/Verify")
         },
+        {
+          path:'/findPsd',
+          name:"findPsd",
+          component: ()=>import("@/views/FindPsd")
+        },
+        {
+          path:'/resetPsd',
+          name:"resetPsd",
+          component: ()=>import("@/views/ResetPsd")
+        },
       ]
     },
 

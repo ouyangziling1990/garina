@@ -80,9 +80,8 @@ export default {
     },
 
     hasShowLink() {
-      const noLinks = ['welcome', 'indicator', 'login', 'signup', 'findaccent', 'verify']
+      const noLinks = ['welcome', 'indicator', 'login', 'signup', 'findaccent', 'verify', 'resetPsd', 'findPsd']
       const arr = this.$route.path.split('/')
-      console.log('------');
       console.log(arr,'🔥');
       if(noLinks.indexOf(arr[1])!==-1){
         this.showLink = false

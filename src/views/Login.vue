@@ -7,7 +7,7 @@
         "emailReq":"val is not email",
         "password":"password",
         "passwordReq":"password is required"
-  
+
       },
       "zh-CN":{
         "login":"登录",
@@ -30,7 +30,7 @@
           ></el-input>
         </el-form-item>
         <p class="forget-p">
-          <span>忘记密码？</span>
+          <span @click="forgetPsdHandler">忘记密码？</span>
         </p>
         <el-form-item label="" prop="password">
           <el-input
@@ -125,7 +125,7 @@ export default {
             // this.$message.error(msg1)
             this.loading = false
           }
-          
+
           const accessToken = loginRes?.access_token;
           if (accessToken) {
             this.accessToken = accessToken;
@@ -153,6 +153,9 @@ export default {
         this.userInfo = userInfo;
         this.$store.commit("SET_USER_INFO", userInfo);
       }
+    },
+    forgetPsdHandler(){
+      this.$router.push("/findPsd");
     },
   },
 };
