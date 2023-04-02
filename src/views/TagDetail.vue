@@ -175,10 +175,7 @@ export default {
     },
     async indectorDetail(singleData) {
       const id = singleData.id
-      // const indectorData = await getIndicatorDetail(id);
-      // console.log("indectorData", indectorData);
-      // this.$router.push(`/indicatorDetail/${id}`);
-      let pathInfo = this.$router.resolve(`/indicatorDetail/${id}`)
+      let pathInfo = this.$router.resolve(`/indicator/${id}`)
       window.open(pathInfo.href, '_blank')
     },
     headerClass() {

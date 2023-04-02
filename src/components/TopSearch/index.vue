@@ -68,7 +68,7 @@ export default {
       }
     },
     handleSelect({id}) {
-      let pathInfo = this.$router.resolve(`/indicatorDetail/${id}`)
+      let pathInfo = this.$router.resolve(`/indicator/${id}`)
       window.open(pathInfo.href, '_blank')
     }
   }

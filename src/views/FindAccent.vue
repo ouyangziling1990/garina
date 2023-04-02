@@ -110,6 +110,7 @@ export default {
           } catch (error) {
             this.normalFlag = false
             console.log('error', error)
+
             this.findFlag = false
           }
 

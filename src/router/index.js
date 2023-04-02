@@ -54,7 +54,7 @@ const router = new Router({
           component:()=>import("@/views/TagDetail")
         },
         {
-          path:`/indicatorDetail/:indicatorId`,
+          path:`/indicator/:indicatorId`,
           name:'indicatorDetail',
           component:()=>import("@/views/IndicatorDetail")
         },
@@ -85,7 +85,7 @@ const router = new Router({
         },
       ]
     },
-    
+
     {
       path:"/lang",
       name:"lang",
