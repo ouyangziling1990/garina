@@ -27,7 +27,7 @@
     <div id="content">
       <div class="left">
         <p class="title">忘记密码？</p>
-        <p class="desc">输入需要重置密码的邮箱账号</p>
+        <p class="desc">输入你的账号信息，即可开始</p>
         <div class="wrap">
           <el-form ref="form" :rules="rules" :model="form">
             <el-form-item label="" class="form-item" prop="email">
