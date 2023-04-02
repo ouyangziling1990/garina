@@ -22,7 +22,7 @@
       <p>{{ $t('resetPsd') }}</p>
       <div class="next">
         <el-button @click="goto('login')" type="text">登录</el-button>
-        <el-button type="text">没有收到邮件？</el-button>
+        <!-- <el-button type="text">没有收到邮件？</el-button> -->
         <el-button type="text">隐私保护</el-button>
       </div>
     </div>
