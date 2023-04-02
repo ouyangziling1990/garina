@@ -306,10 +306,10 @@ export default {
           tmpSign.phone = `+${this.signUpform.regionNum}` + ' ' + this.signUpform.phoneInput
           let url_signup = ''
           if (process.env.NODE_ENV !== 'production') {
-            url_signup = 'http://data-dev.gaichiyaole.icu:4080/#/verify?sub='
+            url_signup = 'http://data-dev.gaichiyaole.icu:4080/verify?sub='
           } else {
             const loca = window.location
-            url_signup = loca.protocol + '//' + loca.host + '/#/verify?sub='
+            url_signup = loca.protocol + '//' + loca.host + '/verify?sub='
           }
           tmpSign.url_signup = encodeURI(url_signup)
           const res = await signUp(tmpSign)
