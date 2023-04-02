@@ -133,7 +133,7 @@ export default {
             this.$message.info("登录成功");
 
             await this.getUserInfo();
-            this.$router.go(-1)
+            this.goBack()
           }
           this.loading = false;
         } else {
@@ -142,6 +142,9 @@ export default {
           return false;
         }
       });
+    },
+    goBack() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
     },
     async getUserInfo() {
       if (this.loginStatus) {
