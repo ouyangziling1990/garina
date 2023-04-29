@@ -28,7 +28,7 @@
 </i18n>
 <template>
   <div class="IndicatorDetail" v-loading="loading">
-    <div class="detail-wrap">
+    <div class="detail-wrap" v-if="!loading">
       <div class="chart-data">
         <div class="chart-head">
           <div class="c-title">{{ dataInfo.title[langArrIndex] }}</div>
