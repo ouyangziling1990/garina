@@ -381,8 +381,7 @@ header {
   }
   .active {
     // background: linear-gradient(180deg, rgba(0, 108, 255, 0) 0%, #006cff 100%);
-
-    line-height: 91px;
+    line-height: 88px;
     border-bottom: 3.5px solid #fff;
   }
   .logo {

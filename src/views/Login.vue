@@ -85,6 +85,8 @@ export default {
             message: _this.$t("emailReq"),
             trigger: ["blur", "change"],
           },
+          { required: true, message: _this.$t("emailReq"), trigger: "blur" }
+          
         ],
         password: [
           { required: true, message: _this.$t("passwordReq"), trigger: "blur" },
