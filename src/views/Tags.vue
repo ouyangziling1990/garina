@@ -14,9 +14,12 @@
 <script>
 import { mapState } from "vuex";
 import { getTags, getLocateInfo } from "@/api/index";
+import Footer from '@/components/Footer'
 export default {
   name: "Tags",
-  components: {},
+  components: {
+    Footer
+  },
   props: {},
   data() {
     return {
@@ -97,10 +100,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .tag_wrap {
-  max-width: 1280px;
+  max-width: 1000px;
   width: 100%;
   height: 100%;
+  min-height: 400px;
   margin: 0 auto;
+  margin-left: 188px;
   .title {
     font-size: 20px;
     font-weight: bold;

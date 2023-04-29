@@ -66,9 +66,10 @@ export default {
 </script>
 <style lang="less" scoped>
 .Country {
-  max-width: 1280px;
+  max-width: 1000px;
   width: 100%;
   margin: auto;
+  margin-left: 186px;
   & > div {
     // flex: 1;
   }

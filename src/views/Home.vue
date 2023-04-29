@@ -17,8 +17,11 @@
         <el-breadcrumb-item>指标详情</el-breadcrumb-item> -->
       </el-breadcrumb>
     </div>
-    <div class="content" v-loading="loading">
-      <router-view />
+    <div class="content">
+      <div class="wrap-content">
+        <router-view />
+      </div>
+      <Footer v-if="!loading"></Footer>
     </div>
   </div>
 </template>
@@ -27,11 +30,13 @@
 import { mapState } from "vuex";
 import MainHeader from "@/components/MainHeader.vue";
 import Region from "@/views/Region";
+import Footer from "@/components/Footer"
 export default {
   name: "Home",
   components: {
     MainHeader,
     Region,
+    Footer
   },
   props: {},
   data() {
@@ -116,16 +121,19 @@ export default {
   }
   .content {
     // max-width: 1280px;
-    height: 100px;
+    height: 100%;
     margin: 0 auto;
     width: 100%;
+    // position: relative;
 
     // box-sizing: border-box;
     // display: flex;
     flex: 1;
     overflow: auto;
-    // width: 1200px;
-    // margin: auto;
+    .wrap-content{
+      min-height: 100%;
+      height: fit-content;
+    }
   }
 }
 </style>

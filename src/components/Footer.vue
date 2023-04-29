@@ -1,7 +1,5 @@
 <template>
-  <div class="Footer">
-    关于
-  </div>
+  <div class="Footer">关于</div>
 </template>
 
 <script>
@@ -25,8 +23,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .Footer {
-  height: 40px;
+  box-sizing: border-box;
+  height: 120px;
   background-color: rgba(215, 217, 215, 0.2);
   padding: 10px;
+  margin-top: 20px;
+//   position: absolute;
+  width: 100%;
+//   bottom: -40px;
 }
 </style>
