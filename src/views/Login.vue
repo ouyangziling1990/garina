@@ -132,7 +132,7 @@ export default {
           if (accessToken) {
             this.accessToken = accessToken;
             localStorage.setItem("access_token", accessToken);
-            this.$message.info("登录成功");
+            // this.$message.info("登录成功");
 
             await this.getUserInfo();
             this.goBack()
