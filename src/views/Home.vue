@@ -101,11 +101,13 @@ export default {
   flex-direction: column;
   flex-shrink: 0;
   .link {
-    max-width: 1280px;
+    // max-width: 1280px;
     width: 100%;
     margin: 0 auto;
     padding: 20px;
     height: 14px;
+    border-bottom: 1px solid #e8e8e8;
+    // margin-left: 168px;
     // width: 1200px;
     /deep/.el-breadcrumb__inner {
       text-decoration: underline;
