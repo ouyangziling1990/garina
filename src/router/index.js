@@ -12,6 +12,7 @@ const router = new Router({
   routes: [
     {
       path:'',
+      // component: ()=>import("@/views/Home"),
       redirect:'/welcome'
     },
     {
@@ -26,7 +27,10 @@ const router = new Router({
       children:[
         {//在地址为空时，直接跳转cell路由
           path:'',
-          redirect:'/welcome'
+          name:'',
+          alias: ['/', ''],
+          component:()=>import("@/views/Welcome")
+          // redirect:'/welcome'
         },
         {
           path:`/welcome`,
@@ -58,11 +62,7 @@ const router = new Router({
           name:'indicatorDetail',
           component:()=>import("@/views/IndicatorDetail")
         },
-        {
-          path:`/welcome`,
-          name:'welcome',
-          component:()=>import("@/views/Welcome")
-        },
+        
         {
           path:"/login",
           name:"login",
@@ -104,7 +104,9 @@ const router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
-  console.log('router to', router)
+  console.log('router router', router)
+  console.log('router to', to)
+  console.log('router from', from)
   if (to.query.cloudToken) {
     console.log("参数cloudToken：" + to.query.cloudToken)
     axios.defaults.headers.common["Authorization"] = `Bearer ${to.query.cloudToken}`

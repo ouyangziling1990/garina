@@ -22,16 +22,6 @@ export default {
     };
   },
   methods: {
-    //获取项目id
-    init() {
-      let id = this.$route.params.projectId;
-      this.projectId = id;
-      this.$store.commit("INIT_PROJECT_ID", id);
-      let orgId = this.$route.params.orgId;
-      this.$store.commit("INIT_ORG_ID", orgId);
-      let tenantId = this.$route.params.tenantId;
-      this.$store.commit("INIT_TENANT_ID", tenantId);
-    },
     async getRegions() {
       const regions = await getCountries();
       if (regions) {

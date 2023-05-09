@@ -2,14 +2,9 @@
   <div class="Home">
     <MainHeader @showTag="showTag"></MainHeader>
     <div class="link" v-if="showLink">
-      <el-breadcrumb separator-class="el-icon-arrow-right" >
+      <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item
-          v-for="(link, index) in linkArr"
-          :key="'link_' + index"
-          :to="link.path"
-          >{{ link.name[langArrIndex] }}</el-breadcrumb-item
-        >
+        <el-breadcrumb-item v-for="(link, index) in linkArr" :key="'link_' + index" :to="link.path">{{ link.name[langArrIndex] }}</el-breadcrumb-item>
         <!-- <el-breadcrumb-item>标签</el-breadcrumb-item>
         <el-breadcrumb-item>国家</el-breadcrumb-item>
         <el-breadcrumb-item>区域</el-breadcrumb-item>
@@ -27,43 +22,44 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import MainHeader from "@/components/MainHeader.vue";
-import Region from "@/views/Region";
-import Footer from "@/components/Footer"
+import { mapState } from 'vuex'
+import MainHeader from '@/components/MainHeader.vue'
+import Region from '@/views/Region'
+import Footer from '@/components/Footer'
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     MainHeader,
     Region,
-    Footer
+    Footer,
   },
   props: {},
   data() {
     return {
       loading: false,
-      showLink: true
-    };
+      showLink: true,
+    }
   },
   beforeCreate() {},
   created() {},
   mounted() {
     this.hasShowLink()
+    this.$router.push('/')
   },
   computed: {
-    ...mapState(["linkArr", "langArrIndex"]),
+    ...mapState(['linkArr', 'langArrIndex']),
   },
   watch: {
     $route: {
       handler: function (to) {
-        console.log("to", to);
-        const path = to.path;
-        const linkIndex = this.linkArr.findIndex((item) => item.path === path);
+        console.log('to', to)
+        const path = to.path
+        const linkIndex = this.linkArr.findIndex((item) => item.path === path)
         if (linkIndex != -1) {
-          this.$store.commit("SET_LINK_ARR", {
+          this.$store.commit('SET_LINK_ARR', {
             index: linkIndex,
             pathInfo: this.linkArr[linkIndex],
-          });
+          })
         }
         this.hasShowLink()
       },
@@ -72,30 +68,29 @@ export default {
   },
   methods: {
     showTag(item) {
-      console.log("router", this.$router);
-      const currentRoute = this.$router.currentRoute;
+      console.log('router', this.$router)
+      const currentRoute = this.$router.currentRoute
       // if (currentRoute.name != "tags") {
-        if(item.id === 1){
-          this.$router.push(`/welcome`);
-        }else{
-
-          this.$router.push(`/tags/${item.id}`);
-        }
+      if (item.id === 1) {
+        this.$router.push(`/welcome`)
+      } else {
+        this.$router.push(`/tags/${item.id}`)
+      }
       // }
     },
 
     hasShowLink() {
       const noLinks = ['welcome', 'indicator', 'login', 'signup', 'findaccent', 'verify', 'resetPsd', 'findPsd']
       const arr = this.$route.path.split('/')
-      console.log(arr,'🔥');
-      if(noLinks.indexOf(arr[1])!==-1){
+      console.log(arr, '🔥')
+      if (noLinks.indexOf(arr[1]) !== -1) {
         this.showLink = false
-      }else{
+      } else {
         this.showLink = true
       }
-    }
+    },
   },
-};
+}
 </script>
 <style lang="less" scoped>
 .Home {
@@ -107,16 +102,20 @@ export default {
   flex-shrink: 0;
   .link {
     // max-width: 1280px;
-    width: 100%;
-    margin: 0 auto;
+    @media screen and (min-width: 1540px) {
+      padding-left: 185px;
+    }
+    // width: 100%;
+    // margin: 0 auto;
     padding: 20px;
     height: 14px;
     border-bottom: 1px solid #e8e8e8;
+
     // margin-left: 168px;
     // width: 1200px;
     /deep/.el-breadcrumb__inner {
       text-decoration: underline;
-      color: #646F88;
+      color: #646f88;
     }
   }
   .content {
@@ -130,9 +129,13 @@ export default {
     // display: flex;
     flex: 1;
     overflow: auto;
-    .wrap-content{
+    .wrap-content {
       min-height: 100%;
       height: fit-content;
+      margin: 0 20px ;
+      @media screen and (min-width: 1540px) {
+        margin-left: 185px;
+      }
     }
   }
 }
