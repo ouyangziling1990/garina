@@ -135,6 +135,7 @@ export default {
       margin: 0 20px ;
       @media screen and (min-width: 1540px) {
         margin-left: 185px;
+        margin-right: 185px;
       }
     }
   }
