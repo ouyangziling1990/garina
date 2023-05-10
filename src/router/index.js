@@ -12,8 +12,13 @@ const router = new Router({
   routes: [
     {
       path:'',
-      // component: ()=>import("@/views/Home"),
-      redirect:'/welcome'
+      // component:()=>import("@/App")
+      component: ()=>import("@/views/Home"),
+      // redirect:'/welcome'
+    },
+    {
+      path:'/',
+      component: ()=>import('@/views/Home')
     },
     {
       path: "/garnia",
@@ -25,13 +30,13 @@ const router = new Router({
       name:"home",
       component: ()=>import("@/views/Home"),
       children:[
-        {//在地址为空时，直接跳转cell路由
-          path:'',
-          name:'',
-          alias: ['/', ''],
-          component:()=>import("@/views/Welcome")
-          // redirect:'/welcome'
-        },
+        // {//在地址为空时，直接跳转cell路由
+        //   // path:'',
+        //   // name:'',
+        //   // alias: ['/', ''],
+        //   // component:()=>import("@/views/Welcome")
+        //   // redirect:'/welcome'
+        // },
         {
           path:`/welcome`,
           name:'welcome',

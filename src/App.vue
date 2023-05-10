@@ -8,7 +8,7 @@
 -->
 <template>
   <div id="app">
-    <router-view slot="body" />
+    <router-view />
   </div>
 </template>
 

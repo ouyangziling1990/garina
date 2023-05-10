@@ -14,7 +14,8 @@
     </div>
     <div class="content">
       <div class="wrap-content">
-        <router-view />
+        <router-view v-if="showRV" />
+        <welcome v-if="!showRV"></welcome>
       </div>
       <Footer v-if="!loading"></Footer>
     </div>
@@ -24,14 +25,14 @@
 <script>
 import { mapState } from 'vuex'
 import MainHeader from '@/components/MainHeader.vue'
-import Region from '@/views/Region'
 import Footer from '@/components/Footer'
+import welcome from '@/views/Welcome'
 export default {
   name: 'Home',
   components: {
     MainHeader,
-    Region,
     Footer,
+    welcome
   },
   props: {},
   data() {
@@ -44,10 +45,15 @@ export default {
   created() {},
   mounted() {
     this.hasShowLink()
-    this.$router.push('/')
+    console.log('home router', this.$router)
+    console.log('home router', this.$route)
   },
   computed: {
     ...mapState(['linkArr', 'langArrIndex']),
+    showRV(){
+      const path = this.$route.path
+      return !(path === '/' || path === '')
+    }
   },
   watch: {
     $route: {
@@ -80,7 +86,7 @@ export default {
     },
 
     hasShowLink() {
-      const noLinks = ['welcome', 'indicator', 'login', 'signup', 'findaccent', 'verify', 'resetPsd', 'findPsd']
+      const noLinks = ['', '/', 'welcome', 'indicator', 'login', 'signup', 'findaccent', 'verify', 'resetPsd', 'findPsd']
       const arr = this.$route.path.split('/')
       console.log(arr, '🔥')
       if (noLinks.indexOf(arr[1]) !== -1) {
