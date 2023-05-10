@@ -243,7 +243,7 @@ export default {
 <style lang="less" scoped>
 .TagDetail {
   position: relative;
-  max-width: 1280px;
+  // max-width: 1280px;
   width: 100%;
   margin: 0 auto;
   .title {

@@ -353,11 +353,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .Welcome {
-  max-width: 1280px;
+  // max-width: 1000px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
   padding-top: 15px;
+  // margin-left: 180px;
   .title {
     font-size: 30px;
     font-weight: bold;

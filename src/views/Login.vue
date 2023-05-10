@@ -85,6 +85,8 @@ export default {
             message: _this.$t("emailReq"),
             trigger: ["blur", "change"],
           },
+          { required: true, message: _this.$t("emailReq"), trigger: "blur" }
+          
         ],
         password: [
           { required: true, message: _this.$t("passwordReq"), trigger: "blur" },
@@ -130,7 +132,7 @@ export default {
           if (accessToken) {
             this.accessToken = accessToken;
             localStorage.setItem("access_token", accessToken);
-            this.$message.info("登录成功");
+            // this.$message.info("登录成功");
 
             await this.getUserInfo();
             this.goBack()

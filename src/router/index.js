@@ -12,7 +12,13 @@ const router = new Router({
   routes: [
     {
       path:'',
-      redirect:'/welcome'
+      // component:()=>import("@/App")
+      component: ()=>import("@/views/Home"),
+      // redirect:'/welcome'
+    },
+    {
+      path:'/',
+      component: ()=>import('@/views/Home')
     },
     {
       path: "/garnia",
@@ -24,10 +30,13 @@ const router = new Router({
       name:"home",
       component: ()=>import("@/views/Home"),
       children:[
-        {//在地址为空时，直接跳转cell路由
-          path:'',
-          redirect:'/welcome'
-        },
+        // {//在地址为空时，直接跳转cell路由
+        //   // path:'',
+        //   // name:'',
+        //   // alias: ['/', ''],
+        //   // component:()=>import("@/views/Welcome")
+        //   // redirect:'/welcome'
+        // },
         {
           path:`/welcome`,
           name:'welcome',
@@ -58,11 +67,7 @@ const router = new Router({
           name:'indicatorDetail',
           component:()=>import("@/views/IndicatorDetail")
         },
-        {
-          path:`/welcome`,
-          name:'welcome',
-          component:()=>import("@/views/Welcome")
-        },
+        
         {
           path:"/login",
           name:"login",
@@ -104,7 +109,9 @@ const router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
-  console.log('router to', router)
+  console.log('router router', router)
+  console.log('router to', to)
+  console.log('router from', from)
   if (to.query.cloudToken) {
     console.log("参数cloudToken：" + to.query.cloudToken)
     axios.defaults.headers.common["Authorization"] = `Bearer ${to.query.cloudToken}`

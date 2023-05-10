@@ -91,7 +91,7 @@ export default {
 </style>
 <style>
 .popup {
-  min-width: 300px;
+  min-width: 339px;
   width: auto !important;
 }
 </style>

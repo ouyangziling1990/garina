@@ -263,6 +263,7 @@ export default {
             trigger: ['blur', 'change'],
           },
           { validator: emailUniVal, trigger: 'blur' },
+          { required: true, message: '请输入邮箱', trigger: "blur" }
         ],
         fullname: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         username: [
