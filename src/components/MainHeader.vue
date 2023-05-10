@@ -300,7 +300,7 @@ export default {
         path: `/tags/${item.id}`,
       };
       if (item.id === 1) {
-        pathInfo.path = "/welcome";
+        pathInfo.path = "/";
       }
       this.$store.commit("SET_LINK_ARR", { index: 0, pathInfo });
       this.$forceUpdate();
@@ -353,9 +353,6 @@ header {
   height: 70px;
   display: flex;
   align-items: center;
-  // justify-content: center;
-
-  // width: 1200px;
   .header-content {
     width: 100%;
     height: 100%;
@@ -385,12 +382,10 @@ header {
     border-bottom: 3.5px solid #fff;
   }
   .logo {
-    // width: 165px;
     height: 30px;
     padding-right: 10px;
   }
   .logo_opt {
-    // width: 200px;
     display: flex;
     justify-content: flex-end;
     align-items: center;

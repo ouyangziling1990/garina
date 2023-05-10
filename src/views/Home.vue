@@ -32,7 +32,7 @@ export default {
   components: {
     MainHeader,
     Footer,
-    welcome
+    welcome,
   },
   props: {},
   data() {
@@ -50,10 +50,10 @@ export default {
   },
   computed: {
     ...mapState(['linkArr', 'langArrIndex']),
-    showRV(){
+    showRV() {
       const path = this.$route.path
       return !(path === '/' || path === '')
-    }
+    },
   },
   watch: {
     $route: {
@@ -78,7 +78,7 @@ export default {
       const currentRoute = this.$router.currentRoute
       // if (currentRoute.name != "tags") {
       if (item.id === 1) {
-        this.$router.push(`/welcome`)
+        this.$router.push(`/`)
       } else {
         this.$router.push(`/tags/${item.id}`)
       }
@@ -111,10 +111,8 @@ export default {
     @media screen and (min-width: 1540px) {
       padding-left: 185px;
     }
-    // width: 100%;
-    // margin: 0 auto;
     padding: 20px;
-    height: 14px;
+    // height: 14px;
     border-bottom: 1px solid #e8e8e8;
 
     // margin-left: 168px;
@@ -138,11 +136,9 @@ export default {
     .wrap-content {
       min-height: 100%;
       height: fit-content;
-      margin: 0 20px ;
-      @media screen and (min-width: 1540px) {
-        margin-left: 185px;
-        margin-right: 185px;
-      }
+      // & > div:nth-child(1) {
+          
+      // }
     }
   }
 }

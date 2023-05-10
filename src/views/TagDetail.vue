@@ -31,7 +31,7 @@
 }
 </i18n>
 <template>
-  <div class="TagDetail" v-loading="loading">
+  <div class="TagDetail media-align" v-loading="loading">
     <div class="title">筛选列表</div>
     <!-- <el-button @click="indectorDetail">获取指标详情</el-button> -->
     <el-table
@@ -244,8 +244,8 @@ export default {
 .TagDetail {
   position: relative;
   // max-width: 1280px;
-  width: 100%;
-  margin: 0 auto;
+  // width: 100%;
+  // margin: 0 auto;
   .title {
     font-size: 20px;
     font-weight: bold;
