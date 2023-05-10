@@ -3,7 +3,7 @@
     <MainHeader @showTag="showTag"></MainHeader>
     <div class="link" v-if="showLink">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item v-for="(link, index) in linkArr" :key="'link_' + index" :to="link.path">{{ link.name[langArrIndex] }}</el-breadcrumb-item>
         <!-- <el-breadcrumb-item>标签</el-breadcrumb-item>
         <el-breadcrumb-item>国家</el-breadcrumb-item>
