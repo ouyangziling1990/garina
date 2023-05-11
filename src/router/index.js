@@ -10,12 +10,7 @@ Vue.use(Router)
 const router = new Router({
   mode:'history',
   routes: [
-    {
-      path: '/data.garinasset.coom/*',
-      name: 'Develop Environment',
-      component: ()=>import("@/views/Home"),
-      alias: '/*'
-    },
+
     {
       path:'',
       name:'home2',
