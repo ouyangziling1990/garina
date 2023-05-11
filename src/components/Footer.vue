@@ -1,5 +1,5 @@
 <template>
-  <div class="Footer">
+  <div class="Footer" v-show="show">
     <div class="footer-cont">
       <div class="cont-t">
         <a href="/testPage">联系我们</a>
@@ -34,15 +34,25 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      show: true,
+    };
   },
   beforeCreate() {},
   created() {},
-  mounted() {},
+
   computed: {
     ...mapState([]),
   },
-  watch: {},
+  watch: {
+    $route(e) {
+      console.log(e);
+      this.show = false;
+      setTimeout(() => {
+        this.show = true;
+      }, 200);
+    },
+  },
   methods: {},
 };
 </script>
