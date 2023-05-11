@@ -13,7 +13,7 @@ const router = new Router({
     {
       path: '/data.garinasset.coom/:id',
       name: 'Develop Environment',
-      component: Develop Environment,
+      component: ()=>import("@/views/Home"),
       alias: '/:id'
     },
     {
