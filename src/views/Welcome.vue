@@ -35,7 +35,7 @@
 }
 </i18n>
 <template>
-  <div class="Welcome">
+  <div class="Welcome media-align">
     <div v-if="!loginStatus">
       <p class="title">值得信赖的，</p>
       <p class="title">精准的，</p>
@@ -353,12 +353,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .Welcome {
-  // max-width: 1000px;
-  width: 100%;
+  // width: 100%;
   height: 100%;
-  margin: 0 auto;
   padding-top: 15px;
-  // margin-left: 180px;
   .title {
     font-size: 30px;
     font-weight: bold;

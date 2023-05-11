@@ -1,5 +1,5 @@
 <template>
-  <div class="tag_wrap" v-loading="loading">
+  <div class="tag_wrap media-align" v-loading="loading">
     <div v-for="(group, index) in splitDetails">
       <p class="title">{{ group['name_tag_json'][langArrIndex] }}</p>
       <div class="group">
@@ -83,7 +83,9 @@ export default {
       console.log('tag info', item)
       if (item.parent_id === null) return
       // 获取区域信息
+      this.loading = true
       const area = await getLocateInfo(item.id)
+      this.loading = false
       console.log('area', area)
       this.$store.commit('Set_Region_Info', area)
       this.$store.commit('Set_Tag_Info', item)
@@ -103,10 +105,10 @@ export default {
 <style lang="less" scoped>
 .tag_wrap {
   // max-width: 1000px;
-  width: 100%;
+  // width: 100%;
   height: 100%;
   min-height: 400px;
-  margin: 0 auto;
+  // margin: 0 auto;
   
   .title {
     font-size: 20px;

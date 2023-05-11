@@ -1,5 +1,5 @@
 <template>
-  <div class="Country">
+  <div class="Country media-align">
     <!-- <div>
       <el-tree :data="region" :props="defaultProps"></el-tree>
     </div> -->
@@ -67,12 +67,10 @@ export default {
 <style lang="less" scoped>
 .Country {
   // max-width: 1000px;
-  width: 100%;
-  margin: auto;
+  // width: 100%;
+  // margin: auto;
   // margin-left: 186px;
-  & > div {
-    // flex: 1;
-  }
+  
   .title {
     font-size: 20px;
     margin: 40px 0px 20px;

@@ -166,11 +166,11 @@ export default {
 .Login {
   background-color: rgb(240, 242, 245);
   padding-top: 10vh;
-  height: 100%;
+  height: 100vh;
   #login {
     background-color: #fff;
-    width: 430px;
-    height: 260px;
+    width: 470px;
+    height: 320px;
     margin: 0 auto;
     border-radius: 8px;
     box-shadow: 0px 1px 8px 4px rgba(0, 0, 0, 0.12);

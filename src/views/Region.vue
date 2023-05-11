@@ -1,5 +1,5 @@
 <template>
-  <div class="Region" v-loading="loading">
+  <div class="Region media-align" v-loading="loading">
     <div class="show_data_wrap">
       <div  v-for="(group, index) in region">
         <p class="title"> {{group["region_json"][langArrIndex]}}</p>
@@ -145,12 +145,8 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-  // max-width: 1000px;
-  width: 100%;
-  margin: 0 auto;
-  // margin-left: 186px;
-
-  // padding: 12px 20px;
+  // margin: 0 auto;
+  min-height: 400px;
   .show_data_wrap {
     .title {
       font-size: 20px;

@@ -26,10 +26,7 @@ export default {
   box-sizing: border-box;
   height: 120px;
   background-color: rgba(215, 217, 215, 0.2);
-  padding: 10px;
-  margin-top: 20px;
-//   position: absolute;
+  padding: 30px 10px 10px;
   width: 100%;
-//   bottom: -40px;
 }
 </style>
