@@ -11,10 +11,10 @@ const router = new Router({
   mode:'history',
   routes: [
     {
-      path: '/data.garinasset.coom/:id',
+      path: '/data.garinasset.coom/*',
       name: 'Develop Environment',
       component: ()=>import("@/views/Home"),
-      alias: '/:id'
+      alias: '/*'
     },
     {
       path:'',
