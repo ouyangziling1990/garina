@@ -10,14 +10,16 @@ Vue.use(Router)
 const router = new Router({
   mode:'history',
   routes: [
+    
     {
       path:'',
-      // component:()=>import("@/App")
+      name:'home2',
       component: ()=>import("@/views/Home"),
       // redirect:'/welcome'
     },
     {
       path:'/',
+      name:'home1',
       component: ()=>import('@/views/Home')
     },
     {
@@ -110,13 +112,21 @@ const router = new Router({
       path:"/lang",
       name:"lang",
       component: ()=>import("@/views/Lang")
-    }
+    },
+    
+    // {
+    //   path:'*',
+    //   redirect: {
+    //     name:'home1'
+    //   }
+    // }
   ]
 })
 router.beforeEach((to, from, next) => {
   console.log('router router', router)
   console.log('router to', to)
   console.log('router from', from)
+  console.log('router next', next)
   if (to.query.cloudToken) {
     console.log("参数cloudToken：" + to.query.cloudToken)
     axios.defaults.headers.common["Authorization"] = `Bearer ${to.query.cloudToken}`
@@ -125,7 +135,11 @@ router.beforeEach((to, from, next) => {
   if(to.meta.title) {
     document.title = to.meta.title
   }
-  next()
+  if(to.path == '/ziling/home') {
+    next({name:'home1'})
+  }else{
+    next()
+  }
 })
 
 export default router
