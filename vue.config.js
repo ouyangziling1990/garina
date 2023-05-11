@@ -32,10 +32,10 @@ module.exports = {
     if (process.env.NODE_ENV === "production") {
       // 生产环境配置
       // 去掉console.log
-      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
-      return {
-        plugins: [new CleanWebpackPlugin()],
-      };
+      // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
+      // return {
+      //   plugins: [new CleanWebpackPlugin()],
+      // };
     } else {
       // 开发环境配置
       return {
