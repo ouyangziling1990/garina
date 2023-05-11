@@ -10,14 +10,16 @@ Vue.use(Router)
 const router = new Router({
   mode:'history',
   routes: [
+    
     {
       path:'',
-      // component:()=>import("@/App")
+      name:'home2',
       component: ()=>import("@/views/Home"),
       // redirect:'/welcome'
     },
     {
       path:'/',
+      name:'home1',
       component: ()=>import('@/views/Home')
     },
     {
@@ -110,6 +112,18 @@ const router = new Router({
       path:"/lang",
       name:"lang",
       component: ()=>import("@/views/Lang")
+    },
+    {
+      path:'/data',
+      redirect: {
+        name:'home1'
+      }
+    },
+    {
+      path:'*',
+      redirect: {
+        name:'home1'
+      }
     }
   ]
 })
