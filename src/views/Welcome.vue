@@ -353,7 +353,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .Welcome {
-  width: 100%;
+  // width: 100%;
   height: 100%;
   padding-top: 15px;
   .title {

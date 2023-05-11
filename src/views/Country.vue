@@ -68,7 +68,7 @@ export default {
 .Country {
   // max-width: 1000px;
   // width: 100%;
-  margin: auto;
+  // margin: auto;
   // margin-left: 186px;
   
   .title {
