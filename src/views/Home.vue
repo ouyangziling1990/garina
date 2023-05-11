@@ -86,7 +86,7 @@ export default {
     },
 
     hasShowLink() {
-      const noLinks = ['', '/', 'welcome', 'indicator', 'login', 'signup', 'findaccent', 'verify', 'resetPsd', 'findPsd']
+      const noLinks = ['', '/', 'welcome', 'indicator', 'login', 'signup', 'findaccent', 'verify', 'resetPsd', 'findPsd', 'testPage']
       const arr = this.$route.path.split('/')
       console.log(arr, '🔥')
       if (noLinks.indexOf(arr[1]) !== -1) {
@@ -137,7 +137,7 @@ export default {
       min-height: 100%;
       height: fit-content;
       // & > div:nth-child(1) {
-          
+
       // }
     }
   }

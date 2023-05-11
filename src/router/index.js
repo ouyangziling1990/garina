@@ -67,7 +67,7 @@ const router = new Router({
           name:'indicatorDetail',
           component:()=>import("@/views/IndicatorDetail")
         },
-        
+
         {
           path:"/login",
           name:"login",
@@ -97,6 +97,11 @@ const router = new Router({
           path:'/resetPsd',
           name:"resetPsd",
           component: ()=>import("@/views/ResetPsd")
+        },
+        {
+          path:'/testPage',
+          name:"testPage",
+          component: ()=>import("@/pages/TestPage/index")
         },
       ]
     },
