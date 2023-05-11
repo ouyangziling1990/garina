@@ -60,6 +60,10 @@ export default {
   created() {
     this.getRegions()
   },
+  mounted(){
+    console.log('mounted')
+    console.log('this.$route 解析', this.$route)
+  }
 }
 </script>
 <style lang="less">
