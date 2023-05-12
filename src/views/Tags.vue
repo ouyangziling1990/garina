@@ -111,9 +111,9 @@ export default {
   // margin: 0 auto;
   
   .title {
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin: 40px 0 20px;
+    margin: 2rem 0 1rem;
   }
   .group {
     margin-top: 2px;
