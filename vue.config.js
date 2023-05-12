@@ -12,9 +12,8 @@ const OpenBrowserPlugin = require("open-browser-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 //端口号
 const theDefaultPort = 2019;
-const _baseUrl = process.env.NODE_ENV === "production" ? "/" : "/";
 module.exports = {
-  publicPath: _baseUrl,
+  publicPath: process.env.VUE_APP_URL,
   outputDir: "dist/Garina",
   assetsDir: "static",
   lintOnSave: false,

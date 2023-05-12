@@ -110,7 +110,8 @@ export default {
           data: Object.keys(newMap),
         },
         yAxis: {
-          type: "value",
+          type: "log",
+          // type: "value",
           axisLabel: {
             formatter: function (value) {
               return value;
