@@ -42,7 +42,7 @@
       <p class="title">价格公道，</p>
       <p class="title">节省你的费用开支，，</p>
       <p class="title">祝你轻松决策！</p>
-      <p class="p">「加林数据」 目前处于Beta测试环节，我们正在不断调整测试，以改进我们的产品。</p>
+      <p class="p">「加林数据」 目前处于Alpha测试环节，我们正在不断调整测试，以改进我们的产品。</p>
     </div>
     <div class="TagDetail" v-if="loginStatus">
       <div class="table-wrap">
