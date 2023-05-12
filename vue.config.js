@@ -12,7 +12,7 @@ const OpenBrowserPlugin = require("open-browser-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 //端口号
 const theDefaultPort = 2019;
-const _baseUrl = process.env.NODE_ENV === "production" ? "/" : "/";
+const _baseUrl = process.env.NODE_ENV === "production" ? "/data.garinasset.com/" : "/";
 module.exports = {
   publicPath: _baseUrl,
   outputDir: "dist/Garina",

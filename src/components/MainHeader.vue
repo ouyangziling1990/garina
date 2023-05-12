@@ -25,7 +25,7 @@
   <div class="header_wrap">
     <header class="Main_Header">
       <div class="header">
-        <img src="/gra_logo.png" class="logo" alt="盖林数据" />
+        <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         <div class="header-content">
           <div class="header-item-wrap">
             <span

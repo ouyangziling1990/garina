@@ -10,7 +10,7 @@ Vue.use(Router)
 const router = new Router({
   mode:'history',
   routes: [
-    
+
     {
       path:'',
       name:'home2',
@@ -47,7 +47,8 @@ const router = new Router({
         {
           path:'/country',
           name:"country",
-          component: ()=>import("@/views/Country")
+          component: ()=>import("@/views/Country"),
+          alias: '/data.garinasset.com/country'
         },
         {
           path:'/tags/:tagId',
