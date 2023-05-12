@@ -40,7 +40,7 @@
       <p class="title">高质量的，</p>
       <p class="title">宏微观经济数据库。</p>
       <p class="title">价格公道，</p>
-      <p class="title">节省你的费用开支，，</p>
+      <p class="title">节省你的费用开支，</p>
       <p class="title">助你轻松决策！</p>
       <p class="p">「加林数据」 目前处于Alpha测试环节，我们正在不断调整测试，以改进我们的产品。</p>
     </div>
