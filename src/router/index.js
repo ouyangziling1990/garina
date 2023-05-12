@@ -47,7 +47,8 @@ const router = new Router({
         {
           path:'/country',
           name:"country",
-          component: ()=>import("@/views/Country")
+          component: ()=>import("@/views/Country"),
+          alias: '/data.garinasset.com/country'
         },
         {
           path:'/tags/:tagId',
