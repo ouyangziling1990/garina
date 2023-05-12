@@ -37,10 +37,12 @@
 <template>
   <div class="Welcome media-align">
     <div v-if="!loginStatus">
-      <p class="title">值得信赖的，</p>
-      <p class="title">精准的，</p>
-      <p class="title">宏观微观经济数据</p>
-      <p class="p">体验最全面的经济数据库，覆盖超过213+个国家</p>
+      <p class="title">高质量的，</p>
+      <p class="title">宏微观经济数据库。</p>
+      <p class="title">价格公道，</p>
+      <p class="title">节省你的费用开支，，</p>
+      <p class="title">祝你轻松决策！</p>
+      <p class="p">「加林数据」 目前处于Beta测试环节，我们正在不断调整测试，以改进我们的产品。</p>
     </div>
     <div class="TagDetail" v-if="loginStatus">
       <div class="table-wrap">
@@ -357,13 +359,14 @@ export default {
   height: 100%;
   padding-top: 15px;
   .title {
-    font-size: 30px;
+    font-size: 2.3rem;
     font-weight: bold;
-    line-height: 60px;
+    line-height: 4.7rem;
   }
   .p {
-    margin-top: 20px;
-    font-size: 19px;
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 2rem;
   }
   .TagDetail {
     position: relative;
