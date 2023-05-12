@@ -42,7 +42,7 @@
             {{ dataInfo.region[langArrIndex] }}
           </div>
           <div class="c-tag-3">
-            {{ isUpdating ? $t('isUpdating') : $t('stopUpdating') }}
+            {{ isUpdating ? $t("isUpdating") : $t("stopUpdating") }}
           </div>
           <div class="plus-optional">
             <el-button
@@ -51,7 +51,7 @@
               class="plus-optional-btn"
             >
               <i :class="inFavorites ? 'el-icon-check' : 'el-icon-plus'" />
-              {{ inFavorites ? $t('followed') : $t('optional') }}
+              {{ inFavorites ? $t("followed") : $t("optional") }}
             </el-button>
           </div>
         </div>
@@ -67,16 +67,16 @@
               {{ dataObj.currencie[langArrIndex] }}
             </div>
             <div class="c-tag-7">
-              {{ dataObj.rate > 0 ? '+' : ''
-              }}{{ dataObj.rate ? dataObj.rate + '%' : '' }}
+              {{ dataObj.rate > 0 ? "+" : ""
+              }}{{ dataObj.rate ? dataObj.rate + "%" : "" }}
             </div>
           </div>
           <div class="chart-head-2-r">
             <div class="chart-head-2-r-item">
-              {{ dataObj.favorites }} {{ $t('followers') }}
+              {{ dataObj.favorites }} {{ $t("followers") }}
             </div>
             <div class="chart-head-2-r-item">
-              {{ $t('lastUpdated') }}:{{ dataObj.data_latest_update_time }}
+              {{ $t("lastUpdated") }}:{{ dataObj.data_latest_update_time }}
             </div>
           </div>
         </div>
@@ -85,23 +85,24 @@
           @changeTools="changeChartToolsHandler"
           @export="exportHandler"
           @imgExport="imgExportHandler"
+          @comparison="comparisonHandler"
         />
         <GRChart id="chart" ref="chart" :options="option" />
       </div>
       <div class="desc-data">
-        <div class="desc-title">{{ $t('paraphrase') }}</div>
+        <div class="desc-title">{{ $t("paraphrase") }}</div>
         <div class="desc-content">
           {{ descriptions[langArrIndex] }}
         </div>
-        <div class="desc-title" v-if="methods">{{ $t('methods') }}</div>
+        <div class="desc-title" v-if="methods">{{ $t("methods") }}</div>
         <div class="desc-content" v-if="methods">
           {{ methods[langArrIndex] }}
         </div>
-        <div class="desc-title">{{ $t('dataRange') }}</div>
+        <div class="desc-title">{{ $t("dataRange") }}</div>
         <div class="desc-content">
           {{ dataRange }}
         </div>
-        <div class="desc-title">{{ $t('dataSource') }}</div>
+        <div class="desc-title">{{ $t("dataSource") }}</div>
         <div class="desc-content flex">
           <div>{{ source[langArrIndex] }}</div>
           <!-- <div class="desc-content-plus">
@@ -112,24 +113,32 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="90%"
+    >
+      <ComparisonCont ref="ComparisonCont" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import GRChart from '@/components/GRChart'
-import ChartTool from '@/components/ChartTool'
-import { mapState } from 'vuex'
+import GRChart from "@/components/GRChart";
+import ChartTool from "@/components/ChartTool";
+import ComparisonCont from "@/components/ComparisonCont";
+import { mapState } from "vuex";
+import _ from "lodash";
 import {
   getIndicatorDetail,
   addFavorites,
   cancelFavorites,
-  getFavorites
-} from '@/api/index'
+  getFavorites,
+} from "@/api/index";
 
-const LANGUAGE_INDEX = 0
+const LANGUAGE_INDEX = 0;
 export default {
-  name: 'IndicatorDetail',
-  components: { GRChart, ChartTool },
+  name: "IndicatorDetail",
+  components: { GRChart, ChartTool, ComparisonCont },
   props: {},
   data() {
     return {
@@ -138,7 +147,7 @@ export default {
         title: null,
         method: null,
         country_emoji_flag: null,
-        region: null
+        region: null,
       },
       dataObj: {},
       option: {},
@@ -149,70 +158,71 @@ export default {
       tableData: {},
       dataRange: null,
       methods: null,
-      isUpdating: true
-    }
+      isUpdating: true,
+      dialogVisible: false,
+    };
   },
   beforeCreate() {},
   created() {},
   mounted() {
     if (this.loginStatus) {
-      this.getFavoritesList()
+      this.getFavoritesList();
     }
   },
   computed: {
-    ...mapState(['langArrIndex', 'favorites']),
+    ...mapState(["langArrIndex", "favorites"]),
     indicatorId() {
-      const id = this.$route.params['indicatorId']
-      return id
+      const id = this.$route.params["indicatorId"];
+      return id;
     },
     inFavorites() {
-      return this.favorites.indexOf(Number(this.indicatorId)) !== -1
+      return this.favorites.indexOf(Number(this.indicatorId)) !== -1;
     },
 
     loginStatus() {
-      return localStorage.getItem('access_token') ? 1 : 0
-    }
+      return localStorage.getItem("access_token") ? 1 : 0;
+    },
   },
   watch: {
     indicatorId: {
       handler(val) {
         if (val) {
-          this.getData(val)
+          this.getData(val);
         }
       },
-      immediate: true
+      immediate: true,
     },
     langArrIndex(val) {
-      console.log(this.dataInfo.title, val)
-      document.title = `${this.dataInfo.title[val]} - ${this.dataInfo.country[val]} - ${this.dataInfo.region[val]} - DATA.GARINASSET.COM`
-    }
+      console.log(this.dataInfo.title, val);
+      document.title = `${this.dataInfo.title[val]} - ${this.dataInfo.country[val]} - ${this.dataInfo.region[val]} - DATA.GARINASSET.COM`;
+    },
   },
   methods: {
     async getData(id) {
-      this.loading = true
-      const rowData = await getIndicatorDetail(id)
-      this.setInfoDataq(rowData)
+      this.loading = true;
+      const rowData = await getIndicatorDetail(id);
+      this.setInfoDataq(rowData);
       // 图表数据
 
-      const option = this.buildChartOption(rowData)
-      this.option = option
+      const option = this.buildChartOption(rowData);
+      this.option = option;
       // 描述数据
-      const descriptions = rowData.descriptions?.description_json
-      this.descriptions = descriptions
+      const descriptions = rowData.descriptions?.description_json;
+      this.descriptions = descriptions;
 
-      const source = rowData.sources?.source_json
-      this.source = source
+      const source = rowData.sources?.source_json;
+      this.source = source;
 
-      const dataRange = `${rowData.data.data_earliest_time} ~ ${rowData.data.data_latest_time}`
-      this.dataRange = dataRange
+      const dataRange = `${rowData.data.data_earliest_time} ~ ${rowData.data.data_latest_time}`;
+      this.dataRange = dataRange;
 
-      const methods = rowData.methods?.method_json
-      this.methods = methods
+      const methods = rowData.methods?.method_json;
+      this.methods = methods;
 
-      const isUpdating = rowData.is_updating
-      this.isUpdating = isUpdating
+      const isUpdating = rowData.is_updating;
+      this.isUpdating = isUpdating;
 
-      this.loading = false
+      this.loading = false;
     },
     setInfoDataq({
       names,
@@ -224,262 +234,273 @@ export default {
       currencies,
       data_year_over_year,
       data_year_over_year_fixed,
-      favorites
+      favorites,
     }) {
       let dataInfo = {
         title: names?.name_json,
         method: methods?.method_json,
         country_emoji_flag: countries?.iso3166_alpha2.toLowerCase(),
         country: countries?.country_json,
-        region: regions?.region_json
-      }
-      this.dataInfo = dataInfo
+        region: regions?.region_json,
+      };
+      this.dataInfo = dataInfo;
 
-      document.title = `${this.dataInfo.title[this.langArrIndex]} - ${this.dataInfo.country[this.langArrIndex]} - ${this.dataInfo.region[this.langArrIndex]} - DATA.GARINASSET.COM`
+      document.title = `${this.dataInfo.title[this.langArrIndex]} - ${
+        this.dataInfo.country[this.langArrIndex]
+      } - ${this.dataInfo.region[this.langArrIndex]} - DATA.GARINASSET.COM`;
       const rate =
         data_year_over_year && data_year_over_year.data_latest_value
           ? (
               data_year_over_year.data_latest_value - data_year_over_year_fixed
             ).toFixed(2)
-          : null
+          : null;
       let dataObj = {
         data_latest_value: data?.data_latest_value.toFixed(2),
         unit: units?.unit_json,
         currencie: currencies?.currency_json,
         rate: rate,
         data_latest_update_time: data?.data_latest_update_time,
-        favorites: favorites
-      }
-      this.dataObj = dataObj
+        favorites: favorites,
+      };
+      this.dataObj = dataObj;
     },
     buildChartOption(rowData) {
-      let xAxisData = []
-      let seriesData = []
-      const keyObj = rowData.data.data_json
-      const huanbiMap = rowData?.data_time_over_time?.data_json
-      const data_time_over_time_fixed = rowData.data_time_over_time_fixed
-      const tongbiMap = rowData?.data_year_over_year?.data_json
-      const data_year_over_year_fixed = rowData.data_year_over_year_fixed
-      const keys = Object.keys(keyObj)
-      const tableData = {}
-      keys.forEach(key => {
-        const val = keyObj[key]
-        xAxisData.push(key)
-        seriesData.push(val[0])
+      let xAxisData = [];
+      let seriesData = [];
+      console.log();
+      const keyObj = rowData.data.data_json;
+      const huanbiMap = rowData?.data_time_over_time?.data_json;
+      const data_time_over_time_fixed = rowData.data_time_over_time_fixed;
+      const tongbiMap = rowData?.data_year_over_year?.data_json;
+      const data_year_over_year_fixed = rowData.data_year_over_year_fixed;
+      const keys = Object.keys(keyObj);
+      const tableData = {};
+      keys.forEach((key) => {
+        const val = keyObj[key];
+        xAxisData.push(key);
+        seriesData.push(val[0]);
 
         const obj = {
-          value: val[0]
-        }
+          value: val[0],
+        };
         if (tongbiMap && tongbiMap[key]) {
           obj.tongbiRate =
-            (tongbiMap[key][0] - data_year_over_year_fixed).toFixed(2) + '%'
+            (tongbiMap[key][0] - data_year_over_year_fixed).toFixed(2) + "%";
         }
-        let huanbiRate = ''
+        let huanbiRate = "";
         if (huanbiMap && huanbiMap[key]) {
           obj.huanbiRate =
-            (huanbiMap[key][0] - data_time_over_time_fixed).toFixed(2) + '%'
+            (huanbiMap[key][0] - data_time_over_time_fixed).toFixed(2) + "%";
         }
-        tableData[key] = obj
-      })
-      this.tableData = tableData
+        tableData[key] = obj;
+      });
+      this.tableData = tableData;
 
       let option = {
         // backgroundColor: '#2c343c',
         title: {
           // text: "里程碑按期完成率",
           // text: rowData.name_json[0],
-          left: 'left',
+          left: "left",
           textStyle: {
-            fontSize: 14
-          }
+            fontSize: 14,
+          },
         },
         tooltip: {
           show: true,
-          trigger: 'axis',
-          formatter: data => {
-            const dataIndex = data[0].dataIndex
-            const key = data[0]['axisValue']
+          trigger: "axis",
+          formatter: (data) => {
+            const dataIndex = data[0].dataIndex;
+            const key = data[0]["axisValue"];
 
             return `${data[0].axisValue} <br/>
                 ${data[0].value}${this.dataObj.unit[this.langArrIndex]}<br/>
                 同比：${this.tableData[key].tongbiRate}
                 <br/>
                 环比：${this.tableData[key].huanbiRate}
-               `
-          }
+               `;
+          },
         },
         grid: {
-          left: '15px',
-          right: '30px',
+          left: "15px",
+          right: "30px",
           bottom: 70,
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
-          type: 'category',
+          type: "category",
           boundaryGap: false,
           axisLine: {
-            show: true
+            show: true,
           },
           splitLine: {
             show: false,
             lineStyle: {
-              type: 'dashed'
-            }
+              type: "dashed",
+            },
           },
-          data: xAxisData
+          data: xAxisData,
         },
         yAxis: {
-          type: 'value',
+          type: "value",
           axisLabel: {
             formatter: function (value) {
-              return value
-            }
+              return value;
+            },
           },
           axisLine: {
-            show: true
+            show: true,
           },
           splitLine: {
             show: false,
             lineStyle: {
-              type: 'dashed'
-            }
+              type: "dashed",
+            },
           },
-          position: 'right'
+          position: "right",
         },
         dataZoom: [
           {
-            type: 'inside'
+            type: "inside",
           },
           {
-            type: 'slider'
-          }
+            type: "slider",
+          },
         ],
         series: [
           {
             data: seriesData,
-            type: 'line',
+            type: "line",
             areaStyle: {},
             showSymbol: false,
             smooth: true,
             label: {
-              show: true
-            }
-          }
+              show: true,
+            },
+          },
         ],
         graphic: [
           {
-            type: 'group',
+            type: "group",
             // rotation: Math.PI / 2,
-            bounding: 'raw',
-            right: 'center',
-            top: 'center',
+            bounding: "raw",
+            right: "center",
+            top: "center",
             // z: 100,
             children: [
               {
-                type: 'text',
-                left: 'center',
-                top: 'center',
+                type: "text",
+                left: "center",
+                top: "center",
                 // z: 100,
                 style: {
-                  fill: '#999999',
+                  fill: "#999999",
                   text: `SOURCE: DATA.GARINASSET.COM`,
-                  font: 'bold 16px sans-serif'
-                }
-              }
-            ]
-          }
-        ]
-      }
-      return option
+                  font: "bold 16px sans-serif",
+                },
+              },
+            ],
+          },
+        ],
+      };
+      return option;
     },
     changeChartTypeHandler(e) {
-      e.forEach(item => {
-        this.option.series.forEach(s => {
-          this.$set(s, item[0], item[1])
-        })
-      })
+      e.forEach((item) => {
+        this.option.series.forEach((s) => {
+          this.$set(s, item[0], item[1]);
+        });
+      });
     },
     changeChartToolsHandler(e, res) {
-      let obj = this.option
-      if (e[0] == 'series') {
-        obj.series.forEach(item => {
-          let sObj = item
+      let obj = this.option;
+      if (e[0] == "series") {
+        obj.series.forEach((item) => {
+          let sObj = item;
           e.forEach((attr, index) => {
-            if (index == 0) return
+            if (index == 0) return;
             if (index < e.length - 1) {
-              sObj = sObj[attr]
+              sObj = sObj[attr];
             }
-          })
-          this.$set(sObj, e[e.length - 1], res)
-        })
+          });
+          this.$set(sObj, e[e.length - 1], res);
+        });
       } else {
         e.forEach((attr, index) => {
           if (index < e.length - 1) {
-            obj = obj[attr]
+            obj = obj[attr];
           }
-        })
-        this.$set(obj, e[e.length - 1], res)
+        });
+        this.$set(obj, e[e.length - 1], res);
       }
     },
     exportHandler() {
-      let str = '日期,值,同比,环比\n'
-      Object.keys(this.tableData).forEach(k => {
-        const { key, value, tongbiRate, huanbiRate } = this.tableData[k]
-        str += k + ','
-        str += value ? value + ',' : ','
-        str += tongbiRate ? tongbiRate + ',' : ','
-        str += huanbiRate ? huanbiRate + ',' : ','
-        str += '\n'
-      })
+      let str = "日期,值,同比,环比\n";
+      Object.keys(this.tableData).forEach((k) => {
+        const { key, value, tongbiRate, huanbiRate } = this.tableData[k];
+        str += k + ",";
+        str += value ? value + "," : ",";
+        str += tongbiRate ? tongbiRate + "," : ",";
+        str += huanbiRate ? huanbiRate + "," : ",";
+        str += "\n";
+      });
 
-      const uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(str)
+      const uri =
+        "data:text/csv;charset=utf-8,\ufeff" + encodeURIComponent(str);
       // 通过创建a标签实现
-      const link = document.createElement('a')
-      link.href = uri
+      const link = document.createElement("a");
+      link.href = uri;
       // 对下载的文件命名
-      link.download = `${this.dataInfo.title}.csv`
-      link.click()
+      link.download = `${this.dataInfo.title}.csv`;
+      link.click();
     },
     imgExportHandler() {
-      var img = new Image()
+      var img = new Image();
       img.src = this.$refs.chart.chart.getDataURL({
         pixelRatio: 2,
-        backgroundColor: '#fff'
-      })
+        backgroundColor: "#fff",
+      });
       img.onload = function () {
-        var canvas = document.createElement('canvas')
-        canvas.width = img.width
-        canvas.height = img.height
-        var ctx = canvas.getContext('2d')
-        ctx.drawImage(img, 0, 0)
-        var dataURL = canvas.toDataURL('image/png')
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
 
-        var a = document.createElement('a')
-        var event = new MouseEvent('click')
-        a.download = '图片.png'
+        var a = document.createElement("a");
+        var event = new MouseEvent("click");
+        a.download = "图片.png";
         // 将生成的URL设置为a.href属性
-        a.href = dataURL
-        a.dispatchEvent(event)
-        a.remove()
-      }
+        a.href = dataURL;
+        a.dispatchEvent(event);
+        a.remove();
+      };
     },
     async getFavoritesList() {
-      let res = await getFavorites()
-      this.$store.commit('SET_FAVORITES_DATA', res.favorites || [])
+      let res = await getFavorites();
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites || []);
     },
     async favoritesClickHandler() {
       if (this.inFavorites) {
-        let res = await cancelFavorites(this.indicatorId)
-        this.$store.commit('SET_FAVORITES_DATA', res.favorites)
-        this.$message.success('移除自选成功')
+        let res = await cancelFavorites(this.indicatorId);
+        this.$store.commit("SET_FAVORITES_DATA", res.favorites);
+        this.$message.success("移除自选成功");
       } else {
-        let res = await addFavorites(this.indicatorId)
-        this.$store.commit('SET_FAVORITES_DATA', res.favorites)
-        this.$message.success('添加自选成功')
+        let res = await addFavorites(this.indicatorId);
+        this.$store.commit("SET_FAVORITES_DATA", res.favorites);
+        this.$message.success("添加自选成功");
       }
-    }
-  }
-}
+    },
+    comparisonHandler() {
+      this.dialogVisible = true;
+      this.$nextTick(() => {
+        console.log(this.$refs.ComparisonCont);
+        this.$refs.ComparisonCont.setOption(_.cloneDeep(this.option));
+      });
+    },
+  },
+};
 </script>
 <style lang="less" scoped>
 .IndicatorDetail {

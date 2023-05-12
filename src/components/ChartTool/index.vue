@@ -61,115 +61,127 @@
         截图
       </el-button>
     </div>
+    <div class="tool-item">
+      <el-button
+        icon="el-icon-data-analysis"
+        size="small"
+        @click="comparisonHandler"
+      >
+        对比
+      </el-button>
+    </div>
   </div>
 </template>
 <script>
-import { CHART_TYPES } from './config/chartType.config'
+import { CHART_TYPES } from "./config/chartType.config";
 export default {
   data() {
     return {
-      currentType: 'area',
+      currentType: "area",
       currentTools: [
-        'yAxis.axisLine.show',
-        'xAxis.axisLine.show',
-        'series.smooth'
+        "yAxis.axisLine.show",
+        "xAxis.axisLine.show",
+        "series.smooth",
       ],
-      lastTools: ['yAxis.axisLine.show', 'xAxis.axisLine.show'],
+      lastTools: ["yAxis.axisLine.show", "xAxis.axisLine.show"],
       types: [
         {
-          label: '折线图',
-          name: 'line'
+          label: "折线图",
+          name: "line",
         },
         {
-          label: '柱状图',
-          name: 'bar'
+          label: "柱状图",
+          name: "bar",
         },
         {
-          label: '面积图',
-          name: 'area'
-        }
+          label: "面积图",
+          name: "area",
+        },
       ],
       tools: [
         {
-          label: 'y轴分割',
-          name: 'yAxis.splitLine.show'
+          label: "y轴分割",
+          name: "yAxis.splitLine.show",
         },
         {
-          label: 'y轴',
-          name: 'yAxis.axisLine.show'
+          label: "y轴",
+          name: "yAxis.axisLine.show",
         },
         {
-          label: 'x轴分割',
-          name: 'xAxis.splitLine.show'
+          label: "x轴分割",
+          name: "xAxis.splitLine.show",
         },
         {
-          label: 'x轴',
-          name: 'xAxis.axisLine.show'
+          label: "x轴",
+          name: "xAxis.axisLine.show",
         },
         {
-          label: '标签',
-          name: 'series.label.show'
+          label: "标签",
+          name: "series.label.show",
         },
         {
-          label: '平滑',
-          name: 'series.smooth',
-          depends: ['!=', 'bar']
-        }
+          label: "平滑",
+          name: "series.smooth",
+          depends: ["!=", "bar"],
+        },
       ],
       plusMap: {
-        'series.label.show': 'series.showSymbol'
-      }
-    }
+        "series.label.show": "series.showSymbol",
+      },
+    };
   },
   methods: {
     getDepends({ depends }) {
       if (depends) {
         switch (depends[0]) {
-          case '!=':
+          case "!=":
             if (this.currentType !== depends[1]) {
-              return true
+              return true;
             }
-            return false
+            return false;
 
           default:
-            return false
+            return false;
         }
       }
-      return true
+      return true;
     },
     typeChangeHandler(e) {
-      console.log(e)
-      this.$emit('changeType', CHART_TYPES[e])
+      console.log(e);
+      this.$emit("changeType", CHART_TYPES[e]);
     },
     toolChangeHandler(e) {
-      this.lastTools.forEach(item => {
+      this.lastTools.forEach((item) => {
         if (e.indexOf(item) == -1) {
-          const arr = item.split('.')
-          this.$emit('changeTools', arr, false)
+          const arr = item.split(".");
+          this.$emit("changeTools", arr, false);
           if (this.plusMap[item]) {
-            this.$emit('changeTools', this.plusMap[item].split('.'), false)
+            this.$emit("changeTools", this.plusMap[item].split("."), false);
           }
         }
-      })
-      e.forEach(item => {
+      });
+      e.forEach((item) => {
         if (this.lastTools.indexOf(item) == -1) {
-          const arr = item.split('.')
-          this.$emit('changeTools', arr, true)
+          const arr = item.split(".");
+          this.$emit("changeTools", arr, true);
           if (this.plusMap[item]) {
-            this.$emit('changeTools', this.plusMap[item].split('.'), true)
+            this.$emit("changeTools", this.plusMap[item].split("."), true);
           }
         }
-      })
-      this.lastTools = e
+      });
+      this.lastTools = e;
     },
     exportHandler() {
-      this.$emit('export')
+      this.$emit("export");
     },
     imgExportHandler() {
-      this.$emit('imgExport')
-    }
-  }
-}
+      this.$emit("imgExport");
+    },
+    comparisonHandler() {
+      this.$emit("comparison");
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
