@@ -9,6 +9,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode:'history',
+  base: process.env.VUE_APP_URL,
   routes: [
 
     {
@@ -114,7 +115,7 @@ const router = new Router({
       name:"lang",
       component: ()=>import("@/views/Lang")
     },
-    
+
     // {
     //   path:'*',
     //   redirect: {

@@ -13,6 +13,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 //端口号
 const theDefaultPort = 2019;
 const _baseUrl = process.env.VUE_APP_URL
+console.log(_baseUrl)
 module.exports = {
   publicPath: _baseUrl,
   outputDir: "dist/Garina",
