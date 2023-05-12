@@ -1,10 +1,7 @@
 //基础路径
 // const baseUrl = "http://ipv4.api.garinasset.com:8000"
 const apiVersion =
-  process.env.NODE_ENV === "production"
-    ? "https://api.garinasset.com/data/v1"
-    // ? "http://api-pro.garinasset.com:8000/data/v1"
-    : "/data/v1";
+  process.env.VUE_APP_AXIOS_BASE_URL
 import axios from "../utils/axiosInterceptors";
 
 function setHeader() {
