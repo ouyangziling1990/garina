@@ -111,7 +111,7 @@ export default {
   // margin: 0 auto;
   
   .title {
-    font-size: 1.5rem;
+    font-size: 1.37rem;
     font-weight: bold;
     margin: 2rem 0 1rem;
   }
