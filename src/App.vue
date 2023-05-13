@@ -1,5 +1,5 @@
 <!--
- * @Description: 
+ * @Description:
  * @Version: 1.0
  * @Autor: wjw
  * @Date: 2021-03-29 16:10:21
@@ -59,6 +59,7 @@ export default {
   },
   created() {
     this.getRegions()
+      console.log( process.env.NODE_ENV ,process.env.VUE_APP_URL,'🔥');
   },
   mounted(){
     console.log('mounted')

@@ -14,6 +14,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const theDefaultPort = 2019;
 module.exports = {
   publicPath: process.env.VUE_APP_URL,
+  // publicPath: '/data.garinasset.com/',
   outputDir: "dist/Garina",
   assetsDir: "static",
   lintOnSave: false,
