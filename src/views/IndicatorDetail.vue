@@ -480,6 +480,8 @@ export default {
     }
   }
 }
+// 调用trackDynamicTitle函数，将生成的title发送到Google Analytics
+trackDynamicTitle();
 </script>
 <style lang="less" scoped>
 .IndicatorDetail {
