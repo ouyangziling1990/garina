@@ -7,9 +7,8 @@
  * @LastEditTime: 2021-03-29 16:09:19
 -->
 
-# granintsset 盖林数据
-
-### 用于盖林数据的数据展示
+# DATA.GARINASSET.COM
+## 高质量的宏微观经济数据库
 
 ### node 版本 v16.14.2
 
