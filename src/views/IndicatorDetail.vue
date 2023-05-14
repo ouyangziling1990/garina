@@ -252,9 +252,16 @@ export default {
       }
       this.dataObj = dataObj
     },
-    sendTitleToGoogle(){
-    // 调用trackDynamicTitle函数，将生成的title发送到Google Analytics
-      trackDynamicTitle()
+    trackDynamicTitle() {
+      // 获取当前页面的标题
+      let title = document.title;
+      // 使用Google Analytics的"ga()"函数，调用"set"方法将获取到的页面标题设置为"title"
+      ga('set', 'title', title);
+      // 再次使用"ga()"函数，调用"send"方法将该页面视为新页面发送到Google Analytics，从而跟踪该页面的访问量和其他指标
+      ga('send', 'pageview');
+    },
+    sendTitle() {
+      this.trackDynamicTitle()
     },
     buildChartOption(rowData) {
       let xAxisData = []
