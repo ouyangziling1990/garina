@@ -236,6 +236,8 @@ export default {
       this.dataInfo = dataInfo
 
       document.title = `${this.dataInfo.title[this.langArrIndex]} - ${this.dataInfo.country[this.langArrIndex]} - ${this.dataInfo.region[this.langArrIndex]} - DATA.GARINASSET.COM`
+      // 调用trackDynamicTitle函数，将生成的title发送到Google Analytics
+      trackDynamicTitle()
       const rate =
         data_year_over_year && data_year_over_year.data_latest_value
           ? (
@@ -480,8 +482,6 @@ export default {
     }
   }
 }
-// 调用trackDynamicTitle函数，将生成的title发送到Google Analytics
-trackDynamicTitle();
 </script>
 <style lang="less" scoped>
 .IndicatorDetail {
