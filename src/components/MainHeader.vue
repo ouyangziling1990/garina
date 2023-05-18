@@ -27,30 +27,22 @@
       <div class="header">
         <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         <div class="header-content">
-          <div class="header-item-wrap">
-            <span
-              v-for="item in filterHeaderTags"
-              class="name_link"
-              :class="[item.active ? 'active' : '']"
-              @click="getIndex(item)"
-              :key="'header_' + item.id"
-            >
+          <div class="header-item-wrap mobile-none">
+            <span v-for="item in filterHeaderTags" class="name_link" :class="[item.active ? 'active' : '']" @click="getIndex(item)" :key="'header_' + item.id">
               {{ item.name_link_json[langArrIndex] }}</span
             >
           </div>
-          <TopSearch class="search"/>
-          <div v-if="showAccountDelete">
+          <TopSearch class="search" />
+          <el-button @click="showLinker" class="web-show" icon="el-icon-s-operation"></el-button>
+          <div v-if="showAccountDelete" class="mobile-none">
             <el-button type="danger" @click="deleteA">删除</el-button>
           </div>
         </div>
-        <div class="logo_opt">
+        <div class="logo_opt mobile-none">
           <div class="lang-wrap">
             <i class="white bimicon icon-diqiuquanqiu"></i>
             <el-dropdown @command="langCommand">
-              <span class="label"
-                >{{ langLabel || "简体中文"
-                }}<i class="el-icon-arrow-down el-icon--right"></i
-              ></span>
+              <span class="label">{{ langLabel || '简体中文' }}<i class="el-icon-arrow-down el-icon--right"></i></span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="zh-CN">简体中文</el-dropdown-item>
                 <el-dropdown-item command="en">English</el-dropdown-item>
@@ -71,11 +63,9 @@
           </div>
           <div v-if="loginStatus">
             <el-dropdown @command="handleCommand">
-
               <span class="el-dropdown-link">
                 <i class="el-icon-user" v-if="userInfo?.username"></i>
-                {{ userInfo?.username || ""
-                }}<i class="el-icon-caret-bottom el-icon--right"></i>
+                {{ userInfo?.username || '' }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="loginOut">退出</el-dropdown-item>
@@ -84,205 +74,201 @@
           </div>
         </div>
       </div>
+      <div class="mobile-header-item-wrap web-show" v-show="showLinkerFlag">
+        <span v-for="item in filterHeaderTags" class="name_link" :class="[item.active ? 'active' : '']" @click="getIndex(item)" :key="'header_' + item.id">
+          {{ item.name_link_json[langArrIndex] }}</span
+        >
+      </div>
     </header>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import {
-  links,
-  fecthUserInfo,
-  deleteAccount,
-  infrastructure,
-} from "@/api/index";
-import langMap from "@/utils/langMap.js";
-import TopSearch from "@/components/TopSearch";
+import { mapState, mapGetters } from 'vuex'
+import { links, fecthUserInfo, deleteAccount, infrastructure } from '@/api/index'
+import langMap from '@/utils/langMap.js'
+import TopSearch from '@/components/TopSearch'
 
 export default {
-  name: "MainHeader",
-  components: {TopSearch},
+  name: 'MainHeader',
+  components: { TopSearch },
   props: {},
   data() {
     var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
+      if (value === '') {
+        callback(new Error('请输入密码'))
       } else {
-        if (this.signUpform.password2 !== "") {
-          this.$refs.signUpform.validateField("password2");
+        if (this.signUpform.password2 !== '') {
+          this.$refs.signUpform.validateField('password2')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.signUpform.password) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
-    const _this = this;
+    }
+    const _this = this
     return {
+      showLinkerFlag: false,
       // 搜索
-      searchInput: "",
+      searchInput: '',
       // 地区名称 及区号
       infrastructureArr: [],
       linksArr: [],
 
       LoginDialogFlag: false,
       form: {
-        email: "",
-        username: "",
-        password: "",
-        grant_type: "",
-        scope: "",
-        client_id: "ZW1haWwu",
-        client_secret: "",
+        email: '',
+        username: '',
+        password: '',
+        grant_type: '',
+        scope: '',
+        client_id: 'ZW1haWwu',
+        client_secret: '',
       },
       rules: {
         // 虽然叫username但是输入的还是邮箱
         username: [
           {
-            type: "email",
-            message: _this.$t("emailReq"),
-            trigger: ["blur", "change"],
+            type: 'email',
+            message: _this.$t('emailReq'),
+            trigger: ['blur', 'change'],
           },
         ],
-        password: [
-          { required: true, message: _this.$t("passwordReq"), trigger: "blur" },
-        ],
+        password: [{ required: true, message: _this.$t('passwordReq'), trigger: 'blur' }],
       },
       // 注册
       signUpFlag: false,
       regionNumDisabled: false,
       signUpform: {
-        fullname: "",
+        fullname: '',
         // 区域id
-        region_id: "",
-        brith_date: "",
-        company: "",
+        region_id: '',
+        brith_date: '',
+        company: '',
         // 昵称
-        username: "",
-        regionNum: "",
-        regionNumObj: "",
-        regionObj: "",
+        username: '',
+        regionNum: '',
+        regionNumObj: '',
+        regionObj: '',
 
-        phone: "",
-        phoneInput: "",
-        email: "",
-        password: "",
-        password2: "",
+        phone: '',
+        phoneInput: '',
+        email: '',
+        password: '',
+        password2: '',
       },
       signUprules: {
         email: [
           {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"],
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change'],
           },
         ],
-        fullname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        username: [{ required: true, message: "请输入昵称", trigger: "blur" }],
-        region_id: [
-          { required: true, message: "请输入国家或区域", trigger: "blur" },
-        ],
-        brith_date: [
-          { required: true, message: "请输入生日", trigger: "blur" },
-        ],
-        regionNum: [{ required: true, message: "国际区号", trigger: "blur" }],
-        phoneInput: [{ required: true, message: "电话号码", trigger: "blur" }],
-        password: [{ validator: validatePass, trigger: "blur" }],
-        password2: [{ validator: validatePass2, trigger: "blur" }],
+        fullname: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        username: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
+        region_id: [{ required: true, message: '请输入国家或区域', trigger: 'blur' }],
+        brith_date: [{ required: true, message: '请输入生日', trigger: 'blur' }],
+        regionNum: [{ required: true, message: '国际区号', trigger: 'blur' }],
+        phoneInput: [{ required: true, message: '电话号码', trigger: 'blur' }],
+        password: [{ validator: validatePass, trigger: 'blur' }],
+        password2: [{ validator: validatePass2, trigger: 'blur' }],
       },
-      accessToken: "",
+      accessToken: '',
       // userInfo: "",
-      currentLink: null
-    };
+      currentLink: null,
+    }
   },
   beforeCreate() {},
   created() {},
   mounted() {
-    this.initFetch();
+    this.initFetch()
     // 初始化时获取缓存的语言内容
     if (this.lang) {
-      this.$root.$i18n.locale = this.lang;
+      this.$root.$i18n.locale = this.lang
     }
   },
   computed: {
-    ...mapState(["langArrIndex", "langLabel", "lang", "userInfo"]),
-    ...mapGetters(["filterHeaderTags"]),
+    ...mapState(['langArrIndex', 'langLabel', 'lang', 'userInfo']),
+    ...mapGetters(['filterHeaderTags']),
     loginStatus() {
-      return this.userInfo || localStorage.getItem("access_token") ? 1 : 0;
+      return this.userInfo || localStorage.getItem('access_token') ? 1 : 0
     },
     localI18n() {
-      return this.$root.$i18n;
+      return this.$root.$i18n
     },
-    showAccountDelete(){
+    showAccountDelete() {
       return process.env.NODE_ENV !== 'production'
-    }
+    },
   },
   watch: {
-    langArrIndex(){},
+    langArrIndex() {},
   },
   methods: {
-    async deleteA(){
+    showLinker() {
+      this.showLinkerFlag = !this.showLinkerFlag
+    },
+    async deleteA() {
       const res = await deleteAccount()
-      setTimeout(()=>{
+      setTimeout(() => {
         this.goToLogin()
       }, 3000)
     },
-    goToLogin(){
+    goToLogin() {
       this.$router.push('/login')
     },
     langCommand(cmd) {
-      const op = langMap[cmd];
-      this.$root.$i18n.locale = cmd;
-      console.log("this.$root.$i18n", this.$root.$i18n.t("header.login"));
+      const op = langMap[cmd]
+      this.$root.$i18n.locale = cmd
+      console.log('this.$root.$i18n', this.$root.$i18n.t('header.login'))
 
-      const index = op["index"];
-      this.$store.commit("SET_LANG_ARR_INDEX", index);
-      this.$store.commit("SET_LANG_LABEL", op["label"]);
-      this.$store.commit("SET_LANG", cmd);
+      const index = op['index']
+      this.$store.commit('SET_LANG_ARR_INDEX', index)
+      this.$store.commit('SET_LANG_LABEL', op['label'])
+      this.$store.commit('SET_LANG', cmd)
 
-      console.log("this.$route", this.$route);
-      if (this.$route.name == "tagDetail") {
+      console.log('this.$route', this.$route)
+      if (this.$route.name == 'tagDetail') {
         // 有表格的页面需要reload
         this.$nextTick(() => {
-          window.location.reload();
-        });
+          window.location.reload()
+        })
       }
       //
     },
     regionChange(val) {
       if (val == 247) {
-        this.regionNumDisabled = true;
-        this.signUpform.regionNum = 86;
+        this.regionNumDisabled = true
+        this.signUpform.regionNum = 86
         // {id:'247', regionNumLabel:'+86（中国大陆）'}
       } else {
-        this.regionNumDisabled = false;
+        this.regionNumDisabled = false
       }
     },
     async initFetch() {
-      await this.getUserInfo();
-      await this.getLinks();
+      await this.getUserInfo()
+      await this.getLinks()
     },
 
     // 注册请求
     async signUpFun() {
-      this.signUpFlag = true;
-      const data = await infrastructure();
+      this.signUpFlag = true
+      const data = await infrastructure()
       data.forEach((item) => {
-        item.regionNumLabel = `+${item.call_code}（${
-          item.region_json[this.langArrIndex]
-        }）`;
-      });
-      this.infrastructureArr = data;
+        item.regionNumLabel = `+${item.call_code}（${item.region_json[this.langArrIndex]}）`
+      })
+      this.infrastructureArr = data
     },
     handleCommand(command) {
-      if (command === "loginOut") {
-        localStorage.removeItem("access_token");
+      if (command === 'loginOut') {
+        localStorage.removeItem('access_token')
         console.log('logOut')
         window.location.reload()
         // this.$router.push("/");
@@ -290,60 +276,83 @@ export default {
     },
     // 获取指标内容
     getIndex(item) {
-      this.filterHeaderTags.forEach((item) => (item.active = false));
-      this.$set(item, "active", true);
+      this.filterHeaderTags.forEach((item) => (item.active = false))
+      this.$set(item, 'active', true)
       // item.active = true
-      this.$emit("showTag", item);
-      this.$store.commit("CHANG_LINK_INFO", item);
+      this.$emit('showTag', item)
+      this.$store.commit('CHANG_LINK_INFO', item)
       const pathInfo = {
         name: item.name_link_json,
         path: `/tags/${item.id}`,
-      };
-      if (item.id === 1) {
-        pathInfo.path = "/";
       }
-      this.$store.commit("SET_LINK_ARR", { index: 0, pathInfo });
-      this.$forceUpdate();
+      if (item.id === 1) {
+        pathInfo.path = '/'
+      }
+      this.$store.commit('SET_LINK_ARR', { index: 0, pathInfo })
+      this.$forceUpdate()
       this.currentLink = item
       document.title = `${this.currentLink.name_link_json[this.langArrIndex]} - DATA.GARINASSET.COM`
     },
     //
     async getLinks() {
-      this.loading = true;
-      const res = await links();
-      this.linksArr = res;
-      this.loading = false;
-      res.forEach((item) => (item.active = false));
-      console.log(res);
+      this.loading = true
+      const res = await links()
+      this.linksArr = res
+      this.loading = false
+      res.forEach((item) => (item.active = false))
+      console.log(res)
       if (res.length > 0) {
-        res[0]["active"] = true;
+        res[0]['active'] = true
       }
-      this.$store.commit("SET_TAG_ARR", res);
+      this.$store.commit('SET_TAG_ARR', res)
     },
     async getUserInfo() {
       if (this.loginStatus) {
-        const userInfo = await fecthUserInfo();
+        const userInfo = await fecthUserInfo()
         // console.log("userInfo", userInfo);
         // this.userInfo = userInfo;
-        this.$store.commit("SET_USER_INFO", userInfo);
+        this.$store.commit('SET_USER_INFO', userInfo)
       }
     },
   },
-};
+}
 </script>
 <style lang="less" scoped>
 .header_wrap {
-  height: 72px;
+  // height: 72px;
+  .mobile-none {
+    @media screen and (max-width: 1200px) {
+      display: none !important;
+    }
+  }
+  .web-show {
+    @media screen and (min-width: 1200px) {
+      display: none !important;
+    }
+  }
+  .mobile-header-item-wrap {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    .name_link {
+      color: #fff;
+      height: 2rem;
+      line-height: 2rem;
+    }
+  }
 }
 header {
   width: 100%;
-  height: 70px;
+  // height: 70px;
   // background: #1d498f;
   background: #1269c1;
   // rgb(30, 101, 213);
   // border: 1px solid #f6f5f7;
   padding: 0;
-  position: absolute;
+  @media screen and (min-width: 1200px) {
+    position: absolute;
+  }
   top: 0;
   left: 0;
   z-index: 21;
@@ -353,12 +362,18 @@ header {
   height: 70px;
   display: flex;
   align-items: center;
+
   .header-content {
     width: 100%;
     height: 100%;
     flex: 1;
     display: flex;
     align-items: center;
+    @media screen and (max-width: 1200px) {
+      justify-content: flex-end;
+      padding-right: 0.6rem;
+    }
+
     .header-item-wrap {
       height: 100%;
       display: flex;

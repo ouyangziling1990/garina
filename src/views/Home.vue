@@ -127,12 +127,11 @@ export default {
     height: 100%;
     margin: 0 auto;
     width: 100%;
-    // position: relative;
-
-    // box-sizing: border-box;
-    // display: flex;
     flex: 1;
-    overflow: auto;
+    
+    @media screen and (min-width: 1200px){
+      overflow: auto;
+    }
     .wrap-content {
       min-height: 100%;
       height: fit-content;
