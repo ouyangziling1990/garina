@@ -187,12 +187,14 @@ export default {
 <style lang="less" scoped>
 .tool-bar {
   border: 1px solid #ccc;
-  padding: 5px;
+  // padding: 5px;
   border-radius: 3px;
   margin: 6px 0 -20px;
   display: flex;
+  flex-wrap: wrap;
+
   .tool-item {
-    margin-right: 10px;
+    margin: 5px;
   }
 }
 </style>

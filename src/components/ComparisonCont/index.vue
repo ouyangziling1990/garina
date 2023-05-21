@@ -10,8 +10,10 @@
 </i18n>
 <template>
   <div class="box">
-    <GRChart id="chart1" ref="chart" :options="option" v-if="option" />
-    <div>
+    <div class="box-l">
+      <GRChart id="chart1" ref="chart" :options="option" v-if="option" />
+    </div>
+    <div class="box-r">
       <el-autocomplete
         class="inline-input"
         v-model="searchInput"
@@ -31,9 +33,19 @@
           </div>
         </template>
       </el-autocomplete>
-      <div>
-        <div v-for="item in tags">
-          {{item}}
+      <div class="box-r-cont">
+        <div v-for="item in tags" class="tag">
+          <el-tag
+            :key="item.id"
+            :closable="item.id !== defaultId"
+            @close="delTag(item)"
+          >
+            <span
+              :class="['country', 'fi', `fi-${item.country_emoji_flag}`]"
+            ></span>
+            <span class="target">{{ item.region }}</span>
+            {{ item.name.name_json[langArrIndex] }}
+          </el-tag>
         </div>
       </div>
     </div>
@@ -48,12 +60,20 @@ import { mapState } from "vuex";
 export default {
   name: "IndicatorDetail",
   components: { GRChart, TopSearch },
+  props: {
+    defaultId: String,
+  },
   data() {
     return {
       // option: null,
       searchInput: null,
       dataMap: {},
     };
+  },
+  mounted() {
+    if (!this.dataMap[this.defaultId]) {
+      this.handleSelect({ id: this.defaultId });
+    }
   },
   computed: {
     ...mapState(["langArrIndex"]),
@@ -107,7 +127,9 @@ export default {
               type: "dashed",
             },
           },
-          data: Object.keys(newMap),
+          data: Object.keys(newMap).sort((a, b) => {
+            return new Date(a) - new Date(b);
+          }),
         },
         yAxis: {
           type: "log",
@@ -133,7 +155,7 @@ export default {
             name: k,
             data: Object.keys(newMap)
               .sort((a, b) => {
-                return a - b;
+                return new Date(a) - new Date(b);
               })
               .map((key) => {
                 if (newMap[key][k]) return newMap[key][k].value;
@@ -143,6 +165,7 @@ export default {
             areaStyle: {},
             showSymbol: false,
             smooth: true,
+            connectNulls: true,
             label: {
               show: true,
             },
@@ -186,28 +209,33 @@ export default {
     },
     tags() {
       return Object.values(this.dataMap).map((item) => {
-        return { id: item.id, name: item.name };
+        return {
+          id: item.id,
+          name: item.name,
+          country_emoji_flag: item.country_emoji_flag,
+          region: item.regions[this.langArrIndex],
+        };
       });
     },
   },
   methods: {
-    setOption(e) {
-      console.log(e);
-      // this.option = e;
-    },
     async querySearch(queryString, cb) {
       console.log(queryString, cb);
       let res = await searchIndicators(queryString);
       console.log(res);
       if (res && res.length) {
-        const list = res.map((item) => {
-          return {
-            id: item.id,
-            name: item.names.name_json[this.langArrIndex],
-            country_emoji_flag: item.countries.iso3166_alpha2.toLowerCase(),
-            region: item.regions.region_json[this.langArrIndex],
-          };
-        });
+        const list = res
+          .map((item) => {
+            return {
+              id: item.id,
+              name: item.names.name_json[this.langArrIndex],
+              country_emoji_flag: item.countries.iso3166_alpha2.toLowerCase(),
+              region: item.regions.region_json[this.langArrIndex],
+            };
+          })
+          .filter((item) => {
+            return !this.dataMap[item.id];
+          });
         cb(list);
       } else {
         return cb([]);
@@ -221,7 +249,9 @@ export default {
       this.$set(this.dataMap, id, {
         id: id,
         name: rowData.names,
+        country_emoji_flag: rowData.countries.iso3166_alpha2.toLowerCase(),
         listData: this.getMapData(rowData),
+        regions: rowData.regions.region_json,
       });
       console.log(this.dataMap, "👀");
     },
@@ -250,6 +280,10 @@ export default {
       });
       return arr;
     },
+    delTag(item) {
+      this.$delete(this.dataMap, item.id);
+      console.log(this.dataMap);
+    },
   },
 };
 </script>
@@ -259,8 +293,30 @@ export default {
   width: 100%;
   height: 500px;
   display: flex;
-  #chart1 {
-    width: calc(100% - 300px);
+  flex-wrap: wrap;
+  .box-l {
+    width: calc(100% - 330px);
+    margin-right: ;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+    #chart1 {
+      width: 100%;
+    }
+  }
+  .box-r {
+    width: 300px;
+    margin-left: 30px;
+    @media screen and (max-width: 768px) {
+      margin-left: 0;
+      width: 100%;
+    }
+    .box-r-cont {
+      margin-top: 20px;
+      .tag {
+        margin: 0 5px 5px 0;
+      }
+    }
   }
 }
 </style>

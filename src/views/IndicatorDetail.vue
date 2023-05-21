@@ -27,7 +27,7 @@
 }
 </i18n>
 <template>
-  <div class="IndicatorDetail" v-loading="loading">
+  <div class="IndicatorDetail media-align" v-loading="loading">
     <div class="detail-wrap" v-if="!loading">
       <div class="chart-data">
         <div class="chart-head">
@@ -35,15 +35,18 @@
           <!-- <div class="c-tag-1" v-if="dataInfo.method">
             {{ dataInfo.method[langArrIndex] }}
           </div> -->
-          <div class="c-tag-2" v-if="dataInfo.country_emoji_flag">
-            <span :class="['fi', `fi-${dataInfo.country_emoji_flag}`]"></span>
+          <div class="flex">
+            <div class="c-tag-2" v-if="dataInfo.country_emoji_flag">
+              <span :class="['fi', `fi-${dataInfo.country_emoji_flag}`]"></span>
+            </div>
+            <div class="c-tag-3" v-if="dataInfo.region">
+              {{ dataInfo.region[langArrIndex] }}
+            </div>
+            <div class="c-tag-3">
+              {{ isUpdating ? $t("isUpdating") : $t("stopUpdating") }}
+            </div>
           </div>
-          <div class="c-tag-3" v-if="dataInfo.region">
-            {{ dataInfo.region[langArrIndex] }}
-          </div>
-          <div class="c-tag-3">
-            {{ isUpdating ? $t("isUpdating") : $t("stopUpdating") }}
-          </div>
+
           <div class="plus-optional">
             <el-button
               :type="inFavorites ? 'info' : 'primary'"
@@ -81,6 +84,7 @@
           </div>
         </div>
         <ChartTool
+          class="chart-tool"
           @changeType="changeChartTypeHandler"
           @changeTools="changeChartToolsHandler"
           @export="exportHandler"
@@ -113,11 +117,8 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      :visible.sync="dialogVisible"
-      width="90%"
-    >
-      <ComparisonCont ref="ComparisonCont" />
+    <el-dialog :visible.sync="dialogVisible" width="90%">
+      <ComparisonCont ref="ComparisonCont" :defaultId="indicatorId" />
     </el-dialog>
   </div>
 </template>
@@ -494,33 +495,48 @@ export default {
     },
     comparisonHandler() {
       this.dialogVisible = true;
-      this.$nextTick(() => {
-        console.log(this.$refs.ComparisonCont);
-        this.$refs.ComparisonCont.setOption(_.cloneDeep(this.option));
-      });
+      // this.$nextTick(() => {
+      //   console.log(this.$refs.ComparisonCont);
+      //   this.$refs.ComparisonCont.setOption(_.cloneDeep(this.option));
+      // });
     },
   },
 };
 </script>
 <style lang="less" scoped>
+.flex {
+  display: flex;
+}
 .IndicatorDetail {
   height: 100%;
-  max-width: 1280px;
-  width: 100%;
-  margin: auto;
+  // max-width: 1280px;
+  // width: 100%;
+  // margin: auto;
   .detail-wrap {
     width: 100%;
     display: flex;
     margin-top: 20px;
+    flex-wrap: wrap;
     .chart-data {
-      width: calc(100% - 500px);
-      padding: 10px;
+      width: calc(100% - 330px);
+      margin-right: ;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+      // flex: 1;
+      padding: 10px 0;
       .chart-head {
         display: flex;
+        flex-wrap: wrap;
         .plus-optional {
           margin-left: auto;
           .plus-optional-btn {
-            padding: 8px 20px;
+            padding: 0.5rem 0.5rem;
+            @media screen and (max-width: 768px) {
+              padding: 0 0.5rem;
+              height: 25px;
+            }
+            font-size: 0.8rem;
           }
           /deep/.el-button--info {
             background-color: #e6f1fb;
@@ -529,14 +545,16 @@ export default {
           }
         }
         .c-title {
-          font-size: 20px;
+          font-size: 1.5rem;
+
           font-weight: bold;
-          margin: 0 5px;
+          margin: 0 5px 10px;
           line-height: 25px;
         }
         .c-tag-1 {
           height: 25px;
-          font-size: 14px;
+          // font-size: 14px;
+          font-size: 1rem;
           background-color: #efefef;
           line-height: 25px;
           padding: 0 5px;
@@ -544,55 +562,72 @@ export default {
           border-radius: 3px;
         }
         .c-tag-2 {
-          margin: 0 5px;
-          font-size: 25px;
+          margin: 0 0.2rem;
+          // font-size: 25px;
+          font-size: 1.5rem;
           line-height: 25px;
         }
         .c-tag-3 {
           height: 25px;
-          font-size: 14px;
+          // font-size: 14px;
+          font-size: 0.7rem;
           background-color: #e6f1fb;
           color: #06c;
           line-height: 25px;
-          margin: 0 5px;
-          padding: 0 10px;
+          margin: 0 0.2rem;
+          padding: 0 0.5rem;
           border-radius: 3px;
         }
       }
       .chart-head-2 {
         display: flex;
-        margin-top: 20px;
+        flex-wrap: wrap;
+        margin-top: 10px;
         justify-content: space-between;
         border-bottom: 1px solid #edf0f5;
+        align-items: center;
+        padding: 10px 0;
         .chart-head-2-l {
+          margin-bottom: 7px;
           display: flex;
+          // font-size: 30px;
+          font-size: 20px;
+          @media screen and (max-width: 768px) {
+            font-size: 14px;
+          }
           .c-tag-4 {
-            font-size: 40px;
-            line-height: 48px;
+            // font-size: 40px;
+            font-size: 2rem;
+            // line-height: 48px;
             font-weight: 600;
             color: #527f52;
-            margin-right: 10px;
+            margin-right: 0.5rem;
           }
           .c-tag-5,
           .c-tag-6 {
             color: #527f52;
-            padding-top: 15px;
-            margin-left: 8px;
-            margin-right: 10px;
-            font-size: 20px;
+            padding-top: .75rem;
+            margin-left: 0.1rem;
+            margin-right: 0.1rem;
+            // line-height: 2rem;
+            font-size: 1em;
           }
           .c-tag-7 {
             color: #527f52;
-            font-size: 22px;
-            padding-top: 14px;
-            margin-left: 8px;
-            margin-right: 10px;
+            font-size: 1.2rem;
+            padding-top: .5rem;
+            // line-height: 2rem;
+            margin-left: 0.7rem;
+            margin-right: 0.5rem;
           }
         }
         .chart-head-2-r {
-          text-align: right;
-          margin-top: 16px;
-          font-size: 12px;
+          display: flex;
+          flex-direction: column;
+          align-content: center;
+          text-align: left;
+          // margin-top: 16px;
+          font-size: 0.6em;
           font-weight: 400;
           color: #909499;
           line-height: 14px;
@@ -601,14 +636,26 @@ export default {
           }
         }
       }
+      .chart-tool {
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
       #chart {
         height: 400px;
         width: 100%;
+        @media screen and (max-width: 768px) {
+          height: 300px;
+        }
       }
     }
     .desc-data {
-      width: 450px;
-      margin-left: 50px;
+      width: 300px;
+      margin-left: 30px;
+      @media screen and (max-width: 768px) {
+        margin-left: 0;
+        width: 100%;
+      }
       .desc-title {
         font-size: 16px;
         font-weight: bold;

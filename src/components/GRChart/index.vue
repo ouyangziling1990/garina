@@ -5,6 +5,7 @@
 <script>
 import elementResizeDetectorMaker from "element-resize-detector";
 import * as echarts from "echarts";
+import _ from 'lodash'
 
 export default {
   name: "GRChart",
@@ -32,7 +33,10 @@ export default {
     },
     reloadChart() {
       this.$nextTick(() => {
+
+      console.log('3333');
         if (this.canDo) {
+          this.chart.clear();
           this.chart.setOption(this.options);
         }
       });
@@ -40,7 +44,8 @@ export default {
   },
   watch: {
     options: {
-      handler() {
+      handler(e) {
+        console.log("XXXXXX,", e);
         this.reloadChart();
       },
       deep: true,
