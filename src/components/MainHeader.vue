@@ -25,7 +25,7 @@
   <div class="header_wrap">
     <header class="Main_Header">
       <div class="header">
-        <span class="bimicon icon-sandaogang web-show linker-icon" @click="showLinker"></span>
+        <span class="bimicon icon-sandaogang web-show linker-icon" @click="showLinker('ltr')"></span>
         <span class="bimicon icon-touping web-show linker-icon" @click="showLinker('btt')"></span>
         <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         <div class="header-content">
@@ -79,7 +79,7 @@
     </header>
     <el-drawer :with-header="false" size="270px" :visible.sync="drawer.drawerFlag" :direction="drawer.direction">
       <div id="draw-content">
-        <div class="logo-wrap" v-if="drawer.location=='ltr'">
+        <div class="logo-wrap" v-if="drawer.direction=='ltr'">
           <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         </div>
         <div class="mobile-header-item-wrap web-show">
@@ -244,6 +244,7 @@ export default {
       }
     },
     showLinker(type='ltr') {
+      console.log('type', type)
       this.drawer.drawerFlag = !this.drawer.drawerFlag
       this.drawer.direction = type
       
