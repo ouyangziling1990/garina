@@ -80,14 +80,14 @@
     <el-drawer :with-header="false" size="270px" :visible.sync="drawer.drawerFlag" :direction="drawer.direction">
       <div id="draw-content">
         <div class="logo-wrap" v-if="drawer.direction == 'ltr'">
-          <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
+          <img src="/DATA.GARINASSET.COM.logo.blue.png" class="logo" alt="加林数据" />
         </div>
         <div class="mobile-header-item-wrap web-show">
           <span v-for="item in filterHeaderTags" class="name_link" :class="[item.active ? 'active' : '']" @click="getIndex(item)" :key="'header_' + item.id">
             {{ item.name_link_json[langArrIndex] }}</span
           >
         </div>
-        <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0 && drawer.location === 'ltr'">
+        <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0 && drawer.direction === 'ltr'">
           <div class="wrap" style="color: #000">
             <div id="login-btns">登录/注册</div>
           </div>
@@ -388,6 +388,13 @@ export default {
   }
   #draw-content {
     padding-top: 2rem;
+    padding-left: 1rem;
+    .login-btns-wrap{
+      margin-left: 0px;
+      .wrap{
+        padding-left:0px;
+      }
+    }
     .logo-wrap {
       text-align: center;
       margin-bottom: 1rem;
@@ -399,7 +406,7 @@ export default {
   .mobile-header-item-wrap {
     display: flex;
     flex-direction: column;
-    padding-left: 1rem;
+    // padding-left: 1rem;
     padding-bottom: 1rem;
     .name_link {
       color: #000;
@@ -417,7 +424,7 @@ header {
   // border: 1px solid #f6f5f7;
   padding: 0;
   @media screen and (min-width: 1200px) {
-    position: absolute;
+    // position: absolute;
   }
   top: 0;
   left: 0;
