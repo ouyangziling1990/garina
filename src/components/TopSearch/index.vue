@@ -14,12 +14,16 @@
       <i slot="suffix" class="el-input__icon el-icon-search"></i>
     </el-input> -->
     <el-autocomplete
+      ref="autocomplete"
+      v-if="showInputFlag"
       class="inline-input"
       v-model="searchInput"
       :fetch-suggestions="querySearch"
       :placeholder="$t('search')"
       :trigger-on-focus="false"
+      :autofocus="true"
       @select="handleSelect"
+      @blur="inputBlur"
       popper-class="popup"
     >
       <i slot="suffix" class="el-input__icon el-icon-search"></i>
@@ -32,6 +36,7 @@
         </div>
       </template>
     </el-autocomplete>
+    <span class="el-icon-search white" v-if="!showInputFlag" @click="searchClick"></span>
   </div>
 </template>
 
@@ -42,13 +47,39 @@ import { searchIndicators } from '@/api/index'
 export default {
   data() {
     return {
-      searchInput: null
+      searchInput: null,
+      showInputFlag: false
     }
+  },
+  created() {
+    window.addEventListener("resize", this.resizeFun);
   },
   computed: {
     ...mapState(['langArrIndex'])
   },
   methods: {
+    resizeFun(){
+      const windowWidth = document.body.offsetWidth;
+      if(windowWidth > 1200){
+        this.showInputFlag = true
+      }else{
+        this.showInputFlag = false
+      }
+    },
+    focus(){
+      console.log('focus')
+    },
+    inputBlur(){
+      this.showInputFlag = false
+    },
+    searchClick(){
+      this.showInputFlag = true
+      this.$nextTick(()=>{
+        const autocomplete = this.$refs['autocomplete']
+
+        autocomplete.focus()
+      })
+    },
     async querySearch(queryString, cb) {
       console.log(queryString, cb)
       let res = await searchIndicators(queryString)
@@ -76,6 +107,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.white{
+  color: #fff;
+}
 .inline-input {
   width: 100%;
 }

@@ -25,6 +25,8 @@
   <div class="header_wrap">
     <header class="Main_Header">
       <div class="header">
+        <span class="bimicon icon-sandaogang web-show linker-icon" @click="showLinker('ltr')"></span>
+        <span class="bimicon icon-touping web-show linker-icon" @click="showLinker('btt')"></span>
         <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         <div class="header-content">
           <div class="header-item-wrap mobile-none">
@@ -33,10 +35,10 @@
             >
           </div>
           <TopSearch class="search" />
-          <el-button @click="showLinker" class="web-show" icon="el-icon-s-operation"></el-button>
-          <div v-if="showAccountDelete" class="mobile-none">
+
+          <!-- <div class="mobile-none" v-if="showAccountDelete">
             <el-button type="danger" @click="deleteA">删除</el-button>
-          </div>
+          </div> -->
         </div>
         <div class="logo_opt mobile-none">
           <div class="lang-wrap">
@@ -74,12 +76,30 @@
           </div>
         </div>
       </div>
-      <div class="mobile-header-item-wrap web-show" v-show="showLinkerFlag">
-        <span v-for="item in filterHeaderTags" class="name_link" :class="[item.active ? 'active' : '']" @click="getIndex(item)" :key="'header_' + item.id">
-          {{ item.name_link_json[langArrIndex] }}</span
-        >
-      </div>
     </header>
+    <el-drawer :with-header="false" size="270px" :visible.sync="drawer.drawerFlag" :direction="drawer.direction">
+      <div id="draw-content">
+        <div class="logo-wrap" v-if="drawer.direction=='ltr'">
+          <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
+        </div>
+        <div class="mobile-header-item-wrap web-show">
+          <span v-for="item in filterHeaderTags" class="name_link" :class="[item.active ? 'active' : '']" @click="getIndex(item)" :key="'header_' + item.id">
+            {{ item.name_link_json[langArrIndex] }}</span
+          >
+        </div>
+        <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0 && drawer.location==='ltr'">
+            <div class="wrap" style="color:#000">
+              <div id="login-btns">登录/注册</div>
+            </div>
+            <!-- <el-button plain @click="LoginDialogFlag = true">{{
+              $t("login")
+            }}</el-button>
+            <el-button type="primary" @click="signUpFun" plain>{{
+              $t("signUp")
+            }}</el-button> -->
+          </div>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -115,7 +135,10 @@ export default {
     }
     const _this = this
     return {
-      showLinkerFlag: false,
+      drawer: {
+        drawerFlag: false,
+        direction: 'ltr', // btt
+      },
       // 搜索
       searchInput: '',
       // 地区名称 及区号
@@ -187,7 +210,9 @@ export default {
     }
   },
   beforeCreate() {},
-  created() {},
+  created() {
+    window.addEventListener("resize", this.resizeFun);
+  },
   mounted() {
     this.initFetch()
     // 初始化时获取缓存的语言内容
@@ -212,8 +237,17 @@ export default {
     langArrIndex() {},
   },
   methods: {
-    showLinker() {
-      this.showLinkerFlag = !this.showLinkerFlag
+    resizeFun(){
+      const windowWidth = document.body.offsetWidth;
+      if(windowWidth > 1200){
+        this.drawer.drawerFlag = false
+      }
+    },
+    showLinker(type='ltr') {
+      console.log('type', type)
+      this.drawer.drawerFlag = !this.drawer.drawerFlag
+      this.drawer.direction = type
+      
     },
     async deleteA() {
       const res = await deleteAccount()
@@ -222,6 +256,7 @@ export default {
       }, 3000)
     },
     goToLogin() {
+      this.closeDrawer()
       this.$router.push('/login')
     },
     langCommand(cmd) {
@@ -292,6 +327,14 @@ export default {
       this.$forceUpdate()
       this.currentLink = item
       document.title = `${this.currentLink.name_link_json[this.langArrIndex]} - DATA.GARINASSET.COM`
+
+      this.closeDrawer()
+    },
+    closeDrawer(){
+      // 移动端兼容， 导航条时关闭抽屉
+      if(this.drawer.drawerFlag){
+        this.drawer.drawerFlag = false
+      }
     },
     //
     async getLinks() {
@@ -331,13 +374,27 @@ export default {
       display: none !important;
     }
   }
+  .linker-icon {
+    color: #fff;
+    margin-left: 10px;
+  }
+  #draw-content {
+    padding-top: 2rem;
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 1rem;
+      img {
+        height: 30px;
+      }
+    }
+  }
   .mobile-header-item-wrap {
     display: flex;
     flex-direction: column;
     padding-left: 1rem;
     padding-bottom: 1rem;
     .name_link {
-      color: #fff;
+      color: #000;
       height: 2rem;
       line-height: 2rem;
     }
@@ -363,16 +420,21 @@ header {
   height: 70px;
   display: flex;
   align-items: center;
-
+  @media screen and (max-width: 1200px) {
+    justify-content: space-between;
+  }
   .header-content {
-    width: 100%;
+    // width: 100%;
     height: 100%;
-    flex: 1;
+    // flex: 1;
     display: flex;
     align-items: center;
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 1199.96px) {
       justify-content: flex-end;
       padding-right: 0.6rem;
+    }
+    @media screen and (min-width: 1200px) {
+      flex: 1;
     }
 
     .header-item-wrap {
@@ -400,6 +462,9 @@ header {
   .logo {
     height: 30px;
     padding-right: 10px;
+    @media screen and (max-width: 1200px) {
+      display: none;
+    }
   }
   .logo_opt {
     display: flex;
@@ -422,8 +487,10 @@ header {
       }
     }
   }
-  .login-btns-wrap {
-    margin: 0 10px;
+  
+}
+.login-btns-wrap {
+    margin: 0 9px;
     color: #fff;
     i {
       margin-right: 5px;
@@ -436,11 +503,10 @@ header {
       line-height: 38px;
       border: 1px solid #fff;
       border-radius: 11px;
-      padding: 0 10px;
+      padding: 0 7px;
       cursor: pointer;
     }
   }
-}
 /deeep/.dialog .el-dialog {
   border-radius: 20px;
   background-color: red;
@@ -451,6 +517,8 @@ header {
   flex: 1;
   margin-right: 10px;
   max-width: 350px;
+  display: flex;
+  align-items: center;
 }
 .login_con {
   padding: 0 10px;
