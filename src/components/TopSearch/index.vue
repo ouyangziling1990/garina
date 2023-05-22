@@ -32,6 +32,7 @@
         </div>
       </template>
     </el-autocomplete>
+    <span class="el-icon-search white"></span>
   </div>
 </template>
 
@@ -76,6 +77,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.white{
+  color: #fff;
+}
 .inline-input {
   width: 100%;
 }
