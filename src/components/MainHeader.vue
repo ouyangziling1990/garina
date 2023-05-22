@@ -515,6 +515,8 @@ header {
   flex: 1;
   margin-right: 10px;
   max-width: 350px;
+  display: flex;
+  align-items: center;
 }
 .login_con {
   padding: 0 10px;
