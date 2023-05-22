@@ -51,10 +51,21 @@ export default {
       showInputFlag: false
     }
   },
+  created() {
+    window.addEventListener("resize", this.resizeFun);
+  },
   computed: {
     ...mapState(['langArrIndex'])
   },
   methods: {
+    resizeFun(){
+      const windowWidth = document.body.offsetWidth;
+      if(windowWidth > 1200){
+        this.showInputFlag = true
+      }else{
+        this.showInputFlag = false
+      }
+    },
     focus(){
       console.log('focus')
     },
