@@ -79,7 +79,7 @@
     </header>
     <el-drawer :with-header="false" size="270px" :visible.sync="drawer.drawerFlag" :direction="drawer.direction">
       <div id="draw-content">
-        <div class="logo-wrap" v-if="drawer.direction=='ltr'">
+        <div class="logo-wrap" v-if="drawer.direction == 'ltr'">
           <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         </div>
         <div class="mobile-header-item-wrap web-show">
@@ -87,17 +87,27 @@
             {{ item.name_link_json[langArrIndex] }}</span
           >
         </div>
-        <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0 && drawer.location==='ltr'">
-            <div class="wrap" style="color:#000">
-              <div id="login-btns">登录/注册</div>
-            </div>
-            <!-- <el-button plain @click="LoginDialogFlag = true">{{
+        <div class="login-btns-wrap" @click="goToLogin" v-if="loginStatus === 0 && drawer.location === 'ltr'">
+          <div class="wrap" style="color: #000">
+            <div id="login-btns">登录/注册</div>
+          </div>
+          <!-- <el-button plain @click="LoginDialogFlag = true">{{
               $t("login")
             }}</el-button>
             <el-button type="primary" @click="signUpFun" plain>{{
               $t("signUp")
             }}</el-button> -->
-          </div>
+        </div>
+        <div class="lang-wrap">
+          <i class="white bimicon icon-diqiuquanqiu"></i>
+          <el-dropdown @command="langCommand">
+            <span class="label">{{ langLabel || '简体中文' }}<i class="el-icon-arrow-down el-icon--right"></i></span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="zh-CN">简体中文</el-dropdown-item>
+              <el-dropdown-item command="en">English</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </div>
     </el-drawer>
   </div>
@@ -211,7 +221,7 @@ export default {
   },
   beforeCreate() {},
   created() {
-    window.addEventListener("resize", this.resizeFun);
+    window.addEventListener('resize', this.resizeFun)
   },
   mounted() {
     this.initFetch()
@@ -237,17 +247,16 @@ export default {
     langArrIndex() {},
   },
   methods: {
-    resizeFun(){
-      const windowWidth = document.body.offsetWidth;
-      if(windowWidth > 1200){
+    resizeFun() {
+      const windowWidth = document.body.offsetWidth
+      if (windowWidth > 1200) {
         this.drawer.drawerFlag = false
       }
     },
-    showLinker(type='ltr') {
+    showLinker(type = 'ltr') {
       console.log('type', type)
       this.drawer.drawerFlag = !this.drawer.drawerFlag
       this.drawer.direction = type
-      
     },
     async deleteA() {
       const res = await deleteAccount()
@@ -330,9 +339,9 @@ export default {
 
       this.closeDrawer()
     },
-    closeDrawer(){
+    closeDrawer() {
       // 移动端兼容， 导航条时关闭抽屉
-      if(this.drawer.drawerFlag){
+      if (this.drawer.drawerFlag) {
         this.drawer.drawerFlag = false
       }
     },
@@ -486,26 +495,25 @@ header {
       }
     }
   }
-  
 }
 .login-btns-wrap {
-    margin: 0 9px;
-    color: #fff;
-    i {
-      margin-right: 5px;
-    }
-    #login-btns {
-      display: inline-block;
-    }
-    .wrap {
-      height: 38px;
-      line-height: 38px;
-      border: 1px solid #fff;
-      border-radius: 11px;
-      padding: 0 7px;
-      cursor: pointer;
-    }
+  margin: 0 9px;
+  color: #fff;
+  i {
+    margin-right: 5px;
   }
+  #login-btns {
+    display: inline-block;
+  }
+  .wrap {
+    height: 38px;
+    line-height: 38px;
+    border: 1px solid #fff;
+    border-radius: 11px;
+    padding: 0 7px;
+    cursor: pointer;
+  }
+}
 /deeep/.dialog .el-dialog {
   border-radius: 20px;
   background-color: red;
