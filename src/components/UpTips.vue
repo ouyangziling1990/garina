@@ -45,17 +45,19 @@ export default{
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid rgba(99, 97, 97, 0.2);
     p {
-      margin-left: 20px;
-      font-size: 20px;
+      margin-left: 1.2rem;
+      // font-size: 20px;
+      font-size: 1.2rem;
       flex: 1;
     }
     .next {
-      width: 300px;
+      // width: 300px;
       display: flex;
-      justify-content: space-around;
-      margin-right: 40px;
+      // justify-content: space-around;
+      margin-right: 1.2rem;
     }
   }
 </style>

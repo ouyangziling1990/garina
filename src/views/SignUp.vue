@@ -141,7 +141,7 @@
             </div>
             <div class="item-wrap">
               <el-form-item>
-                <div class="wrap">
+                <div>
                   <el-button type="primary" style="width: 100%" @click="signUpFormSubmit('ruleForm')">{{ $t('signUp') }}</el-button>
                 </div>
               </el-form-item>
@@ -355,22 +355,24 @@ export default {
 
   .center {
     flex: 1;
-    width: 700px;
+    // width: 700px;
+    max-width: 700px;
+    padding: 10px;
     margin: 0 auto;
     // border: 1px solid red;
     margin-bottom: 10px;
 
     .up-text {
-      height: 96px;
+      // height: 96px;
       margin-top: 5px;
       text-align: center;
       p {
-        height: 20px;
+        // height: 20px;
         line-height: 20px;
       }
       .h1 {
         font-size: 25px;
-        height: 40px;
+        // height: 40px;
         line-height: 40px;
       }
     }
@@ -384,7 +386,8 @@ export default {
         border-bottom: 1px solid rgba(99, 97, 97, 0.2);
         margin-bottom: 20px;
         .wrap {
-          width: 350px;
+          max-width: 350px;
+          width: 80vw;
           display: inline-block;
         }
         .blue {
@@ -393,8 +396,8 @@ export default {
           font-size: 18px;
         }
         .item-wrap {
-          width: 400px;
-          margin-left: 150px;
+          max-width: 400px;
+          margin: 0 auto;
           .tip {
             font-size: 12px;
             margin: 10px 0;
@@ -402,8 +405,7 @@ export default {
           }
         }
         .des {
-          width: 500px;
-          margin-left: 100px;
+          max-width: 500px;
           color: #898a8d;
           line-height: 16px;
           font-size: 12px;

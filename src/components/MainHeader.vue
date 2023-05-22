@@ -319,7 +319,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .header_wrap {
-  // height: 72px;
+  height: 72px;
+  position: relative;
   .mobile-none {
     @media screen and (max-width: 1200px) {
       display: none !important;

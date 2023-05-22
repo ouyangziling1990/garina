@@ -269,12 +269,12 @@ export default {
       // 获取当前页面的标题
       let title = document.title;
       // 使用Google Analytics的"ga()"函数，调用"set"方法将获取到的页面标题设置为"title"
-      ga('set', 'title', title);
+      ga("set", "title", title);
       // 再次使用"ga()"函数，调用"send"方法将该页面视为新页面发送到Google Analytics，从而跟踪该页面的访问量和其他指标
-      ga('send', 'pageview');
+      ga("send", "pageview");
     },
     sendTitle() {
-      this.trackDynamicTitle()
+      this.trackDynamicTitle();
     },
     buildChartOption(rowData) {
       let xAxisData = [];
@@ -520,17 +520,19 @@ export default {
 }
 .IndicatorDetail {
   height: 100%;
-  // max-width: 1280px;
+  max-width: 1280px;
   // width: 100%;
-  // margin: auto;
+  margin: auto;
+  @media screen and (max-width: 768px) {
+    padding: 0 10px;
+  }
   .detail-wrap {
     width: 100%;
     display: flex;
     margin-top: 20px;
     flex-wrap: wrap;
     .chart-data {
-      width: calc(100% - 330px);
-      margin-right: ;
+      width: 63%;
       @media screen and (max-width: 768px) {
         width: 100%;
       }
@@ -596,47 +598,48 @@ export default {
         margin-top: 10px;
         justify-content: space-between;
         border-bottom: 1px solid #edf0f5;
-        align-items: center;
         padding: 10px 0;
         .chart-head-2-l {
           margin-bottom: 7px;
           display: flex;
+          align-items:flex-end;
           // font-size: 30px;
           font-size: 20px;
           @media screen and (max-width: 768px) {
             font-size: 14px;
           }
           .c-tag-4 {
-            // font-size: 40px;
             font-size: 2rem;
-            // line-height: 48px;
             font-weight: 600;
             color: #527f52;
             margin-right: 0.5rem;
           }
           .c-tag-5,
           .c-tag-6 {
+            // height: 20px;
             color: #527f52;
-            padding-top: .75rem;
             margin-left: 0.1rem;
             margin-right: 0.1rem;
-            // line-height: 2rem;
-            font-size: 1em;
+            font-size: 0.7em;
+            padding-bottom: .3rem;
           }
           .c-tag-7 {
             color: #527f52;
             font-size: 1.2rem;
-            padding-top: .5rem;
             // line-height: 2rem;
             margin-left: 0.7rem;
             margin-right: 0.5rem;
+            padding-bottom: .1rem;
           }
         }
         .chart-head-2-r {
           display: flex;
           flex-direction: column;
           align-content: center;
-          text-align: left;
+          text-align: right;
+          @media screen and (max-width: 768px) {
+            text-align: left;
+          }
           // margin-top: 16px;
           font-size: 0.6em;
           font-weight: 400;
@@ -661,8 +664,8 @@ export default {
       }
     }
     .desc-data {
-      width: 300px;
-      margin-left: 30px;
+      width: calc(37% - 50px);
+      margin-left: 50px;
       @media screen and (max-width: 768px) {
         margin-left: 0;
         width: 100%;

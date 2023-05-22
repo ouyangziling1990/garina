@@ -199,7 +199,8 @@ export default {
 }
 #findTitle {
   margin: 10px 0 20px;
-  font-size: 24px;
+  // font-size: 24px;
+  font-size: 1.3rem;
   height: 50px;
   line-height: 50px;
   // font-weight: bold;

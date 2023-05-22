@@ -86,7 +86,7 @@ export default {
             trigger: ["blur", "change"],
           },
           { required: true, message: _this.$t("emailReq"), trigger: "blur" }
-          
+
         ],
         password: [
           { required: true, message: _this.$t("passwordReq"), trigger: "blur" },
@@ -167,14 +167,20 @@ export default {
   background-color: rgb(240, 242, 245);
   padding-top: 10vh;
   height: 100vh;
+  @media screen and (max-width: 768px) {
+    background-color: #fff;
+  }
   #login {
     background-color: #fff;
-    width: 470px;
+    max-width: 470px;
     height: 320px;
     margin: 0 auto;
     border-radius: 8px;
     box-shadow: 0px 1px 8px 4px rgba(0, 0, 0, 0.12);
     padding: 30px 20px;
+    @media screen and (max-width: 768px) {
+      box-shadow: none;
+    }
     .form-item1 {
       margin-bottom: 12px;
     }

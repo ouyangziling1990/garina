@@ -374,8 +374,12 @@ export default {
     // width: 100%;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     .table-wrap {
       width: calc(100% - 500px);
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
       .operate {
         font-size: 14px;
         color: #268dff;
@@ -467,6 +471,10 @@ export default {
     .desc-wrap {
       width: 450px;
       margin-left: 50px;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        margin-left: 0;
+      }
       .desc-title {
         font-size: 16px;
         font-weight: bold;
