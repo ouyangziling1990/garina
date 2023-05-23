@@ -54,6 +54,9 @@ export default {
   created() {
     window.addEventListener("resize", this.resizeFun);
   },
+  mounted () {
+    this.resizeFun()  
+  },
   computed: {
     ...mapState(['langArrIndex'])
   },

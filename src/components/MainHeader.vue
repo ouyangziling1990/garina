@@ -26,7 +26,7 @@
     <header class="Main_Header">
       <div class="header">
         <span class="bimicon icon-sandaogang web-show linker-icon" @click="showLinker('ltr')"></span>
-        <span class="bimicon icon-touping web-show linker-icon" @click="showLinker('btt')"></span>
+        <span class="bimicon icon-touping web-show linker-icon" @click="showLinker('btt')">&nbsp{{ currentLink?currentLink.name_link_json[this.langArrIndex]:'' }}</span>
         <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         <div class="header-content">
           <div class="header-item-wrap mobile-none">
@@ -145,6 +145,7 @@ export default {
     }
     const _this = this
     return {
+      currentLinkName:"",
       drawer: {
         drawerFlag: false,
         direction: 'ltr', // btt
