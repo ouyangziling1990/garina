@@ -23,9 +23,9 @@
       :trigger-on-focus="false"
       :autofocus="true"
       @select="handleSelect"
-      @blur="inputBlur"
       popper-class="popup"
-    >
+      >
+      <!-- @blur="inputBlur" -->
       <i slot="suffix" class="el-input__icon el-icon-search"></i>
       <template slot-scope="{ item }">
         <div class="item">
