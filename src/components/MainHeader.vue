@@ -26,7 +26,10 @@
     <header class="Main_Header">
       <div class="header">
         <span class="bimicon icon-sandaogang web-show linker-icon" @click="showLinker('ltr')"></span>
-        <span class="bimicon icon-touping web-show linker-icon" @click="showLinker('btt')">&nbsp{{ currentLink?currentLink.name_link_json[this.langArrIndex]:'' }}</span>
+        <span class="web-show linker-icon" @click="showLinker('btt')">
+          <span>{{ currentLink?currentLink.name_link_json[this.langArrIndex]:'' }}</span>
+          <i class="el-icon-d-caret" style="font-size:1.1rem;margin-left:0.1rem;"></i>
+        </span>
         <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
         <div class="header-content">
           <div class="header-item-wrap mobile-none">
