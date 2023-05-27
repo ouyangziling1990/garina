@@ -56,9 +56,9 @@
               <i slot="suffix" class="el-input__icon el-icon-search"></i>
               <template slot-scope="{ item }">
                 <div class="item">
-                  <span :class="['country', 'fi', `fi-${item.country_emoji_flag}`]"> </span>
-                  <span class="target">{{ item.region }}</span>
-                  <span class="target">{{ item.name }}</span>
+                    <span class="target">{{ item.name }}</span><br>
+                    <span :class="['country', 'target', 'fi', `fi-${item.country_emoji_flag}`]"> </span>
+                    <span class="target">{{ item.region }}</span>
                 </div>
               </template>
             </el-autocomplete>
@@ -195,8 +195,12 @@ export default {
   li {
     padding: 0px;
     border-bottom: 1px solid #e8e8e8;
-    height: 3rem;
-    line-height: 3rem;
+    height: 4.5rem;
+    .item{
+
+    }
+    .target{}
+    // line-height: 3rem;
   }
 }
 </style>
