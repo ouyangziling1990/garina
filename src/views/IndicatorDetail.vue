@@ -19,7 +19,7 @@
     "paraphrase": "简介",
     "methods":"统计方法",
     "followers":"人关注",
-    "optional":"自选",
+    "optional":"关注",
     "followed":"已添加",
     "isUpdating":"持续更新",
     "stopUpdating":"停止更新"
