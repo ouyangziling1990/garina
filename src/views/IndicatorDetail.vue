@@ -1,8 +1,8 @@
 <i18n>
 {
   "en": {
-    "dataSource": "Data Source",
-    "dataRange": "Data Range",
+    "dataSource": "Source",
+    "dataRange": "Range",
     "lastUpdated": "Last Updated Time",
     "paraphrase": "Overview",
     "methods": "Statistical Method",
@@ -214,7 +214,7 @@ export default {
       const source = rowData.sources?.source_json;
       this.source = source;
 
-      const dataRange = `${rowData.data.data_earliest_time} ~ ${rowData.data.data_latest_time}`;
+      const dataRange = `${rowData.data.data_earliest_time} - ${rowData.data.data_latest_time}`;
       this.dataRange = dataRange;
 
       const methods = rowData.methods?.method_json;
