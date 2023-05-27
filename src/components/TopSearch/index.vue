@@ -114,6 +114,10 @@ export default {
       const windowWidth = document.body.offsetWidth
       if (windowWidth < 1200) {
         this.drawer.drawerFlag = true
+        this.$nextTick(() => {
+          const autocomplete = this.$refs['autocomplete1']
+          autocomplete.focus()
+        })
       }
       // this.showInputFlag = true
       // this.$nextTick(() => {
