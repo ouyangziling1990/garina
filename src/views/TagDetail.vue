@@ -10,8 +10,8 @@
     "currencies":"Currency",
     "year_over_year":"% YoY",
     "frequency":"Frequency",
-    "dataRange":"Data Range",
-    "sources":"Data Source",
+    "dataRange":"Range",
+    "sources":"Source",
     "isUpdating":"Updating"
   },
   "zh-CN":{
