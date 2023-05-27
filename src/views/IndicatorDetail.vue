@@ -10,7 +10,7 @@
     "optional":"Follow",
     "followed":"Followed",
     "isUpdating":"Continuous Update",
-    "stopUpdating": Discontinued Update"
+    "stopUpdating":Discontinued Update"
   },
   "zh-CN":{
     "dataSource": "数据来源",
