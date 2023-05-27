@@ -1,18 +1,18 @@
 <i18n>
 {
   "en": {
-    "name":"name",
-    "country":"country",
-    "region":"region",
-    "latestValue":"latest value",
-    "latestTime":"lastest time",
-    "unit":"unit",
-    "currencies":"currencies",
-    "year_over_year":"year_over_year(%)",
-    "frequency":"frequency",
-    "dataRange":"dataRange",
-    "sources":"sources",
-    "isUpdating":"is updating"
+    "name":"Indicator",
+    "country":"Country",
+    "region":"Region",
+    "latestValue":"Latest Value",
+    "latestTime":"Lastest time",
+    "unit":"Unit",
+    "currencies":"Currency",
+    "year_over_year":"% YoY",
+    "frequency":"Frequency",
+    "dataRange":"Data Range",
+    "sources":"Data Source",
+    "isUpdating":"Updating"
   },
   "zh-CN":{
     "name":"指标",

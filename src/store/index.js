@@ -36,7 +36,7 @@ export default new Vuex.Store({
     // 当前点击的tag
     linkInfo: {},
     // tags数组
-    headerTagArr:[],
+    headerTagArr:[{"name_link_json":["首页","Home"],"position":1,"is_internal":0,"visibility":0,"id":1,"parent_id":null,"url":null,"icon":null},{"name_link_json":["全球经济数据","World Economic Data"],"position":2,"is_internal":1,"visibility":0,"id":2,"parent_id":null,"url":"regions","icon":null},{"name_link_json":["社会与人文","Society&Humanities"],"position":3,"is_internal":1,"visibility":0,"id":3,"parent_id":null,"url":"regions","icon":null},{"name_link_json":["金融市场","Financial Market"],"position":4,"is_internal":1,"visibility":0,"id":4,"parent_id":null,"url":"regions","icon":null},{"name_link_json":["行业数据","Industry"],"position":5,"is_internal":1,"visibility":0,"id":5,"parent_id":null,"url":"regions","icon":null},{"name_link_json":["区域发展","Areas"],"position":6,"is_internal":1,"visibility":0,"id":6,"parent_id":null,"url":"areas","icon":null},{"name_link_json":["消费与生活","Consumption&Life"],"position":7,"is_internal":1,"visibility":0,"id":7,"parent_id":null,"url":"regions","icon":null},{"name_link_json":["推介计划","Affiliates"],"position":8,"is_internal":1,"visibility":1,"id":8,"parent_id":null,"url":null,"icon":null}],
     projectId: "",
     orgId: "",
     tenantId: "",
