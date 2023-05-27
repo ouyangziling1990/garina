@@ -46,7 +46,7 @@
               <el-form-item label="" prop="region_id">
                 <div class="wrap">
                   <el-select style="width: 100%" v-model="signUpform.region_id" filterable placeholder="国家或地区" @change="regionChange">
-                    <el-option v-for="item in infrastructureArr" :key="item.id" :label="item.region_json[0]" :value="item.id"> </el-option>
+                    <el-option v-for="item in infrastructureArr" :key="item.id" :label="item.region_json[langArrIndex]" :value="item.id"> </el-option>
                   </el-select>
                 </div>
               </el-form-item>
