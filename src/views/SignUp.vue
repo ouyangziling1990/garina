@@ -26,7 +26,7 @@
     <div class="center" v-show="!gotoEmailFlag">
       <div class="up-text">
         <p class="h1">创建您的账号</p>
-        <p>只需一个账号，您即可访问 GarinAsset LLC 旗下的所有产品。</p>
+        <p>只需一个账号，您即可访问 GARINASSET.COM 旗下的所有产品。</p>
         <p>已有账号？<el-button type="text" @click="goto('findaccent')">点此查找</el-button>。</p>
       </div>
       <div class="form">
