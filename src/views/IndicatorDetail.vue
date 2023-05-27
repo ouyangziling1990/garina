@@ -1,16 +1,16 @@
 <i18n>
 {
   "en": {
-    "dataSource": "DataSource",
-    "dataRange": "dataRange",
-    "lastUpdated": "LastUpdatedTime",
-    "paraphrase": "Paraphrase",
-    "methods": "methods",
+    "dataSource": "Data Source",
+    "dataRange": "Data Range",
+    "lastUpdated": "Last Updated Time",
+    "paraphrase": "Overview",
+    "methods": "Statistical Method",
     "followers":"followers",
     "optional":"Follow",
     "followed":"Followed",
-    "isUpdating":"Continuous update",
-    "stopUpdating": "Stop updateing"
+    "isUpdating":"Continuous Update",
+    "stopUpdating": Discontinued Update"
   },
   "zh-CN":{
     "dataSource": "数据来源",
