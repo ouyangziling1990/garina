@@ -135,7 +135,7 @@
 
           <div class="split-wrap no-bottom">
             <div class="item-wrap des">
-              你的「个人信息」被用于确保你能够安全登录并访问你的数据。出于安全性、支持和报告的目的，DATA.GARINASSET.COM会记录某些数据。如果你同意，DATA.GARINASSET.COM
+              你的「个人信息」被用于确保你能够安全登录并访问你的数据。出于安全性、支持和报告的目的，GARINASSET.COM会记录某些数据。如果你同意，GARINASSET.COM
               还会使用你的「账号」信息向你发送营销电子邮件和交流信息（可能会基于你的产品使用情况）。
               <el-button type="text">了解数据的管理方式</el-button>。
             </div>
