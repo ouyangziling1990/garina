@@ -133,10 +133,10 @@ export default {
         const list = res.map((item) => {
           let name = item.names?.name_json[this.langArrIndex]
           if(item.names&&item.names.name_property_json){
-            name+=','+item.names?.name_property_json[this.langArrIndex]
+            name+=' , '+item.names?.name_property_json[this.langArrIndex]
           }
           if(item.names&&item.names.name_attribute_json){
-            name+=','+item.names.name_attribute_json[this.langArrIndex]
+            name+=' , '+item.names.name_attribute_json[this.langArrIndex]
           }
           return {
             id: item.id,
