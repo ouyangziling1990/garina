@@ -128,7 +128,7 @@ export default {
     margin: 0 auto;
     width: 100%;
     flex: 1;
-    
+
     @media screen and (min-width: 1200px){
       overflow: auto;
     }

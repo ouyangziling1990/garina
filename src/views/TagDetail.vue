@@ -187,9 +187,17 @@ export default {
       this.loading = false
       if (preTableData && preTableData.length) {
         preTableData.forEach(item => {
+          console.log(item);
+          let name = item.names?.name_json[this.langArrIndex]
+          if(item.names&&item.names.name_property_json){
+            name+=','+item.names?.name_property_json[this.langArrIndex]
+          }
+          if(item.names&&item.names.name_attribute_json){
+            name+=','+item.names.name_attribute_json[this.langArrIndex]
+          }
           let singleData = {
             id: item.id,
-            name: item?.names?.name_json[this.langArrIndex],
+            name: name,
             country_emoji_flag: item?.countries?.country_emoji_flag,
             country: item?.countries?.country_json[this.langArrIndex],
             regions: item?.regions?.region_json[this.langArrIndex],

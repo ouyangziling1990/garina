@@ -109,7 +109,8 @@ export default {
   height: 100%;
   min-height: 400px;
   // margin: 0 auto;
-  
+  padding-bottom: 100px;
+
   .title {
     font-size: 1.37rem;
     font-weight: bold;

@@ -131,9 +131,16 @@ export default {
       console.log(res)
       if (res && res.length) {
         const list = res.map((item) => {
+          let name = item.names?.name_json[this.langArrIndex]
+          if(item.names&&item.names.name_property_json){
+            name+=','+item.names?.name_property_json[this.langArrIndex]
+          }
+          if(item.names&&item.names.name_attribute_json){
+            name+=','+item.names.name_attribute_json[this.langArrIndex]
+          }
           return {
             id: item.id,
-            name: item.names.name_json[this.langArrIndex],
+            name: name,
             country_emoji_flag: item.countries.iso3166_alpha2.toLowerCase(),
             region: item.regions.region_json[this.langArrIndex],
           }

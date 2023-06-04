@@ -520,6 +520,7 @@ export default {
     display: flex;
     margin-top: 20px;
     flex-wrap: wrap;
+    padding-bottom: 100px;
     .chart-data {
       width: 63%;
       @media screen and (max-width: 768px) {

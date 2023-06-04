@@ -70,7 +70,8 @@ export default {
   // width: 100%;
   // margin: auto;
   // margin-left: 186px;
-  
+  padding-bottom: 100px;
+
   .title {
     font-size: 20px;
     margin: 40px 0px 20px;
