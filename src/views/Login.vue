@@ -1,21 +1,21 @@
 <i18n>
     {
       "en": {
-        "login": "sign in",
-        "signUp":"sign up",
-        "email":"email",
-        "emailReq":"val is not email",
-        "password":"password",
-        "passwordReq":"password is required"
+        "login": "Sign In",
+        "signUp":"Sign Up",
+        "email":"Email",
+        "emailReq":"Please provide a valid email address.",
+        "password":"Password",
+        "passwordReq":"Please enter your password to continue."
 
       },
       "zh-CN":{
         "login":"登录",
         "signUp": "注册",
-        "email":"请输入邮箱",
-        "emailReq":"请输入正确邮箱",
+        "email":"邮箱",
+        "emailReq":"请提供有效的电子邮件地址。",
         "password":"密码",
-        "passwordReq":"请输入密码"
+        "passwordReq":"请输入您的密码以继续。"
       }
     }
   </i18n>

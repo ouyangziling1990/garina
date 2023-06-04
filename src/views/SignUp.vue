@@ -1,21 +1,21 @@
 <i18n>
     {
       "en": {
-        "login": "sign in",
-        "signUp":"sign up",
-        "email":"email",
-        "emailReq":"val is not email",
-        "password":"password",
-        "passwordReq":"password is required"
+        "login": "Sign In",
+        "signUp":"Sign Up",
+        "email":"Email",
+        "emailReq":"Please provide a valid email address.",
+        "password":"Password",
+        "passwordReq":"Please enter your password to continue."
 
       },
       "zh-CN":{
         "login":"登录",
         "signUp": "注册",
-        "email":"请输入邮箱",
-        "emailReq":"请输入正确邮箱",
+        "email":"邮箱",
+        "emailReq":"请提供有效的电子邮件地址。",
         "password":"密码",
-        "passwordReq":"请输入密码"
+        "passwordReq":"请输入您的密码以继续。"
       }
     }
   </i18n>
@@ -26,7 +26,7 @@
     <div class="center" v-show="!gotoEmailFlag">
       <div class="up-text">
         <p class="h1">创建您的账号</p>
-        <p>只需一个账号，您即可访问 GarinAsset LLC 旗下的所有产品。</p>
+        <p>只需一个账号，您即可访问 GARINASSET.COM 旗下的所有产品。</p>
         <p>已有账号？<el-button type="text" @click="goto('findaccent')">点此查找</el-button>。</p>
       </div>
       <div class="form">
@@ -35,7 +35,7 @@
             <div class="item-wrap">
               <el-form-item prop="fullname">
                 <div class="wrap">
-                  <el-input v-model="signUpform.fullname" placeholder="请输入姓名"></el-input>
+                  <el-input v-model="signUpform.fullname" placeholder="姓名"></el-input>
                 </div>
                 <el-tooltip content="在某些场景，此信息有助于找回您的账号" placement="bottom" effect="light">
                   <i class="blue el-icon-question"></i>
@@ -46,7 +46,7 @@
               <el-form-item label="" prop="region_id">
                 <div class="wrap">
                   <el-select style="width: 100%" v-model="signUpform.region_id" filterable placeholder="国家或地区" @change="regionChange">
-                    <el-option v-for="item in infrastructureArr" :key="item.id" :label="item.region_json[0]" :value="item.id"> </el-option>
+                    <el-option v-for="item in infrastructureArr" :key="item.id" :label="item.region_json[langArrIndex]" :value="item.id"> </el-option>
                   </el-select>
                 </div>
               </el-form-item>
@@ -83,7 +83,7 @@
                 <div class="wrap">
                   <el-input v-model="signUpform.username" placeholder="昵称"></el-input>
                 </div>
-                <el-tooltip content="某些场景，此信息将用于您的个人信息展示" placement="bottom" effect="light">
+                <el-tooltip content="在某些场景，此信息将用于您的个人信息展示" placement="bottom" effect="light">
                   <i class="blue el-icon-question"></i>
                 </el-tooltip>
               </el-form-item>
@@ -93,21 +93,21 @@
               <div class="tip">这将是您的账号</div>
               <el-form-item label="" prop="email">
                 <div class="wrap">
-                  <el-input v-model="signUpform.email" placeholder="请输入邮箱"></el-input>
+                  <el-input v-model="signUpform.email" placeholder="邮箱"></el-input>
                 </div>
               </el-form-item>
             </div>
             <div class="item-wrap">
               <el-form-item label="" prop="password">
                 <div class="wrap">
-                  <el-input v-model="signUpform.password" placeholder="请输入密码" show-password></el-input>
+                  <el-input v-model="signUpform.password" placeholder="密码" show-password></el-input>
                 </div>
               </el-form-item>
             </div>
             <div class="item-wrap">
               <el-form-item label="" prop="password2">
                 <div class="wrap">
-                  <el-input v-model="signUpform.password2" placeholder="请再次确认密码" show-password></el-input>
+                  <el-input v-model="signUpform.password2" placeholder="确认密码" show-password></el-input>
                 </div>
               </el-form-item>
             </div>
@@ -135,8 +135,8 @@
 
           <div class="split-wrap no-bottom">
             <div class="item-wrap des">
-              你的 个人信息 被用于确保你能够安全登录并访问你的数据。出于安全性、支持和报告的目的，GarinAsset LLC会记录某些数据。如果你同意，GarinAsset LLC
-              还会使用你的 账号 信息向你发送 营销电子邮件和交流信息（可能会基于你的 产品使用情况）。
+              你的「个人信息」被用于确保你能够安全登录并访问你的数据。出于安全性、支持和报告的目的，GARINASSET.COM会记录某些数据。如果你同意，GARINASSET.COM
+              还会使用你的「账号」信息向你发送营销电子邮件和交流信息（可能会基于你的产品使用情况）。
               <el-button type="text">了解数据的管理方式</el-button>。
             </div>
             <div class="item-wrap">
@@ -259,7 +259,7 @@ export default {
         email: [
           {
             type: 'email',
-            message: '请输入正确的邮箱地址',
+            message: '请提供有效的电子邮件地址。',
             trigger: ['blur', 'change'],
           },
           { validator: emailUniVal, trigger: 'blur' },

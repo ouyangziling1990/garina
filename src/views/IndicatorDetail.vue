@@ -1,8 +1,8 @@
 <i18n>
 {
   "en": {
-    "dataSource": "Data Source",
-    "dataRange": "Data Range",
+    "dataSource": "Source",
+    "dataRange": "Range",
     "lastUpdated": "Last Updated Time",
     "paraphrase": "Overview",
     "methods": "Statistical Method",
@@ -10,7 +10,7 @@
     "optional":"Follow",
     "followed":"Followed",
     "isUpdating":"Continuous Update",
-    "stopUpdating": Discontinued Update"
+    "stopUpdating":"Discontinued Update"
   },
   "zh-CN":{
     "dataSource": "数据来源",
@@ -19,7 +19,7 @@
     "paraphrase": "简介",
     "methods":"统计方法",
     "followers":"人关注",
-    "optional":"自选",
+    "optional":"关注",
     "followed":"已添加",
     "isUpdating":"持续更新",
     "stopUpdating":"停止更新"
@@ -214,7 +214,7 @@ export default {
       const source = rowData.sources?.source_json;
       this.source = source;
 
-      const dataRange = `${rowData.data.data_earliest_time} ~ ${rowData.data.data_latest_time}`;
+      const dataRange = `${rowData.data.data_earliest_time} - ${rowData.data.data_latest_time}`;
       this.dataRange = dataRange;
 
       const methods = rowData.methods?.method_json;
