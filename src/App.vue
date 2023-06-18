@@ -58,6 +58,8 @@ export default {
     },
   },
   created() {
+    // ELEMENT.Message.info('element usage success')
+    // this.$message.info('element usage success')
     this.getRegions()
       console.log( process.env.NODE_ENV ,process.env.VUE_APP_URL,'🔥');
   },
