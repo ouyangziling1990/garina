@@ -46,7 +46,7 @@
     </div>
     <div class="TagDetail" v-if="loginStatus">
       <div class="table-wrap">
-        <div class="title">{{$t('optionalIndex')}}</div>
+        <div class="title">{{ $t('optionalIndex') }}</div>
         <!-- <el-button @click="indectorDetail">获取指标详情</el-button> -->
         <el-table
           :data="tableData"
@@ -60,18 +60,14 @@
             v-bind="column"
             :key="'column' + index"
             :sortable="column.sortable"
+            :align="column.align"
+            :header-align="column.align"
           >
             <template slot-scope="scope">
-              <div
-                v-if="column.prop === 'name'"
-                @click="indectorDetail(scope.row)"
-                class="name-col"
-              >
+              <div v-if="column.prop === 'name'" @click="indectorDetail(scope.row)" class="name-col">
                 <div class="name val">{{ scope.row.name }}</div>
                 <div>
-                  <span
-                    :class="['fi', `fi-${scope.row['country_emoji_flag']}`]"
-                  ></span>
+                  <span :class="['fi', `fi-${scope.row['country_emoji_flag']}`]"></span>
                   <span class="name-regions">{{ scope.row['regions'] }}</span>
                   <span class="name-latest-time">
                     {{ scope.row['latestTime'] }}
@@ -80,28 +76,23 @@
                 </div>
               </div>
               <div v-else-if="column.prop === 'latestValue'">
-                <div>
+                <div class="align-right">
                   <span class="data-latest-value">
                     {{ scope.row[column.prop] }}
                   </span>
                   <span class="unit">{{ scope.row['units'] }}</span>
-                  <span class="currencies" v-if="scope.row['currencies']">{{
-                    scope.row['currencies']
-                  }}</span>
+                  <span class="currencies" v-if="scope.row['currencies']">{{ scope.row['currencies'] }}</span>
                 </div>
               </div>
               <div v-else-if="column.prop === 'yearOverYear'">
-                <div>
-                  <span
-                    v-if="scope.row[column.prop]"
-                    class="data-year-over-year"
-                  >
+                <div class="align-right">
+                  <span v-if="scope.row[column.prop]" class="data-year-over-year">
                     {{ scope.row[column.prop] > 0 ? '+' : '' }}
                     {{ scope.row[column.prop] }}
                   </span>
                   <span v-if="scope.row[column.prop]">%</span>
                 </div>
-                <div v-if="!scope.row[column.prop]">--</div>
+                <div class="align-right" v-if="!scope.row[column.prop]">--</div>
               </div>
               <div v-else-if="column.prop === 'sources'">
                 <span class="val">{{ scope.row[column.prop] }}</span>
@@ -120,22 +111,16 @@
             </template>
 
             <template slot-scope="scope">
-              <el-dropdown
-                @command="e => menuCommandHandle(e, scope.row.id)"
-                placement="bottom-start"
-              >
-                <div class="operate">
-                  <i class="el-icon-more"></i>
-                </div>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item
-                    command="remove"
-                    icon="el-icon-remove-outline"
-                    divided
-                    >移除自选</el-dropdown-item
-                  >
-                </el-dropdown-menu>
-              </el-dropdown>
+              <div class="align-center">
+                <el-dropdown @command="e => menuCommandHandle(e, scope.row.id)" placement="bottom-start">
+                  <div class="operate">
+                    <i class="el-icon-more"></i>
+                  </div>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="remove" icon="el-icon-remove-outline" divided>移除自选</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </div>
             </template></el-table-column
           ></el-table
         >
@@ -143,18 +128,7 @@
       <div class="desc-wrap">
         <div class="desc-title">{{ $t('databaseAsset') }}</div>
         <div class="desc-content">
-          {{
-            `加林数据拥有${toThousandsFormates2(
-              statisticsData.time_series
-            )}条时间序列，现已覆盖国家/地区 ${
-              statisticsData.regions
-            } ,行政区域 ${statisticsData.areas} ，包含富指标集 ${
-              statisticsData.indicators
-            }，数据最早时间可追溯至${statisticsData.data_earliest_time.slice(
-              0,
-              4
-            )}年。`
-          }}
+          {{ jiaLinDataSourceDes }}
         </div>
       </div>
     </div>
@@ -163,12 +137,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import {
-  getFavoritesList,
-  cancelFavorites,
-  setFavoritesOrder,
-  getStatisticsData
-} from '@/api/index'
+import { getFavoritesList, cancelFavorites, setFavoritesOrder, getStatisticsData } from '@/api/index'
 import Sortable from 'sortablejs'
 
 export default {
@@ -179,7 +148,8 @@ export default {
     return {
       tableColumns: [],
       tableData: [],
-      statisticsData: {}
+      statisticsData: {},
+      jiaLinDataSourceDes: ''
     }
   },
   beforeCreate() {},
@@ -209,17 +179,19 @@ export default {
   methods: {
     setTableHeader() {
       this.tableColumns = [
-        { label: this.$t('name'), prop: 'name', width: 380, sortable: true },
+        { label: this.$t('name'), prop: 'name', width: 380, sortable: true, align:'left' },
         {
           label: this.$t('latestValue'),
           prop: 'latestValue',
           width: 200,
-          sortable: true
+          sortable: true,
+          align:'right'
         },
         {
           label: this.$t('yearOverYear'),
           prop: 'yearOverYear',
-          sortable: true
+          sortable: true,
+          align:'right'
         }
         // { label: this.$t('sources'), prop: 'sources', sortable: true }
       ]
@@ -245,6 +217,11 @@ export default {
       const res = await getStatisticsData()
       this.statisticsData = res
       console.log(res)
+      this.jiaLinDataSourceDes = `加林数据拥有${this.toThousandsFormates2(
+        res.time_series
+      )}条时间序列，现已覆盖国家/地区 ${res.regions} ,行政区域 ${res.areas} ，包含富指标集 ${
+        res.indicators
+      }，数据最早时间可追溯至${res.data_earliest_time.slice(0, 4)}年。`
     },
     toThousandsFormates2(num) {
       // 判断传进来的数字是否为非空数字
@@ -281,9 +258,7 @@ export default {
           }
           console.log(item)
           if (item?.data_year_over_year?.data_latest_value) {
-            let tmpD =
-              item.data_year_over_year.data_latest_value -
-              item.data_year_over_year_fixed
+            let tmpD = item.data_year_over_year.data_latest_value - item.data_year_over_year_fixed
             tmpD = tmpD.toFixed(2)
             singleData['yearOverYear'] = tmpD
           } else {
@@ -358,6 +333,12 @@ export default {
   // width: 100%;
   height: 100%;
   padding-top: 15px;
+  .align-right {
+    text-align: right;
+  }
+  .align-center {
+    text-align: center;
+  }
   .title {
     font-size: 2.3rem;
     font-weight: bold;
@@ -396,6 +377,9 @@ export default {
         .header-class {
           background-color: #f5f5f5 !important;
           color: black;
+        }
+        .is-right{
+          text-align: right;
         }
         .highlight-row {
           background: #fafafa;
