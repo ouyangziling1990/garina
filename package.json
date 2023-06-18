@@ -5,14 +5,13 @@
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
     "build": "vue-cli-service build",
+    "build-dev": "vue-cli-service build --mode development",
     "build-ci": "vue-cli-service build --mode ci",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "echarts": "^5.1.2",
     "element-resize-detector": "^1.2.4",
-    "element-ui": "^2.15.12",
     "flag-icons": "^6.6.6",
     "reset-css": "^5.0.1",
     "sortablejs": "^1.15.0",

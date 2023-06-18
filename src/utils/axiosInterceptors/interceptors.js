@@ -9,7 +9,7 @@
 
 import axios from "axios";
 import codeMap from "./codeMap";
-import { Message } from "element-ui";
+// import { Message } from "element-ui";
 axios.interceptors.request.use(
   (config) => {
     if (config.method == "post") {
