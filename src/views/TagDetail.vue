@@ -99,101 +99,101 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 import {
   getDataDetail,
   getIndicatorDetail,
   getFavorites,
   addFavorites,
-  cancelFavorites
-} from '@/api/index'
+  cancelFavorites,
+} from "@/api/index";
 export default {
-  name: 'TagDetail',
+  name: "TagDetail",
   components: {},
   props: {},
   data() {
-    const _this = this
+    const _this = this;
     return {
       loading: false,
       tableData: [],
-      tableColumns: []
-    }
+      tableColumns: [],
+    };
   },
   beforeCreate() {},
   created() {},
   mounted() {
-    console.log('tagDetail router mounted')
-    const { tagId, regionId } = this.$route.params
-    this.getReginIndexInfo(tagId, regionId)
+    console.log("tagDetail router mounted");
+    const { tagId, regionId } = this.$route.params;
+    this.getReginIndexInfo(tagId, regionId);
     if (this.lang) {
-      this.$i18n.locale = this.lang
+      this.$i18n.locale = this.lang;
     }
-    this.setTableHeader()
+    this.setTableHeader();
     if (this.loginStatus) {
-      this.getFavoritesList()
+      this.getFavoritesList();
     }
   },
   computed: {
     ...mapState([
-      'tagInfo',
-      'currentRegion',
-      'langArrIndex',
-      'lang',
-      'favorites'
+      "tagInfo",
+      "currentRegion",
+      "langArrIndex",
+      "lang",
+      "favorites",
     ]),
 
     loginStatus() {
-      return localStorage.getItem('access_token') ? 1 : 0
-    }
+      return localStorage.getItem("access_token") ? 1 : 0;
+    },
   },
   watch: {
     currentRegion: {
       handler(val) {
         // this.getReginIndexInfo(this.tagInfo.id, val.id);
       },
-      immediate: true
+      immediate: true,
     },
     lang(val) {
-      this.$i18n.locale = val
-    }
+      this.$i18n.locale = val;
+    },
   },
   methods: {
     setTableHeader() {
       this.tableColumns = [
-        { label: this.$t('name'), prop: 'name', width: '350' },
-        { label: this.$t('region'), prop: 'regions' },
+        { label: this.$t("name"), prop: "name", width: "350" },
+        { label: this.$t("region"), prop: "regions", width: "90"  },
         // { label: this.$t('latestTime'), prop: "latestTime" },
         // { label: this.$t('latestValue'), prop: "data_latest_value",  },
         // { label: this.$t('unit'), prop: "units"},
         // { label: this.$t('currencies'), prop: "currencies" },
         // { label: this.$t('year_over_year'), prop: "data_year_over_year", },
-        { label: this.$t('dataRange'), prop: 'dataRange', width: '240' },
-        { label: this.$t('frequency'), prop: 'frequency' },
-        { label: this.$t('sources'), prop: 'sources', width: '320' },
-        { label: this.$t('isUpdating'), prop: 'isUpdating', width: '80' }
-      ]
+        { label: this.$t("dataRange"), prop: "dataRange", width: "240" },
+        { label: this.$t("frequency"), prop: "frequency" },
+        { label: this.$t("sources"), prop: "sources", width: "320" },
+        { label: this.$t("isUpdating"), prop: "isUpdating", width: "80" },
+      ];
     },
     async indectorDetail(singleData) {
-      const id = singleData.id
-      let pathInfo = this.$router.resolve(`/indicator/${id}`)
-      window.open(pathInfo.href, '_blank')
+      const id = singleData.id;
+      let pathInfo = this.$router.resolve(`/indicator/${id}`);
+      window.open(pathInfo.href, "_blank");
     },
     headerClass() {
-      return 'header-class'
+      return "header-class";
     },
     async getReginIndexInfo(tagId, regionId) {
-      this.loading = true
-      const preTableData = await getDataDetail(tagId, regionId)
-      this.loading = false
+      this.loading = true;
+      const preTableData = await getDataDetail(tagId, regionId);
+      this.loading = false;
       if (preTableData && preTableData.length) {
-        preTableData.forEach(item => {
+        preTableData.forEach((item) => {
           console.log(item);
-          let name = item.names?.name_json[this.langArrIndex]
-          if(item.names&&item.names.name_property_json){
-            name+=', '+item.names?.name_property_json[this.langArrIndex]
+          let name = item.names?.name_json[this.langArrIndex];
+          if (item.names && item.names.name_property_json) {
+            name += ", " + item.names?.name_property_json[this.langArrIndex];
           }
-          if(item.names&&item.names.name_attribute_json){
-            name+=' , '+item.names.name_attribute_json[this.langArrIndex]
+          if (item.names && item.names.name_attribute_json) {
+            name += " , " + item.names.name_attribute_json[this.langArrIndex];
           }
           let singleData = {
             id: item.id,
@@ -205,48 +205,48 @@ export default {
             data_latest_value: item.data?.data_latest_value,
             units: item?.units?.unit_json[this.langArrIndex],
             currencies:
-              item?.currencies?.currency_json[this.langArrIndex] || '--',
+              item?.currencies?.currency_json[this.langArrIndex] || "--",
             frequency: item?.frequency?.frequency_json[this.langArrIndex],
             dataRange: `${item.data.data_earliest_time} - ${item.data.data_latest_time}`,
-            isUpdating: item.is_updating ? 'Y' : 'N',
-            sources: item?.sources?.source_json[this.langArrIndex]
-          }
+            isUpdating: item.is_updating ? "Y" : "N",
+            sources: item?.sources?.source_json[this.langArrIndex],
+          };
           if (item?.data_year_over_year?.data_latest_value) {
             let tmpD =
               item.data_year_over_year.data_latest_value -
-              item.data_year_over_year_fixed
-            tmpD = tmpD.toFixed(2)
-            singleData['data_year_over_year'] = tmpD
+              item.data_year_over_year_fixed;
+            tmpD = tmpD.toFixed(2);
+            singleData["data_year_over_year"] = tmpD;
           } else {
-            singleData['data_year_over_year'] = '--'
+            singleData["data_year_over_year"] = "--";
           }
 
-          this.tableData.push(singleData)
-        })
+          this.tableData.push(singleData);
+        });
       }
     },
     inFavorites(id) {
-      return this.favorites.indexOf(Number(id)) !== -1
+      return this.favorites.indexOf(Number(id)) !== -1;
     },
 
     async getFavoritesList() {
-      let res = await getFavorites()
+      let res = await getFavorites();
       console.log(res);
-      this.$store.commit('SET_FAVORITES_DATA', res.favorites||[])
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites || []);
     },
 
     async addFavoritesHanlder(id) {
-      let res = await addFavorites(id)
-      this.$store.commit('SET_FAVORITES_DATA', res.favorites)
-      this.$message.success('添加自选成功')
+      let res = await addFavorites(id);
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites);
+      this.$message.success("添加自选成功");
     },
     async cancelFavoritesHanlder(id) {
-      let res = await cancelFavorites(id)
-      this.$store.commit('SET_FAVORITES_DATA', res.favorites)
-      this.$message.success('移除自选成功')
-    }
-  }
-}
+      let res = await cancelFavorites(id);
+      this.$store.commit("SET_FAVORITES_DATA", res.favorites);
+      this.$message.success("移除自选成功");
+    },
+  },
+};
 </script>
 <style lang="less" scoped>
 .TagDetail {
@@ -264,6 +264,10 @@ export default {
     .header-class {
       background-color: #f5f5f5 !important;
       color: black;
+    }
+    td {
+      padding: 15px 0;
+      white-space: nowrap;
     }
   }
   .name {
