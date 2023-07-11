@@ -12,7 +12,7 @@ import GET_TOKEN from "@/utils/getGeipToken";
 // 图标
 import "@/assets/font/iconfont.css"
 import "/node_modules/flag-icons/css/flag-icons.min.css";
-
+// import Message from 'ELEMENT.Message'
 
 // Vue.prototype.$loading = Loading.service;
 // Vue.prototype.$msgbox = MessageBox;
@@ -20,7 +20,7 @@ import "/node_modules/flag-icons/css/flag-icons.min.css";
 // Vue.prototype.$confirm = MessageBox.confirm;
 // Vue.prototype.$prompt = MessageBox.prompt;
 // Vue.prototype.$notify = Notification;
-// Vue.prototype.$message = Message;
+Vue.prototype.$message = ELEMENT.Message;
 
 Vue.prototype.$api = api;
 Vue.prototype.$axios = axios;

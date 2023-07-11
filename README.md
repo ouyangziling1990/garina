@@ -3,11 +3,11 @@
  * @Version: 1.0
  * @Autor: wjw
  * @Date: 2021-03-29 16:03:22
- * @LastEditors: wjw
- * @LastEditTime: 2021-03-29 16:09:19
+ * @LastEditors: Fany
+ * @LastEditTime: 2023-07-11 22:09:19
 -->
 
-# DATA.GARINASSET.COM
+# WWW.GARINASSET.COM
 ## 高质量的宏微观经济数据库
 
 ### 项目环境
