@@ -27,10 +27,10 @@
       <div class="header">
         <span class="bimicon icon-sandaogang web-show linker-icon" @click="showLinker('ltr')"></span>
         <span class="web-show linker-icon" @click="showLinker('btt')">
-          <span>{{ currentLink?currentLink.name_link_json[this.langArrIndex]:'加林数据' }}</span>
+          <span>{{ currentLink?currentLink.name_link_json[this.langArrIndex]:'嘉林数据' }}</span>
           <i class="el-icon-d-caret" style="font-size:1.1rem;margin-left:0.1rem;"></i>
         </span>
-        <img src="/DATA.GARINASSET.COM.logo.white.png" class="logo" alt="加林数据" />
+        <img src="/WWW.GARINASSET.COM.logo.white.png" class="logo" alt="嘉林数据" />
         <div class="header-content">
           <div class="header-item-wrap mobile-none">
             <span v-for="item in filterHeaderTags" class="name_link" :class="[item.active ? 'active' : '']" @click="getIndex(item)" :key="'header_' + item.id">
@@ -83,7 +83,7 @@
     <el-drawer :with-header="false" size="270px" :visible.sync="drawer.drawerFlag" :direction="drawer.direction">
       <div id="draw-content">
         <div class="logo-wrap" v-if="drawer.direction == 'ltr'">
-          <img src="/DATA.GARINASSET.COM.logo.blue.png" class="logo" alt="加林数据" />
+          <img src="/WWW.GARINASSET.COM.logo.blue.png" class="logo" alt="嘉林数据" />
         </div>
         <div class="mobile-header-item-wrap web-show">
           <span v-for="item in filterHeaderTags" class="name_link" :class="[item.active ? 'active' : '']" @click="getIndex(item)" :key="'header_' + item.id">
@@ -339,7 +339,7 @@ export default {
       this.$store.commit('SET_LINK_ARR', { index: 0, pathInfo })
       this.$forceUpdate()
       this.currentLink = item
-      document.title = `${this.currentLink.name_link_json[this.langArrIndex]} - DATA.GARINASSET.COM`
+      document.title = `${this.currentLink.name_link_json[this.langArrIndex]} - WWW.GARINASSET.COM`
 
       this.closeDrawer()
     },
