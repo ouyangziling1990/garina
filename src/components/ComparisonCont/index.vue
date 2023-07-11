@@ -195,7 +195,7 @@ export default {
                 // z: 100,
                 style: {
                   fill: "#999999",
-                  text: `SOURCE: DATA.GARINASSET.COM`,
+                  text: `SOURCE: WWW.GARINASSET.COM`,
                   font: "bold 16px sans-serif",
                 },
               },

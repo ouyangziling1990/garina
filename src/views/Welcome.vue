@@ -42,7 +42,7 @@
       <p class="title">最低成本，</p>
       <p class="title">节省你的费用开支，</p>
       <p class="title">助你轻松决策！</p>
-      <p class="p">「加林数据」 目前处于Alpha测试阶段，我们正在不断调整测试，以改进我们的产品。</p>
+      <p class="p">「嘉林数据」 目前处于Alpha测试阶段，我们正在不断调整测试，以改进我们的产品。</p>
     </div>
     <div class="TagDetail" v-if="loginStatus">
       <div class="table-wrap">
@@ -217,7 +217,7 @@ export default {
       const res = await getStatisticsData()
       this.statisticsData = res
       console.log(res)
-      this.jiaLinDataSourceDes = `加林数据拥有${this.toThousandsFormates2(
+      this.jiaLinDataSourceDes = `嘉林数据拥有${this.toThousandsFormates2(
         res.time_series
       )}条时间序列，现已覆盖国家/地区 ${res.regions} ,行政区域 ${res.areas} ，包含富指标集 ${
         res.indicators

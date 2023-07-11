@@ -195,7 +195,7 @@ export default {
     },
     langArrIndex(val) {
       console.log(this.dataInfo.title, val);
-      document.title = `${this.dataInfo.title[val]} - ${this.dataInfo.country[val]} - ${this.dataInfo.region[val]} - DATA.GARINASSET.COM`;
+      document.title = `${this.dataInfo.title[val]} - ${this.dataInfo.country[val]} - ${this.dataInfo.region[val]} - WWW.GARINASSET.COM`;
     },
   },
   methods: {
@@ -248,7 +248,7 @@ export default {
 
       document.title = `${this.dataInfo.title[this.langArrIndex]} - ${
         this.dataInfo.country[this.langArrIndex]
-      } - ${this.dataInfo.region[this.langArrIndex]} - DATA.GARINASSET.COM`;
+      } - ${this.dataInfo.region[this.langArrIndex]} - WWW.GARINASSET.COM`;
       const rate =
         data_year_over_year && data_year_over_year.data_latest_value
           ? (
@@ -396,7 +396,7 @@ export default {
                 // z: 100,
                 style: {
                   fill: "#999999",
-                  text: `SOURCE: DATA.GARINASSET.COM`,
+                  text: `SOURCE: WWW.GARINASSET.COM`,
                   font: "bold 16px sans-serif",
                 },
               },
